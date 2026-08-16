@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerraStorage.Content.UI.Elements;
+using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.UI
 {
@@ -30,7 +31,7 @@ namespace TerraStorageOverflow.Content.UI
 
             if (!ModLoader.TryGetMod(ModName, out Mod targetMod))
             {
-                hostMod.Logger.Warn($"[CustomCategory] Mod '{ModName}' was not found/loaded.");
+                Loggers.Log($"[CustomCategory] Mod '{ModName}' was not found/loaded.");
                 return;
             }
 
@@ -39,11 +40,11 @@ namespace TerraStorageOverflow.Content.UI
                 if (targetMod.TryFind<DamageClass>(className, out var dc))
                 {
                     ResolvedClasses.Add(dc);
-                    hostMod.Logger.Info($"[CustomCategory] Successfully resolved DamageClass '{className}' from {ModName}.");
+                    Loggers.Log($"[CustomCategory] Successfully resolved DamageClass '{className}' from {ModName}.");
                 }
                 else
                 {
-                    hostMod.Logger.Warn($"[CustomCategory] Could not find DamageClass '{className}' in {ModName}.");
+                    Loggers.Log($"[CustomCategory] Could not find DamageClass '{className}' in {ModName}.");
                 }
             }
 
@@ -51,7 +52,7 @@ namespace TerraStorageOverflow.Content.UI
             {
                 IsLoaded = true;
                 ResolvedIconId = targetMod.TryFind<ModItem>(IconItemName, out var item) ? item.Type : FallbackIconId;
-                hostMod.Logger.Info($"[CustomCategory] Category for '{ModName}' resolved with IconItemID: {ResolvedIconId}.");
+                Loggers.Log($"[CustomCategory] Category for '{ModName}' resolved with IconItemID: {ResolvedIconId}.");
             }
         }
     }
@@ -92,7 +93,7 @@ namespace TerraStorageOverflow.Content.UI
 
             if (initMethod == null)
             {
-                Mod.Logger.Error("[CategoryHookSystem] Failed to find InitActiveCategories method via Reflection!");
+                Loggers.Log("[CategoryHookSystem] Failed to find InitActiveCategories method via Reflection!");
             }
             else
             {
@@ -102,7 +103,7 @@ namespace TerraStorageOverflow.Content.UI
 
             if (classifyMethod == null)
             {
-                Mod.Logger.Error("[CategoryHookSystem] Failed to find ClassifyItemInstance method via Reflection!");
+                Loggers.Log("[CategoryHookSystem] Failed to find ClassifyItemInstance method via Reflection!");
             }
             else
             {
@@ -112,7 +113,7 @@ namespace TerraStorageOverflow.Content.UI
 
             if (passesFilterMethod == null)
             {
-                Mod.Logger.Error("[CategoryHookSystem] Failed to find PassesFilter method via Reflection!");
+                Loggers.Log("[CategoryHookSystem] Failed to find PassesFilter method via Reflection!");
             }
             else
             {
