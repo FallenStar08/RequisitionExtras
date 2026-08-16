@@ -17,11 +17,12 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
 
         private static Type _terminalUIStateType;
         private static FieldInfo _mainPanelField;
+        private static FieldInfo _activeTabField;
         private static FieldInfo _storageTabField;
         private static FieldInfo _craftingTabField;
         private static FieldInfo _disksTabField;
 
-        // Native panel & bar elements to clear when switching to Extras
+        // Native panel & bar elements
         private static FieldInfo _itemGridField;
         private static FieldInfo _scrollbarField;
         private static FieldInfo _depositAllBtnField;
@@ -49,11 +50,12 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
             BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
             _mainPanelField = _terminalUIStateType.GetField("_mainPanel", flags);
+            _activeTabField = _terminalUIStateType.GetField("_activeTab", flags);
             _storageTabField = _terminalUIStateType.GetField("_storageTab", flags);
             _craftingTabField = _terminalUIStateType.GetField("_craftingTab", flags);
             _disksTabField = _terminalUIStateType.GetField("_disksTab", flags);
 
-            // Refs to all native UI elements on _mainPanel
+            // Refs to some native UI elements on _mainPanel
             _itemGridField = _terminalUIStateType.GetField("_itemGrid", flags);
             _scrollbarField = _terminalUIStateType.GetField("_scrollbar", flags);
             _depositAllBtnField = _terminalUIStateType.GetField("_depositAllBtn", flags);
@@ -114,7 +116,6 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
 
             if (_extrasPanel != null)
             {
-                // Clears report panel state
                 _extrasPanel.ResetReport();
 
                 if (_extrasPanel.Parent == mainPanel)
@@ -122,6 +123,13 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
                     mainPanel.RemoveChild(_extrasPanel);
                 }
             }
+
+            // Restore static native UI elements that native SwitchTab expects to exist on mainPanel
+            RestoreIfMissing(mainPanel, _searchBarField?.GetValue(self));
+            RestoreIfMissing(mainPanel, _filterBarField?.GetValue(self));
+            RestoreIfMissing(mainPanel, _sortBarField?.GetValue(self));
+            RestoreIfMissing(mainPanel, _depositAllBtnField?.GetValue(self));
+            RestoreIfMissing(mainPanel, _scrollbarField?.GetValue(self));
         }
 
         private static void RemoveIfPresent(UIElement parent, object childObj)
@@ -132,7 +140,14 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
             }
         }
 
-        // Not a fan of this one
+        private static void RestoreIfMissing(UIElement parent, object childObj)
+        {
+            if (childObj is UIElement child && child.Parent != parent)
+            {
+                parent.Append(child);
+            }
+        }
+
         private static void Hook_OnActivate(orig_VoidNoArgs orig, object self)
         {
             orig(self);
@@ -200,6 +215,10 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
                 _extrasTab.OnLeftClick += (evt, el) =>
                 {
                     _isExtrasActive = true;
+
+                    // Invalidate native _activeTab so switching back to native tabs triggers full re-render
+                    _activeTabField?.SetValue(self, -1);
+
                     ShowExtrasContent(self);
 
                     MethodInfo updateVisuals = self.GetType().GetMethod("UpdateTabVisuals", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
