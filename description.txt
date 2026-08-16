@@ -2,10 +2,11 @@ A Quality of Life expansion for the TerraStorage mod.
 
 FEATURES:
 - Smart Overflow: Items go to storage if your inventory is full (Void Bag style).
-- Multiple Networks: Automatically cycles through all bound remotes in your inventory.
+- Multiple Networks: Automatically cycles through all bound remotes in your inventory. 
 - Shift-Click Redirect: Shift-clicking from chests bypasses full inventories.
 - Loot All Support: Excess items from chests fly directly into your disks.
-- Live Tooltips: See disk capacity and coordinates on the item tooltip.
-- Multiplayer Optimized: Batches deposits to prevent server lag.
+- Live Tooltips: See disk capacity and coordinates on the item's tooltip.
+- Extra tab in the terminal UI to easilly sell duplicate equipment (inspired by magic storage)
+- Multiplayer Optimized: Batches deposits to prevent server lag. (Untested)
 
-Requires TerraStorage (Base Mod) to function.
+Requires Requisition (Formerly known as TerraStorage) (Base Mod) to function.
