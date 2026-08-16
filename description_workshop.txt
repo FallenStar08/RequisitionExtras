@@ -1,27 +1,28 @@
 [h1]TerraStorage Overflow[/h1]
 
-A small addon for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546][b]TerraStorage[/b][/url]. Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
+A small addon for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546][b]TerraStorage[/b][/url]. Instead of leaving items on the ground or manually clicking through menus, 
+this mod turns your Remote Terminal into a smart vacuum for your storage network. Similar to "Void Bag" functionality, but with a few extra features.
+
+I've also added sorting buttons for Clicker Class (Clicker Damager) and Capture Disc Class (CaptureDamage), feel free to request support for any other damage type. 
+These buttons will only appear if the corresponding mods are installed.
 
 [h2]🛠 Features[/h2]
 
 [list]
 [*] [b]Smart Overflow:[/b] Automatically redirects picked-up items to your storage disks if your inventory is full, similar to what the void bag does. 
-[*] [b]Multi-Network Support:[/b] The mod intelligently cycles through all bound networks until the item finds a home.
 [*] [b]Improved Interaction:[/b]
 [list]
-[*] [b]Left-Click to Open:[/b] No more middle-clicking in the inventory. Use the remote like a normal item to open the UI.
 [*] [b]Shift-Click Redirect:[/b] Shift-clicking from chests will bypass your inventory and go straight to the network if you're out of space.
 [*] [b]Loot All Integration:[/b] Hit "Loot All" on a chest and watch the excess fly directly into your network.
 [/list]
 [*] [b]Live Tooltips:[/b] Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
-[*] [b]Multiplayer Optimized:[/b] Uses a custom buffering system to batch item deposits. This prevents packet-spam and should keep the server smooth even during mass-looting, probably.
+[*] [b]Multiplayer Optimized:[/b] Uses a custom buffering system to batch item deposits. This prevents packet-spam and should keep the server smooth even during mass-looting, probably (untested, I have no friends).
 [/list]
 
 [h2]Performance[/h2]
-Should be fine? I use event driven caching instead of constant pooling.
+Should be fine?
 
 [h2]Requirements[/h2]
 [list]
-[*] [b]tModLoader[/b] (v2022.9+ / 1.4.4)
-[*] [b]TerraStorage[/b] (Base Mod)
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546][b]TerraStorage[/b][/url] (Base Mod)
 [/list]

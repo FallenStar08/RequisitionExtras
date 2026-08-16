@@ -1,6 +1,7 @@
-displayName = TerraStorage Overflow To Network
+displayName = Requisition Extras
 author = FallenStar
 version = 1.0
 side = Both
 modReferences = TerraStorage
 sortAfter = TerraStorage
+buildIgnore = RepoResources/*, RepoResources/**/*

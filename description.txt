@@ -3,7 +3,6 @@ A Quality of Life expansion for the TerraStorage mod.
 FEATURES:
 - Smart Overflow: Items go to storage if your inventory is full (Void Bag style).
 - Multiple Networks: Automatically cycles through all bound remotes in your inventory.
-- Left-Click to Open: Use your Remote Terminal like a normal item.
 - Shift-Click Redirect: Shift-clicking from chests bypasses full inventories.
 - Loot All Support: Excess items from chests fly directly into your disks.
 - Live Tooltips: See disk capacity and coordinates on the item tooltip.

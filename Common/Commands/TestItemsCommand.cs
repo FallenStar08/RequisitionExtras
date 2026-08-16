@@ -48,7 +48,7 @@ namespace TerraStorageOverflow.Common.Commands
                     "Zenith",
                     "Excalibur",
                     "Magic Dagger",
-                    "Copper Sword",
+                    "Copper Shortsword",
                 ]);
             }
 

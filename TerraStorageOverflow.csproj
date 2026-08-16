@@ -7,9 +7,10 @@
 	<PropertyGroup>
 		
 	</PropertyGroup>
+
 	<ItemGroup>
 	  <Reference Include="TerraStorage">
-	    <HintPath>E:\Documents_SYMLINKS\Terraria\tModLoader\ModReader\TerraStorage\TerraStorage.dll</HintPath>
+	    <HintPath>G:\Documents\My Games\Terraria\tModLoader\ModSources\TerraStorageOverflow\Lib\TerraStorage.dll</HintPath>
 		  <Private>false</Private>
 	  </Reference>
 	</ItemGroup>

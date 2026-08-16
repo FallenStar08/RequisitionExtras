@@ -14,7 +14,7 @@ A small addon for [**TerraStorage**](https://steamcommunity.com/sharedfiles/file
 * **Multiplayer Optimized:** Uses a custom buffering system to batch item deposits. This prevents packet-spam and should keep the server smooth even during mass-looting, probably.
 
 ## Performance
-Should be fine? I use event driven caching instead of constant pooling.
+Should be fine?
 
 ## Demo
 
