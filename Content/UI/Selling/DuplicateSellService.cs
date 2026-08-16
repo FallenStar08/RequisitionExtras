@@ -15,6 +15,7 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.UI
 {
+
     public enum SellMode
     {
         KeepBestPrefix = 0,  // Keeps highest value item, sells worse duplicates
@@ -60,14 +61,14 @@ namespace TerraStorageOverflow.Content.UI
             object terminal = terminalField?.GetValue(terminalUIState);
             if (terminal == null)
             {
-                Loggers.Log("[TerraStorage] Terminal entity not found.", Color.Red);
+                Loggers.Warn("Terminal entity not found.", Color.Red);
                 return null;
             }
 
             MethodInfo getDiskIdsMethod = terminal.GetType().GetMethod("GetConnectedDiskIds", BindingFlags.Instance | BindingFlags.Public);
             if (getDiskIdsMethod?.Invoke(terminal, null) is not List<Guid> diskIds || diskIds.Count == 0)
             {
-                Loggers.Log("[TerraStorage] No connected disks found.", Color.Yellow);
+                Loggers.Warn("No connected disks found.", Color.Yellow);
                 return null;
             }
 
@@ -79,7 +80,7 @@ namespace TerraStorageOverflow.Content.UI
             List<DuplicateEntry> toSell = FindDuplicates(connectedDisks, mode);
             if (toSell.Count == 0)
             {
-                Loggers.Log("[TerraStorage] No unstackable duplicates found.", Color.LightGreen);
+                Loggers.Log("No unstackable duplicates found.", Color.LightGreen);
                 return new SellReportData();
             }
 
@@ -123,7 +124,7 @@ namespace TerraStorageOverflow.Content.UI
                 MethodInfo refreshMethod = terminalUIState.GetType().GetMethod("RefreshItems", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
                 refreshMethod?.Invoke(terminalUIState, null);
 
-                Loggers.Log($"[TerraStorage] Sold {report.TotalItemsSold} duplicate(s) for {FormatCoinString(report.TotalEarnedCopper)}!", Color.Gold);
+                Loggers.Log($"Sold {report.TotalItemsSold} duplicate(s) for {FormatCoinString(report.TotalEarnedCopper)}!", Color.Gold);
             }
 
             return report;
@@ -438,7 +439,7 @@ namespace TerraStorageOverflow.Content.UI
                 coin.SetDefaults(coinType);
                 coin.stack = stack;
                 coin = player.GetItem(player.whoAmI, coin, GetItemSettings.PickupItemFromWorld);
-                if (!coin.IsAir) player.QuickSpawnItem(player.GetSource_Misc("TerraStorage_SellDuplicates"), coin, coin.stack);
+                if (!coin.IsAir) player.QuickSpawnItem(player.GetSource_Misc("Requisition_SellDuplicates"), coin, coin.stack);
                 count -= stack;
             }
         }
