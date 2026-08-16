@@ -153,19 +153,28 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
 
             EnsureTabAttached(self);
 
-            // Run native visual update FIRST so native tab states update
             orig(self);
 
-            // Clear native tab active underlines when Extras is active
-            // TODO Clean up the y offset too, I don't member where it is
+            // Reset native tabs to unselected visual state when Extras is active
             if (_isExtrasActive)
             {
-                if (_storageTabField?.GetValue(self) is TSTab s) s.Active = false;
-                if (_craftingTabField?.GetValue(self) is TSTab c) c.Active = false;
-                if (_disksTabField?.GetValue(self) is TSTab d) d.Active = false;
+                static void ResetTab(object tabObj)
+                {
+                    if (tabObj is TSTab tab)
+                    {
+                        tab.Active = false;
+                        tab.Top.Set(tabsY, 0f);
+                        tab.Height.Set(tabsHeight, 0f);
+                        tab.Recalculate();
+                    }
+                }
+
+                ResetTab(_storageTabField?.GetValue(self));
+                ResetTab(_craftingTabField?.GetValue(self));
+                ResetTab(_disksTabField?.GetValue(self));
             }
 
-            // Highlight our tab
+            // Highlight our custom tab
             if (_extrasTab != null)
             {
                 _extrasTab.Active = _isExtrasActive;
