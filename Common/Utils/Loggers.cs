@@ -8,12 +8,18 @@ namespace TerraStorageOverflow.Common.Utils
 {
     public class Loggers
     {
+        private static ModSettings _modSetting => ModContent.GetInstance<ModSettings>();
+        private static Mod _mod => ModContent.GetInstance<ModSettings>().Mod;
+
+        //I should be the only one to see these anyway
         public static void Log(string message, Color? color = null, [CallerMemberName] string caller = "")
         {
-            if (ModContent.GetInstance<ModSettings>().DebugText)
+            if (_modSetting.DebugText)
             {
-                string prefix = $"[TSO] {caller}(): ";
-                Main.NewText(prefix + message, color ?? Color.White);
+                string chatPrefix = $"[i:Actuator] ";
+                string prefix = $"[RE] {caller}(): ";
+                Main.NewText(chatPrefix + prefix + message, color ?? Color.White);
+                _mod.Logger.Info(prefix + message);
             }
         }
     }
