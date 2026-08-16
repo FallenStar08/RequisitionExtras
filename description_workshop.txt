@@ -1,4 +1,4 @@
-[h1]TerraStorage Overflow[/h1]
+[h1]Requisition Extras[/h1]
 
 An addon for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546]Requisition[/url]. Instead of leaving items on the ground or manually clicking through menus, 
 this mod turns your Remote Terminal into a smart vacuum for your storage network. Similar to "Void Bag" functionality, but with a few extra features.

@@ -1,6 +1,6 @@
-# TerraStorage Overflow
+# Requisition Extras
 
-A small addon for [**TerraStorage**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
+A small addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
 
 ## 🛠 Features
 
@@ -11,7 +11,7 @@ A small addon for [**TerraStorage**](https://steamcommunity.com/sharedfiles/file
     * **Loot All Integration:** Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
 * **Live Tooltips:** Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
 * **Custom Tab:** A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
-* **Multiplayer Optimized:** Uses a custom buffering system to batch item deposits. (Untest in multiplayer, but should work fine.))
+* **Multiplayer Optimized:** Uses a custom buffering system to batch item deposits. (Untest in multiplayer, but should work fine.)
 
 ## Performance
 Should be fine?
@@ -31,7 +31,7 @@ Should be fine?
 
 ## Requirements
 * **tModLoader** (v2022.9+ / 1.4.4)
-* **TerraStorage** (Base Mod)
+* [**Requisition**](https://github.com/votex09/Requisition) (Base Mod)
 
 ## Credits
-* **Improved ToolTip Search Code** from [**Magic Storage**](https://github.com/blushiemagic/MagicStorage/blob/1.4.4/Common/Utils/Utility.ItemTooltips.cs)
+* [**Requisition**](https://github.com/votex09/Requisition)

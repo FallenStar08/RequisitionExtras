@@ -1,4 +1,4 @@
-A Quality of Life expansion for the TerraStorage mod.
+A Quality of Life expansion for the Requisition mod.
 
 FEATURES:
 - Smart Overflow: Items go to storage if your inventory is full (Void Bag style).
