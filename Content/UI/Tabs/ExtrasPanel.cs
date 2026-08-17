@@ -26,15 +26,15 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             Height.Set(0f, 1f);
             Top.Set(40f, 0f);
 
-            _headerText = new UIText("Select Duplicate Selling Mode:", 0.9f);
+            _headerText = new UIText(EasyLoca.SelectModeHeader, 0.9f);
             _headerText.Left.Set(20f, 0f);
             _headerText.Top.Set(10f, 0f);
             Append(_headerText);
 
             string[] optionLabels = {
-                "Keep Best Prefix (Sell Worse)",
-                "Keep First Found (Sell Rest)",
-                "Exact Matches Only (Same Prefix)"
+                EasyLoca.ModeKeepBest,
+                EasyLoca.ModeKeepFirst,
+                EasyLoca.ModeExactMatches
             };
 
             float startY = 40f;
@@ -56,7 +56,7 @@ namespace TerraStorageOverflow.Content.UI.Tabs
 
             UpdateRadioVisuals();
 
-            _actionButton = new UITextPanel<string>("Sell Duplicate Items", 0.9f);
+            _actionButton = new UITextPanel<string>(EasyLoca.SellActionButton, 0.9f);
             _actionButton.Left.Set(20f, 0f);
             _actionButton.Top.Set(startY + (3 * spacingY) + 15f, 0f);
             _actionButton.Width.Set(270f, 0f);
@@ -163,7 +163,7 @@ namespace TerraStorageOverflow.Content.UI.Tabs
 
             if (report.TotalItemsSold == 0)
             {
-                _summaryRow.SetText("No duplicates found to sell.", Color.Yellow);
+                _summaryRow.SetText(EasyLoca.ReportNoDuplicates, Color.Yellow);
                 return;
             }
 
@@ -175,7 +175,8 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             }
 
             string formattedCoins = FormatCoinString(report.TotalEarnedCopper);
-            _summaryRow.SetText($"Sold {report.TotalItemsSold} items for {formattedCoins}", Color.Gold);
+            string summaryText = string.Format(EasyLoca.ReportSummary, report.TotalItemsSold, formattedCoins);
+            _summaryRow.SetText(summaryText, Color.Gold);
         }
 
         /// <summary>
@@ -184,7 +185,7 @@ namespace TerraStorageOverflow.Content.UI.Tabs
         public void ClearReport()
         {
             _list?.Clear();
-            _summaryRow?.SetText("No items sold yet.", Color.LightGray);
+            _summaryRow?.SetText(EasyLoca.ReportNoItems, Color.LightGray);
         }
 
         /// <summary>
@@ -213,7 +214,7 @@ namespace TerraStorageOverflow.Content.UI.Tabs
     /// </summary>
     public class UISummaryRow : UIElement
     {
-        private string _text = "No items sold yet.";
+        private string _text = EasyLoca.ReportNoItems;
         private Color _color = Color.LightGray;
 
         public void SetText(string text, Color color)

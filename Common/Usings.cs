@@ -1,0 +1,1 @@
+﻿global using static TerraStorageOverflow.Common.Utils.Loca;

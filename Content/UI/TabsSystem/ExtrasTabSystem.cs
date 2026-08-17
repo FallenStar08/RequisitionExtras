@@ -206,7 +206,7 @@ namespace TerraStorageOverflow.Content.UI.TabSystem
 
             if (_extrasTab == null || _extrasTab.Parent != mainPanel)
             {
-                _extrasTab = new TSTab("Extras");
+                _extrasTab = new TSTab(EasyLoca.ExtrasTabName);
                 _extrasTab.Width.Set(105, 0f);
                 _extrasTab.Height.Set(tabsHeight, 0f);
                 _extrasTab.Left.Set(346, 0f);

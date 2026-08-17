@@ -8,3 +8,17 @@ Configs: {
 		}
 	}
 }
+
+
+EasyLoca: {
+	SelectModeHeader: "Select Duplicate Selling Mode:"
+	ModeKeepBest: "Keep Most Expensive (Sell Worse Ones)"
+	ModeKeepFirst: "Keep First Found (Sell Rest)"
+	ModeExactMatches: "Exact Matches Only (Keep One of Each)"
+	SellActionButton: "Sell Duplicate Items"
+	ReportTitle: "Sell Report :"
+	ReportNoItems: "No items sold yet."
+	ReportNoDuplicates: "No duplicates found to sell."
+	ReportSummary: "Sold {0} items for {1}"
+	ExtrasTabName: "Extras"
+}
