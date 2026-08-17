@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent.UI.Chat;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
+using Terraria.ModLoader.UI;
 using Terraria.UI;
 using TerraStorageOverflow.Common.Utils;
 
@@ -14,6 +15,7 @@ namespace TerraStorageOverflow.Content.UI.Tabs
     {
         private UIText _headerText;
         private UITextPanel<string>[] _radioButtons = new UITextPanel<string>[3];
+        private string[] _optionTooltips = new string[3];
         private int _selectedOption = 0;
 
         private UITextPanel<string> _actionButton;
@@ -36,6 +38,12 @@ namespace TerraStorageOverflow.Content.UI.Tabs
                 EasyLoca.ModeKeepFirst,
                 EasyLoca.ModeExactMatches
             };
+
+            _optionTooltips = [
+                EasyLoca.ModeKeepBestTooltip,
+                EasyLoca.ModeKeepFirstTooltip,
+                EasyLoca.ModeExactMatchesTooltip
+            ];
 
             float startY = 40f;
             float spacingY = 36f;
@@ -80,6 +88,23 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             Append(_reportPanel);
         }
 
+        /// <summary>
+        /// Tooltip display needs to happen on draw and not update cause otherwise it gets instantly cleared
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            for (int i = 0; i < _radioButtons.Length; i++)
+            {
+                if (_radioButtons[i] != null && _radioButtons[i].IsMouseHovering)
+                {
+                    UICommon.TooltipMouseText(_optionTooltips[i]);
+                    break;
+                }
+            }
+        }
 
         /// <summary>
         /// wrapper method to reset the report panel, clearing any previous report data and resetting the summary text.

@@ -19,13 +19,25 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string ModeKeepBest => Get("EasyLoca.ModeKeepBest");
             /// <summary>
+            /// Compares duplicate items by monetary value/prefix strength.\nKeeps the single best version and sells all lower-tier duplicates.
+            /// </summary>
+            public static string ModeKeepBestTooltip => Get("EasyLoca.ModeKeepBestTooltip");
+            /// <summary>
             /// Keep First Found (Sell Rest)
             /// </summary>
             public static string ModeKeepFirst => Get("EasyLoca.ModeKeepFirst");
             /// <summary>
+            /// Keeps the very first instance found in your storage system\nand sells every other duplicate regardless of prefix.
+            /// </summary>
+            public static string ModeKeepFirstTooltip => Get("EasyLoca.ModeKeepFirstTooltip");
+            /// <summary>
             /// Exact Matches Only (Keep One of Each)
             /// </summary>
             public static string ModeExactMatches => Get("EasyLoca.ModeExactMatches");
+            /// <summary>
+            /// Only sells items if they match both Item ID AND Prefix.\nLeaves items with different prefixes untouched.
+            /// </summary>
+            public static string ModeExactMatchesTooltip => Get("EasyLoca.ModeExactMatchesTooltip");
             /// <summary>
             /// Sell Duplicate Items
             /// </summary>

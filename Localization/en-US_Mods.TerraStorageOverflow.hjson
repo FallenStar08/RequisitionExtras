@@ -9,16 +9,30 @@ Configs: {
 	}
 }
 
-
 EasyLoca: {
-	SelectModeHeader: "Select Duplicate Selling Mode:"
-	ModeKeepBest: "Keep Most Expensive (Sell Worse Ones)"
-	ModeKeepFirst: "Keep First Found (Sell Rest)"
-	ModeExactMatches: "Exact Matches Only (Keep One of Each)"
-	SellActionButton: "Sell Duplicate Items"
-	ReportTitle: "Sell Report :"
-	ReportNoItems: "No items sold yet."
-	ReportNoDuplicates: "No duplicates found to sell."
-	ReportSummary: "Sold {0} items for {1}"
-	ExtrasTabName: "Extras"
+	SelectModeHeader: Select Duplicate Selling Mode:
+	ModeKeepBest: Keep Most Expensive (Sell Worse Ones)
+	ModeKeepBestTooltip:
+		'''
+		Compares duplicate items by monetary value.
+		Keeps the single best version and sells all lower-tier duplicates.
+		'''
+	ModeKeepFirst: Keep First Found (Sell Rest)
+	ModeKeepFirstTooltip:
+		'''
+		Keeps the very first instance found in your storage system
+		and sells every other duplicate regardless of prefix.
+		'''
+	ModeExactMatches: Exact Matches Only (Keep One of Each)
+	ModeExactMatchesTooltip:
+		'''
+		Only sells items if they match both Item ID AND Prefix.
+		(It'll keep one of each item with a unique combination of Item ID and Prefix).
+		'''
+	SellActionButton: Sell Duplicate Items
+	ReportTitle: Sell Report :
+	ReportNoItems: No items sold yet.
+	ReportNoDuplicates: No duplicates found to sell.
+	ReportSummary: Sold {0} items for {1}
+	ExtrasTabName: Extras
 }
