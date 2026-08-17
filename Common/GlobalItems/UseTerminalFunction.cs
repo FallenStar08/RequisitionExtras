@@ -84,10 +84,6 @@ namespace TerraStorageOverflow.Common.GlobalItems
                     ushort type = tile.TileType;
 
                     if (Main.tileContainer[type] ||
-                        type == TileID.PiggyBank ||
-                        type == TileID.Safes ||
-                        type == TileID.DefendersForge ||
-                        type == TileID.VoidVault ||
                         Main.tileSign[type] ||
                         TileID.Sets.IsAContainer[type] ||
                         TileID.Sets.InteractibleByNPCs[type] ||
