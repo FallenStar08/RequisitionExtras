@@ -10,5 +10,8 @@ namespace TerraStorageOverflow.Common.Systems
         [DefaultValue(false)]
         public bool DebugText;
 
+        [DefaultValue(true)]
+        public bool EnableRightClickDeposit;
+
     }
 }

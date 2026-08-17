@@ -1,10 +1,15 @@
 Configs: {
 	ModSettings: {
-		DisplayName: Mod Settings
+		DisplayName: Requisition Extras Settings
 
 		DebugText: {
 			Label: Debug Text
-			Tooltip: ""
+			Tooltip: Enables debug text for troubleshooting purposes
+		}
+
+		EnableRightClickDeposit: {
+			Label: Enable Right-Click Deposit
+			Tooltip: Allows depositing all inventory items into the terminal by right-clicking with the remote in hand
 		}
 	}
 }

@@ -15,6 +15,7 @@ namespace TerraStorageOverflow.Common.Utils
         private static readonly Dictionary<string, Func<bool>> _boolGetters = new()
         {
             [nameof(ModSettings.DebugText)] = () => _modSettings.DebugText,
+            [nameof(ModSettings.EnableRightClickDeposit)] = () => _modSettings.EnableRightClickDeposit,
 
         };
 

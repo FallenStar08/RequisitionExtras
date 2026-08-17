@@ -19,6 +19,8 @@ namespace TerraStorageOverflow.Common.GlobalItems
             if (item.ModItem is RemoteTerminal rt)
                 if (Main.mouseRight && Main.mouseRightRelease && !Main.LocalPlayer.mouseInterface)
                 {
+                    if (!GetBoolSetting("EnableRightClickDeposit")) return;
+
                     if (rt.BoundEntityId != -1 && TileEntity.ByID.TryGetValue(rt.BoundEntityId, out var te))
                     {
                         if (te is TerminalEntity terminal)
