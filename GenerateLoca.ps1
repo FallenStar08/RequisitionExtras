@@ -70,13 +70,18 @@ foreach ($category in $entries.Keys) {
     $null = $sb.AppendLine("        {")
     foreach ($item in $entries[$category]) {
         $k = $item.Key
-        # Escape XML characters for safe docstrings (<, >, &, etc.)
         $safeVal = [System.Security.SecurityElement]::Escape($item.Value)
 
         $null = $sb.AppendLine("            /// <summary>")
         $null = $sb.AppendLine("            /// $safeVal")
         $null = $sb.AppendLine("            /// </summary>")
-        $null = $sb.AppendLine("            public static string $k => Get(`"$category.$k`");")
+
+        # If the string has {0}, {1}, etc., generate a method with parameters instead of a getter property
+        if ($item.Value -match '\{[0-9]+\}') {
+            $null = $sb.AppendLine("            public static string $k(params object[] args) => Get(`"$category.$k`", args);")
+        } else {
+            $null = $sb.AppendLine("            public static string $k => Get(`"$category.$k`");")
+        }
     }
     $null = $sb.AppendLine("        }")
 }

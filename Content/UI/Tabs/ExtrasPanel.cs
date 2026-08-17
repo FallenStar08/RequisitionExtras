@@ -200,7 +200,7 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             }
 
             string formattedCoins = FormatCoinString(report.TotalEarnedCopper);
-            string summaryText = string.Format(EasyLoca.ReportSummary, report.TotalItemsSold, formattedCoins);
+            string summaryText = EasyLoca.ReportSummary(report.TotalItemsSold, formattedCoins);
             _summaryRow.SetText(summaryText, Color.Gold);
         }
 
