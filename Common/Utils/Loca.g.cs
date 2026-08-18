@@ -11,6 +11,10 @@ namespace TerraStorageOverflow.Common.Utils
         public static class EasyLoca
         {
             /// <summary>
+            /// Sell Report :
+            /// </summary>
+            public static string SellReportHeader => Get("EasyLoca.SellReportHeader");
+            /// <summary>
             /// Select Duplicate Selling Mode:
             /// </summary>
             public static string SelectModeHeader => Get("EasyLoca.SelectModeHeader");
