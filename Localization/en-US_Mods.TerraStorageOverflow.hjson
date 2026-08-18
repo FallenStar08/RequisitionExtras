@@ -17,19 +17,19 @@ Configs: {
 EasyLoca: {
 	SellReportHeader: Sell Report :
 	SelectModeHeader: Select Duplicate Selling Mode:
-	ModeKeepBest: Keep Most Expensive (Sell Worse Ones)
+	ModeKeepBest: Keep Most Expensive
 	ModeKeepBestTooltip:
 		'''
 		Compares duplicate items by monetary value.
 		Keeps the single best version and sells all lower-tier duplicates.
 		'''
-	ModeKeepFirst: Keep First Found (Sell Rest)
+	ModeKeepFirst: Keep First Found
 	ModeKeepFirstTooltip:
 		'''
 		Keeps the very first instance found in your storage system
 		and sells every other duplicate regardless of prefix.
 		'''
-	ModeExactMatches: Exact Matches Only (Keep One of Each)
+	ModeExactMatches: Keep One Of Each Prefix
 	ModeExactMatchesTooltip:
 		'''
 		Only sells items if they match both Item ID AND Prefix.

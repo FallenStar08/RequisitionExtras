@@ -11,13 +11,12 @@ A small addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filed
     * **Loot All Integration:** Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
 * **Live Tooltips:** Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
 * **Custom Tab:** A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
-* **Multiplayer Optimized:** Uses a custom buffering system to batch item deposits. (Untest in multiplayer, but should work fine.)
+* **Multiplayer Optimized:** Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine.)
 
 ## Performance
 Should be fine?
 
 ## Demo
-
 
 [void_bag_like_demo.webm](https://github.com/user-attachments/assets/eaccfe65-4ec4-47db-91ac-0b934a0bd5e7)
 
@@ -26,8 +25,6 @@ Should be fine?
 [loot_all_demo.webm](https://github.com/user-attachments/assets/dba8aaad-b5de-47e3-b0ae-8dcd11213649)
 
 [shift_click_demo.webm](https://github.com/user-attachments/assets/1a02c81b-9138-47a7-9cb3-8b0430be200a)
-
-
 
 ## Requirements
 * **tModLoader** (v2022.9+ / 1.4.4)
