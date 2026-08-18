@@ -5,8 +5,14 @@ using System.Reflection;
 
 namespace TerraStorageOverflow.Common.Utils
 {
+    /// <summary>
+    /// Reflection helper utility for locating members, bypassing access flags, and creating delegates/invocations.
+    /// </summary>
     public static class Reflect
     {
+        /// <summary>
+        /// BindingFlags combination covering Public, NonPublic, Instance, and Static members.
+        /// </summary>
         public const BindingFlags Any =
             BindingFlags.Public
             | BindingFlags.NonPublic
@@ -15,6 +21,12 @@ namespace TerraStorageOverflow.Common.Utils
 
         // Base Type Walking Helpers
 
+        /// <summary>
+        /// Finds a field on the specified type or any of its base classes.
+        /// </summary>
+        /// <param name="type">Target type to search.</param>
+        /// <param name="name">Name of the field.</param>
+        /// <returns>The <see cref="FieldInfo"/> if found; otherwise, <c>null</c>.</returns>
         public static FieldInfo Field(Type type, string name)
         {
             for (var t = type; t != null && t != typeof(object); t = t.BaseType)
@@ -26,11 +38,23 @@ namespace TerraStorageOverflow.Common.Utils
             return null;
         }
 
+        /// <summary>
+        /// Finds a field on <typeparamref name="T"/> or any of its base classes.
+        /// </summary>
+        /// <typeparam name="T">Target type to search.</typeparam>
+        /// <param name="name">Name of the field.</param>
+        /// <returns>The <see cref="FieldInfo"/> if found; otherwise, <c>null</c>.</returns>
         public static FieldInfo Field<T>(string name)
         {
             return Field(typeof(T), name);
         }
 
+        /// <summary>
+        /// Finds a property on the specified type or any of its base classes.
+        /// </summary>
+        /// <param name="type">Target type to search.</param>
+        /// <param name="name">Name of the property.</param>
+        /// <returns>The <see cref="PropertyInfo"/> if found; otherwise, <c>null</c>.</returns>
         public static PropertyInfo Property(Type type, string name)
         {
             for (var t = type; t != null && t != typeof(object); t = t.BaseType)
@@ -42,17 +66,34 @@ namespace TerraStorageOverflow.Common.Utils
             return null;
         }
 
+        /// <summary>
+        /// Finds a property on <typeparamref name="T"/> or any of its base classes.
+        /// </summary>
+        /// <typeparam name="T">Target type to search.</typeparam>
+        /// <param name="name">Name of the property.</param>
+        /// <returns>The <see cref="PropertyInfo"/> if found; otherwise, <c>null</c>.</returns>
         public static PropertyInfo Property<T>(string name)
         {
             return Property(typeof(T), name);
         }
 
-        // Getter / Setter MethodInfo resolution for hooks
+        /// <summary>
+        /// Resolves the getter <see cref="MethodInfo"/> of a property, including non-public getters.
+        /// </summary>
+        /// <param name="type">Target type.</param>
+        /// <param name="name">Name of the property.</param>
+        /// <returns>The getter method if found; otherwise, <c>null</c>.</returns>
         public static MethodInfo PropertyGetter(Type type, string name)
         {
             return Property(type, name)?.GetGetMethod(true);
         }
 
+        /// <summary>
+        /// Resolves the setter <see cref="MethodInfo"/> of a property, including non-public setters.
+        /// </summary>
+        /// <param name="type">Target type.</param>
+        /// <param name="name">Name of the property.</param>
+        /// <returns>The setter method if found; otherwise, <c>null</c>.</returns>
         public static MethodInfo PropertySetter(Type type, string name)
         {
             return Property(type, name)?.GetSetMethod(true);
@@ -60,6 +101,13 @@ namespace TerraStorageOverflow.Common.Utils
 
         // Method Identification
 
+        /// <summary>
+        /// Finds a method by name and optional parameter signature, walking base types if needed.
+        /// </summary>
+        /// <param name="type">Target type to search.</param>
+        /// <param name="name">Name of the method.</param>
+        /// <param name="paramTypes">Optional parameter types to match overloads.</param>
+        /// <returns>The matching <see cref="MethodInfo"/> if found; otherwise, <c>null</c>.</returns>
         public static MethodInfo Method(Type type, string name, params Type[] paramTypes)
         {
             for (var t = type; t != null && t != typeof(object); t = t.BaseType)
@@ -95,11 +143,26 @@ namespace TerraStorageOverflow.Common.Utils
             return null;
         }
 
+        /// <summary>
+        /// Finds a method on <typeparamref name="T"/> by name and optional parameter signature.
+        /// </summary>
+        /// <typeparam name="T">Target type to search.</typeparam>
+        /// <param name="name">Name of the method.</param>
+        /// <param name="paramTypes">Optional parameter types to match overloads.</param>
+        /// <returns>The matching <see cref="MethodInfo"/> if found; otherwise, <c>null</c>.</returns>
         public static MethodInfo Method<T>(string name, params Type[] paramTypes)
         {
             return Method(typeof(T), name, paramTypes);
         }
 
+        /// <summary>
+        /// Resolves a generic method definition and constructs a closed generic method.
+        /// </summary>
+        /// <param name="type">Target type.</param>
+        /// <param name="name">Name of the generic method.</param>
+        /// <param name="genericTypes">Generic type arguments to bind.</param>
+        /// <param name="paramTypes">Optional parameter types to resolve overloaded generic definitions.</param>
+        /// <returns>A closed-bound <see cref="MethodInfo"/> if resolved; otherwise, <c>null</c>.</returns>
         public static MethodInfo GenericMethod(
             Type type,
             string name,
@@ -115,6 +178,12 @@ namespace TerraStorageOverflow.Common.Utils
 
         // Expression Retrieval
 
+        /// <summary>
+        /// Extracts the target <see cref="MethodInfo"/> from a lambda method call expression.
+        /// </summary>
+        /// <param name="expr">Lambda expression calling a method (e.g. <c>() =&gt; Target()</c>).</param>
+        /// <returns>The called <see cref="MethodInfo"/>.</returns>
+        /// <exception cref="ArgumentException">Thrown if the expression is not a direct method call.</exception>
         public static MethodInfo MethodOf(LambdaExpression expr)
         {
             return expr.Body is MethodCallExpression mce ? mce.Method
@@ -124,6 +193,14 @@ namespace TerraStorageOverflow.Common.Utils
 
         // Direct Access
 
+        /// <summary>
+        /// Reads the value of a field, property, or compiler-generated backing field on a static or instance target.
+        /// </summary>
+        /// <typeparam name="T">Expected return type.</typeparam>
+        /// <param name="target">Instance object, or <see cref="Type"/> for static members.</param>
+        /// <param name="memberName">Name of the field or property.</param>
+        /// <returns>The member value cast to <typeparamref name="T"/>.</returns>
+        /// <exception cref="MissingMemberException">Thrown if no matching field or property is found.</exception>
         public static T GetValue<T>(object target, string memberName)
         {
             var type = target is Type t ? t : target.GetType();
@@ -139,6 +216,13 @@ namespace TerraStorageOverflow.Common.Utils
                 : throw new MissingMemberException(type.FullName, memberName);
         }
 
+        /// <summary>
+        /// Sets the value of a field, property, or read-only auto-property backing field on a target.
+        /// </summary>
+        /// <param name="target">Instance object, or <see cref="Type"/> for static members.</param>
+        /// <param name="memberName">Name of the field or property.</param>
+        /// <param name="value">New value to set.</param>
+        /// <exception cref="MissingMemberException">Thrown if no matching field or property is found.</exception>
         public static void SetValue(object target, string memberName, object value)
         {
             var type = target is Type t ? t : target.GetType();
@@ -166,6 +250,16 @@ namespace TerraStorageOverflow.Common.Utils
 
         // Delegate Creation & Invocation
 
+        /// <summary>
+        /// Binds a method to a strongly-typed delegate.
+        /// </summary>
+        /// <typeparam name="TDelegate">Delegate type to create.</typeparam>
+        /// <param name="type">Declaring type.</param>
+        /// <param name="methodName">Name of the method.</param>
+        /// <param name="instance">Target instance for instance methods, or <c>null</c> for static methods.</param>
+        /// <param name="paramTypes">Optional parameter types to resolve overloads.</param>
+        /// <returns>A strongly-typed delegate instance.</returns>
+        /// <exception cref="MissingMethodException">Thrown if the method cannot be found.</exception>
         public static TDelegate CreateDelegate<TDelegate>(
             Type type,
             string methodName,
@@ -180,6 +274,14 @@ namespace TerraStorageOverflow.Common.Utils
                 : (TDelegate)mi.CreateDelegate(typeof(TDelegate), instance);
         }
 
+        /// <summary>
+        /// Resolves and invokes a method on a target object or static type with given arguments.
+        /// </summary>
+        /// <param name="target">Instance object, or <see cref="Type"/> for static methods.</param>
+        /// <param name="methodName">Name of the method.</param>
+        /// <param name="args">Arguments to pass to the method.</param>
+        /// <returns>The return value of the method, or <c>null</c> if void.</returns>
+        /// <exception cref="MissingMethodException">Thrown if a matching method signature cannot be found.</exception>
         public static object Invoke(object target, string methodName, params object[] args)
         {
             var type = target is Type t ? t : target.GetType();
