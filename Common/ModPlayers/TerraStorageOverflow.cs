@@ -85,7 +85,7 @@ namespace TerraStorageOverflow.Common.ModPlayers
             Loggers.Log($"Multi-Cache Refreshed: {_activeNetworks.Count} unique networks found.", Color.Cyan);
         }
 
-        public bool DepositIntoAllNetworks(Item item)
+        public bool DepositIntoAllNetworks(Item item, bool showPopupText = true)
         {
             EnsureCacheFresh();
             if (!HasActiveStorage || item.IsAir) return false;
@@ -112,7 +112,10 @@ namespace TerraStorageOverflow.Common.ModPlayers
             if (item.stack < startStack)
             {
                 int amountStored = startStack - item.stack;
-                PopupText.NewText(PopupTextContext.ItemPickupToVoidContainer, item, amountStored);
+                if (showPopupText)
+                {
+                    PopupText.NewText(PopupTextContext.ItemPickupToVoidContainer, item, amountStored);
+                }
                 return item.stack <= 0;
             }
 
