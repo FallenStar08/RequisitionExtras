@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerraStorageOverflow.Common.Systems;
+using TerraStorageOverflow.Common.Configs;
 
 namespace TerraStorageOverflow.Common.Utils
 {

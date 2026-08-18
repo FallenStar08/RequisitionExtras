@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Terraria.ModLoader;
-using TerraStorageOverflow.Common.Systems;
+using TerraStorageOverflow.Common.Configs;
 
 namespace TerraStorageOverflow.Common.Utils
 {

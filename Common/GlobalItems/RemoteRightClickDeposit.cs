@@ -12,6 +12,8 @@ namespace TerraStorageOverflow.Common.GlobalItems
 {
     public class RemoteRightClickDeposit : GlobalItem
     {
+        private static bool depositedAtLeastOne;
+
         public override void HoldItem(Item item, Player player)
         {
             if (player.whoAmI != Main.myPlayer)
@@ -46,11 +48,19 @@ namespace TerraStorageOverflow.Common.GlobalItems
                                     && invItem.ModItem is not RemoteTerminal
                                 )
                                 {
+                                    depositedAtLeastOne = true;
                                     _ = storagePlayer.DepositIntoAllNetworks(invItem, false);
                                 }
                             }
-                            SoundEngine.PlaySound(SoundID.Grab, null, null);
-                            Loggers.Log("Deposited all items via right click", Color.MediumPurple);
+                            if (depositedAtLeastOne)
+                            {
+                                SoundEngine.PlaySound(SoundID.Grab, null, null);
+                                Loggers.Log(
+                                    "Deposited all items via right click",
+                                    Color.MediumPurple
+                                );
+                                depositedAtLeastOne = false;
+                            }
                         }
                     }
                     else

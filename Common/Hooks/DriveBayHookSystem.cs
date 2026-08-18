@@ -6,10 +6,10 @@ using Terraria.ModLoader;
 using TerraStorage.Content.Tiles;
 using TerraStorageOverflow.Common.Utils;
 
-namespace TerraStorageOverflow.Common.Systems
+namespace TerraStorageOverflow.Common.Hooks
 {
     [ExtendsFromMod("TerraStorage")]
-    public class StorageHookSystem : ModSystem
+    public class DriveBayHookSystem : ModSystem
     {
         private delegate bool orig_InsertDisk(DriveBayEntity self, Item diskItem, int slot);
         private delegate Item orig_RemoveDisk(DriveBayEntity self, int slot);

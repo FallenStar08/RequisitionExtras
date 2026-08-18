@@ -9,7 +9,7 @@ using TerraStorageOverflow.Content.UI.Services;
 using TerraStorageOverflow.Content.UI.Styles;
 using static TerraStorageOverflow.Common.Utils.UIUtils;
 
-namespace TerraStorageOverflow.Content.UI.Tabs
+namespace TerraStorageOverflow.Content.UI.Extras
 {
     public class ExtrasPanel(object terminalUIInstance) : UIElement
     {

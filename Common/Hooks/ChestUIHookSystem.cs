@@ -8,10 +8,12 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using TerraStorageOverflow.Common.Utils;
 
-namespace TerraStorageOverflow.Common.Systems
+namespace TerraStorageOverflow.Common.Hooks
 {
     public class ChestUIHookSystem : ModSystem
     {
+        private static bool DepositedAtLeastOneItem;
+
         public override void Load()
         {
             MethodInfo lootAll = Reflect.Method(typeof(ChestUI), "LootAll");
@@ -53,6 +55,7 @@ namespace TerraStorageOverflow.Common.Systems
 
                     if (modPlayer.DepositIntoAllNetworks(item))
                     {
+                        DepositedAtLeastOneItem = true;
                         chestInv[i] = new Item();
 
                         if (Main.netMode == NetmodeID.MultiplayerClient && chestIndex >= 0)
@@ -69,7 +72,12 @@ namespace TerraStorageOverflow.Common.Systems
                     }
                 }
             }
-            SoundEngine.PlaySound(SoundID.Grab);
+
+            if (DepositedAtLeastOneItem)
+            {
+                SoundEngine.PlaySound(SoundID.Grab);
+                DepositedAtLeastOneItem = false;
+            }
         }
     }
 }

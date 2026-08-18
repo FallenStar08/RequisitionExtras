@@ -3,9 +3,8 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using TerraStorage.Content.UI.Elements;
 using TerraStorageOverflow.Common.Utils;
-using TerraStorageOverflow.Content.UI.Tabs;
 
-namespace TerraStorageOverflow.Content.UI.TabsSystem
+namespace TerraStorageOverflow.Content.UI.Extras
 {
     public class ExtrasTabSystem : ModSystem
     {

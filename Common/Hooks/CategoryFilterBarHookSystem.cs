@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using TerraStorage.Content.UI.Elements;
 using TerraStorageOverflow.Common.Utils;
 
-namespace TerraStorageOverflow.Content.UI
+namespace TerraStorageOverflow.Common.Hooks
 {
     public class CustomCategory(
         ItemCategory categoryId,

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
-namespace TerraStorageOverflow.Common.Systems
+namespace TerraStorageOverflow.Common.Configs
 {
     public class ModSettings : ModConfig
     {
