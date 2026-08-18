@@ -13,7 +13,7 @@ using TerraStorage.Common;
 using TerraStorage.Systems;
 using TerraStorageOverflow.Common.Utils;
 
-namespace TerraStorageOverflow.Content.UI
+namespace TerraStorageOverflow.Content.UI.Services
 {
 
     public enum SellMode

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent.UI.Chat;
 using Terraria.GameContent.UI.Elements;
-using Terraria.ID;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
-using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Content.UI.Components;
+using TerraStorageOverflow.Content.UI.Services;
+using TerraStorageOverflow.Content.UI.Styles;
+using static TerraStorageOverflow.Common.Utils.UIUtils;
 
 namespace TerraStorageOverflow.Content.UI.Tabs
 {
@@ -104,6 +104,11 @@ namespace TerraStorageOverflow.Content.UI.Tabs
                     break;
                 }
             }
+            if (_actionButton != null)
+            {
+                _actionButton.BackgroundColor = _actionButton.IsMouseHovering ? ButtonStyle.BG_HOVER : ButtonStyle.BG_ACTIVE;
+            }
+
         }
 
         /// <summary>
@@ -122,14 +127,11 @@ namespace TerraStorageOverflow.Content.UI.Tabs
 
         private void UpdateRadioVisuals()
         {
-            Color activeColor = new Color(63, 82, 151) * 0.85f;
-            Color inactiveColor = new Color(33, 43, 79) * 0.85f;
-
             for (int i = 0; i < 3; i++)
             {
                 bool isSelected = i == _selectedOption;
-                _radioButtons[i].BackgroundColor = isSelected ? activeColor : inactiveColor;
-                _radioButtons[i].BorderColor = isSelected ? Color.Gold : Color.Black;
+                _radioButtons[i].BackgroundColor = isSelected ? RadioStyle.BG_ACTIVE : RadioStyle.BG_INACTIVE;
+                _radioButtons[i].BorderColor = isSelected ? RadioStyle.BORDER_SELECTED : RadioStyle.BORDER_UNSELECTED;
             }
         }
     }
@@ -139,14 +141,15 @@ namespace TerraStorageOverflow.Content.UI.Tabs
         private UIText _titleText;
         private UIList _list;
         private UIScrollbar _scrollbar;
-        private UISummaryRow _summaryRow;
+        private SummaryRow _summaryRow;
 
         public override void OnInitialize()
         {
+            OverflowHidden = true;
             BackgroundColor = new Color(23, 28, 51) * 0.9f;
             BorderColor = new Color(50, 60, 100);
 
-            _titleText = new UIText("Sell Report :", 0.85f, false);
+            _titleText = new UIText(EasyLoca.SellReportHeader, 0.85f, false);
             _titleText.Left.Set(5f, 0f);
             _titleText.Top.Set(2f, 0f);
             Append(_titleText);
@@ -170,7 +173,7 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             _list.SetScrollbar(_scrollbar);
             Append(_scrollbar);
 
-            _summaryRow = new UISummaryRow();
+            _summaryRow = new SummaryRow();
             _summaryRow.Left.Set(5f, 0f);
             _summaryRow.Top.Set(-25f, 1f);
             _summaryRow.Width.Set(0f, 1f);
@@ -213,72 +216,5 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             _summaryRow?.SetText(EasyLoca.ReportNoItems, Color.LightGray);
         }
 
-        /// <summary>
-        /// Formats a copper value into a string with coin IDs for platinum, gold, silver, and copper.
-        /// </summary>
-        /// <param name="copper"></param>
-        /// <returns></returns>
-        public static string FormatCoinString(long copper)
-        {
-            List<string> parts = [];
-            long plat = copper / 1000000; copper %= 1000000;
-            long gold = copper / 10000; copper %= 10000;
-            long silver = copper / 100; long cop = copper % 100;
-
-            if (plat > 0) parts.Add($"{plat}[i:{ItemID.PlatinumCoin}]");
-            if (gold > 0) parts.Add($"{gold}[i:{ItemID.GoldCoin}]");
-            if (silver > 0) parts.Add($"{silver}[i:{ItemID.SilverCoin}]");
-            if (cop > 0 || parts.Count == 0) parts.Add($"{cop}[i:{ItemID.CopperCoin}]");
-
-            return string.Join(" ", parts);
-        }
-    }
-
-    /// <summary>
-    /// cute lil summary row at the bottom of the report panel
-    /// </summary>
-    public class UISummaryRow : UIElement
-    {
-        private string _text = EasyLoca.ReportNoItems;
-        private Color _color = Color.LightGray;
-
-        public void SetText(string text, Color color)
-        {
-            _text = text;
-            _color = color;
-        }
-
-        protected override void DrawSelf(SpriteBatch spriteBatch)
-        {
-            base.DrawSelf(spriteBatch);
-            Vector2 pos = GetDimensions().Position();
-            UIUtils.DrawTextWithTags(spriteBatch, _text, pos, _color, 0.75f);
-        }
-    }
-
-    /// <summary>
-    /// my cute report row for each item sold, with item icon and text :3
-    /// </summary>
-    public class SellReportRow : UIElement
-    {
-        private SellReportEntry _entry;
-
-        public SellReportRow(SellReportEntry entry)
-        {
-            _entry = entry;
-            Width.Set(0f, 1f);
-            Height.Set(16f, 0f);
-        }
-
-        protected override void DrawSelf(SpriteBatch spriteBatch)
-        {
-            base.DrawSelf(spriteBatch);
-            Vector2 pos = GetDimensions().Position();
-
-            string itemTag = ItemTagHandler.GenerateTag(_entry.ItemSample);
-            string lineText = $"{itemTag} x{_entry.Count} - {SellReportPanel.FormatCoinString(_entry.TotalValue)}";
-
-            UIUtils.DrawTextWithTags(spriteBatch, lineText, pos + new Vector2(10f, 0f), Color.White, 0.75f);
-        }
     }
 }

@@ -5,7 +5,7 @@ using Terraria.UI;
 using TerraStorage.Content.UI.Elements;
 using TerraStorageOverflow.Content.UI.Tabs;
 
-namespace TerraStorageOverflow.Content.UI.TabSystem
+namespace TerraStorageOverflow.Content.UI.TabsSystem
 {
     public class ExtrasTabSystem : ModSystem
     {
