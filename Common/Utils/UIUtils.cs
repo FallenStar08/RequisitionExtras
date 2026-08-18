@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.UI.Chat;
 
 namespace TerraStorageOverflow.Common.Utils
@@ -38,6 +39,26 @@ namespace TerraStorageOverflow.Common.Utils
             {
                 snippets[hoveredSnippet].OnHover();
             }
+        }
+
+        /// <summary>
+        /// Formats a copper value into a string with coin IDs for platinum, gold, silver, and copper.
+        /// </summary>
+        /// <param name="copper"></param>
+        /// <returns></returns>
+        public static string FormatCoinString(long copper)
+        {
+            List<string> parts = [];
+            long plat = copper / 1000000; copper %= 1000000;
+            long gold = copper / 10000; copper %= 10000;
+            long silver = copper / 100; long cop = copper % 100;
+
+            if (plat > 0) parts.Add($"{plat}[i:{ItemID.PlatinumCoin}]");
+            if (gold > 0) parts.Add($"{gold}[i:{ItemID.GoldCoin}]");
+            if (silver > 0) parts.Add($"{silver}[i:{ItemID.SilverCoin}]");
+            if (cop > 0 || parts.Count == 0) parts.Add($"{cop}[i:{ItemID.CopperCoin}]");
+
+            return string.Join(" ", parts);
         }
     }
 }
