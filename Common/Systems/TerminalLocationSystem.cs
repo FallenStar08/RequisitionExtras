@@ -15,21 +15,31 @@ namespace TerraStorageOverflow.Common.Systems
 
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            if (TargetTerminal == null) return;
+            if (TargetTerminal == null)
+                return;
 
             Point16 pos = TargetTerminal.Value;
-            if (!WorldGen.InWorld(pos.X, pos.Y)) return;
+            if (!WorldGen.InWorld(pos.X, pos.Y))
+                return;
 
             Tile tile = Main.tile[pos.X, pos.Y];
-            if (!tile.HasTile) return;
+            if (!tile.HasTile)
+                return;
 
             int width = 1;
             int height = 1;
             TileObjectData data = TileObjectData.GetTileData(tile.TileType, 0);
-            if (data != null) { width = data.Width; height = data.Height; }
+            if (data != null)
+            {
+                width = data.Width;
+                height = data.Height;
+            }
 
             Vector2 worldPos = pos.ToVector2() * 16f;
-            Vector2 screenPos = Vector2.Transform(worldPos - Main.screenPosition, Main.GameViewMatrix.ZoomMatrix);
+            Vector2 screenPos = Vector2.Transform(
+                worldPos - Main.screenPosition,
+                Main.GameViewMatrix.ZoomMatrix
+            );
 
             float uiScale = Main.UIScale;
             screenPos /= uiScale;
@@ -50,13 +60,26 @@ namespace TerraStorageOverflow.Common.Systems
             TargetTerminal = null;
         }
 
-        private static void DrawBorderedRect(SpriteBatch sb, Rectangle rect, Color color, int thickness)
+        private static void DrawBorderedRect(
+            SpriteBatch sb,
+            Rectangle rect,
+            Color color,
+            int thickness
+        )
         {
             Texture2D pixel = TextureAssets.MagicPixel.Value;
             sb.Draw(pixel, new Rectangle(rect.X, rect.Y, rect.Width, thickness), color);
-            sb.Draw(pixel, new Rectangle(rect.X, rect.Y + rect.Height - thickness, rect.Width, thickness), color);
+            sb.Draw(
+                pixel,
+                new Rectangle(rect.X, rect.Y + rect.Height - thickness, rect.Width, thickness),
+                color
+            );
             sb.Draw(pixel, new Rectangle(rect.X, rect.Y, thickness, rect.Height), color);
-            sb.Draw(pixel, new Rectangle(rect.X + rect.Width - thickness, rect.Y, thickness, rect.Height), color);
+            sb.Draw(
+                pixel,
+                new Rectangle(rect.X + rect.Width - thickness, rect.Y, thickness, rect.Height),
+                color
+            );
         }
     }
 }

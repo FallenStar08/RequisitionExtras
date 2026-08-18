@@ -15,7 +15,10 @@ namespace TerraStorageOverflow.Common.GlobalItems
         {
             if (item.ModItem is RemoteTerminal rt)
             {
-                if (rt.BoundEntityId != -1 && TileEntity.ByID.TryGetValue(rt.BoundEntityId, out var te))
+                if (
+                    rt.BoundEntityId != -1
+                    && TileEntity.ByID.TryGetValue(rt.BoundEntityId, out var te)
+                )
                 {
                     string posText = $"[c/AAAAAA:Bound to: ({te.Position.X}, {te.Position.Y})]";
                     tooltips.Add(new TooltipLine(Mod, "RemotePos", posText));
@@ -43,19 +46,21 @@ namespace TerraStorageOverflow.Common.GlobalItems
                         string capacityText = $"[c/66FF66:Storage: {used:N0} / {total:N0}]";
 
                         float fillRatio = total > 0 ? (float)used / total : 0;
-                        if (fillRatio >= 0.9f) capacityText = capacityText.Replace("66FF66", "FF4444");
-                        else if (fillRatio >= 0.75f) capacityText = capacityText.Replace("66FF66", "FFFF66");
+                        if (fillRatio >= 0.9f)
+                            capacityText = capacityText.Replace("66FF66", "FF4444");
+                        else if (fillRatio >= 0.75f)
+                            capacityText = capacityText.Replace("66FF66", "FFFF66");
 
                         tooltips.Add(new TooltipLine(Mod, "RemoteCapacity", capacityText));
                     }
                 }
                 else
                 {
-                    tooltips.Add(new TooltipLine(Mod, "RemoteUnbound", "[c/FF4444:Not bound to a network]"));
+                    tooltips.Add(
+                        new TooltipLine(Mod, "RemoteUnbound", "[c/FF4444:Not bound to a network]")
+                    );
                 }
             }
         }
-
-
     }
 }

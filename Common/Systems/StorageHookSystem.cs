@@ -13,12 +13,13 @@ namespace TerraStorageOverflow.Common.Systems
     {
         private delegate bool orig_InsertDisk(DriveBayEntity self, Item diskItem, int slot);
         private delegate Item orig_RemoveDisk(DriveBayEntity self, int slot);
+
         public override void Load()
         {
             Type driveBayType = typeof(DriveBayEntity);
 
-            MethodInfo insertMethod = driveBayType.GetMethod("InsertDisk", BindingFlags.Public | BindingFlags.Instance);
-            MethodInfo removeMethod = driveBayType.GetMethod("RemoveDisk", BindingFlags.Public | BindingFlags.Instance);
+            MethodInfo insertMethod = Reflect.Method(driveBayType, "InsertDisk");
+            MethodInfo removeMethod = Reflect.Method(driveBayType, "RemoveDisk");
 
             if (insertMethod != null)
             {
@@ -31,14 +32,22 @@ namespace TerraStorageOverflow.Common.Systems
             }
         }
 
-        private bool Detour_InsertDisk(orig_InsertDisk orig, DriveBayEntity self, Item diskItem, int slot)
+        private bool Detour_InsertDisk(
+            orig_InsertDisk orig,
+            DriveBayEntity self,
+            Item diskItem,
+            int slot
+        )
         {
             bool result = orig(self, diskItem, slot);
 
             if (result)
             {
                 ModPlayers.TerraStorageOverflow.NetworkDirty = true;
-                Loggers.Log("Disk Inserted. Dirty flag set.", Microsoft.Xna.Framework.Color.LightPink);
+                Loggers.Log(
+                    "Disk Inserted. Dirty flag set.",
+                    Microsoft.Xna.Framework.Color.LightPink
+                );
             }
 
             return result;
@@ -48,12 +57,18 @@ namespace TerraStorageOverflow.Common.Systems
         {
             Item result = orig(self, slot);
 
-            Loggers.Log($"RemoveDisk called for slot {slot}. Result Type: {result.type} (Name: {result.Name})", Microsoft.Xna.Framework.Color.Gray);
+            Loggers.Log(
+                $"RemoveDisk called for slot {slot}. Result Type: {result.type} (Name: {result.Name})",
+                Microsoft.Xna.Framework.Color.Gray
+            );
 
             if (result != null && result.type != ItemID.None)
             {
                 ModPlayers.TerraStorageOverflow.NetworkDirty = true;
-                Loggers.Log($"Disk Removed ({result.Name}). Network marked dirty.", Microsoft.Xna.Framework.Color.LightPink);
+                Loggers.Log(
+                    $"Disk Removed ({result.Name}). Network marked dirty.",
+                    Microsoft.Xna.Framework.Color.LightPink
+                );
             }
 
             return result;

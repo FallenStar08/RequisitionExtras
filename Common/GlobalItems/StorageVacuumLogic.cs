@@ -7,13 +7,12 @@ namespace TerraStorageOverflow.Common.GlobalItems
 {
     public class StorageVacuumLogic : GlobalItem
     {
-
-
         public override bool ItemSpace(Item item, Player player)
         {
             return InventoryUtils.IsInstantPickup(item)
                 ? base.ItemSpace(item, player)
-                : player.GetModPlayer<ModPlayers.TerraStorageOverflow>().HasActiveStorage || base.ItemSpace(item, player);
+                : player.GetModPlayer<ModPlayers.TerraStorageOverflow>().HasActiveStorage
+                    || base.ItemSpace(item, player);
         }
 
         public override bool GrabStyle(Item item, Player player)

@@ -16,7 +16,7 @@ namespace TerraStorageOverflow.Common.Utils
         {
             Info,
             Warn,
-            Error
+            Error,
         }
 
         private static ModSettings Settings => ModContent.GetInstance<ModSettings>();
@@ -30,7 +30,11 @@ namespace TerraStorageOverflow.Common.Utils
         /// <param name="message">The message to log.</param>
         /// <param name="color">The color to use for the in-game chat message. (default: White)</param>
         /// <param name="caller">The name of the calling method. (automatically provided by the compiler)</param>
-        public static void Log(string message, Color? color = null, [CallerMemberName] string caller = "")
+        public static void Log(
+            string message,
+            Color? color = null,
+            [CallerMemberName] string caller = ""
+        )
         {
             if (!Settings.DebugText)
             {
@@ -46,7 +50,11 @@ namespace TerraStorageOverflow.Common.Utils
         /// <param name="message">The message to log.</param>
         /// <param name="color">The color to use for the in-game chat message. (default: White)</param>
         /// <param name="caller">The name of the calling method. (automatically provided by the compiler)</param>
-        public static void Info(string message, Color? color = null, [CallerMemberName] string caller = "")
+        public static void Info(
+            string message,
+            Color? color = null,
+            [CallerMemberName] string caller = ""
+        )
         {
             Log(message, color, caller);
         }
@@ -57,7 +65,11 @@ namespace TerraStorageOverflow.Common.Utils
         /// <param name="message">The message to log.</param>
         /// <param name="color">The color to use for the in-game chat message. (default: Orange)</param>
         /// <param name="caller">The name of the calling method. (automatically provided by the compiler)</param>
-        public static void Warn(string message, Color? color = null, [CallerMemberName] string caller = "")
+        public static void Warn(
+            string message,
+            Color? color = null,
+            [CallerMemberName] string caller = ""
+        )
         {
             Write(
                 LogLevel.Warn,
@@ -65,7 +77,8 @@ namespace TerraStorageOverflow.Common.Utils
                 color ?? Color.Orange,
                 caller,
                 writeToChat: Settings.DebugText,
-                writeToLogger: true);
+                writeToLogger: true
+            );
         }
 
         /// <summary>
@@ -75,7 +88,12 @@ namespace TerraStorageOverflow.Common.Utils
         /// <param name="exception">The exception to log. (optional)</param>
         /// <param name="color">The color to use for the in-game chat message. (default: Red)</param>
         /// <param name="caller">The name of the calling method. (automatically provided by the compiler)</param>
-        public static void Error(string message, Exception? exception = null, Color? color = null, [CallerMemberName] string caller = "")
+        public static void Error(
+            string message,
+            Exception? exception = null,
+            Color? color = null,
+            [CallerMemberName] string caller = ""
+        )
         {
             string finalMessage = exception is null
                 ? message
@@ -87,7 +105,8 @@ namespace TerraStorageOverflow.Common.Utils
                 color ?? Color.Red,
                 caller,
                 writeToChat: Settings.DebugText,
-                writeToLogger: true);
+                writeToLogger: true
+            );
         }
 
         /// <summary>
@@ -97,7 +116,12 @@ namespace TerraStorageOverflow.Common.Utils
         /// <param name="message">The message to log. (optional)</param>
         /// <param name="color">The color to use for the in-game chat message. (default: Red)</param>
         /// <param name="caller">The name of the calling method. (automatically provided by the compiler)</param>
-        public static void Error(Exception exception, string? message = null, Color? color = null, [CallerMemberName] string caller = "")
+        public static void Error(
+            Exception exception,
+            string? message = null,
+            Color? color = null,
+            [CallerMemberName] string caller = ""
+        )
         {
             Error(message ?? "An exception occurred.", exception, color, caller);
         }
@@ -111,7 +135,14 @@ namespace TerraStorageOverflow.Common.Utils
         /// <param name="caller">The name of the calling method. (automatically provided by the compiler)</param>
         /// <param name="writeToChat">Whether to write the message to the in-game chat.</param>
         /// <param name="writeToLogger">Whether to write the message to the mod logger.</param>
-        private static void Write(LogLevel level, string message, Color? color, string caller, bool writeToChat, bool writeToLogger)
+        private static void Write(
+            LogLevel level,
+            string message,
+            Color? color,
+            string caller,
+            bool writeToChat,
+            bool writeToLogger
+        )
         {
             message = string.IsNullOrWhiteSpace(message) ? "<empty>" : message;
 
@@ -121,7 +152,10 @@ namespace TerraStorageOverflow.Common.Utils
 
             if (writeToChat)
             {
-                Main.NewText(ActuatorIcon + fullMessage + ActuatorIcon, color ?? GetDefaultColor(level));
+                Main.NewText(
+                    ActuatorIcon + fullMessage + ActuatorIcon,
+                    color ?? GetDefaultColor(level)
+                );
             }
 
             if (!writeToLogger)
@@ -152,7 +186,7 @@ namespace TerraStorageOverflow.Common.Utils
                 LogLevel.Info => Color.White,
                 LogLevel.Warn => Color.Orange,
                 LogLevel.Error => Color.Red,
-                _ => Color.White
+                _ => Color.White,
             };
         }
     }

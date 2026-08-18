@@ -17,7 +17,13 @@ namespace TerraStorageOverflow.Common.Utils
         /// <param name="position"></param>
         /// <param name="color"></param>
         /// <param name="scale"></param>
-        public static void DrawTextWithTags(SpriteBatch spriteBatch, string text, Vector2 position, Color color, float scale = 0.75f)
+        public static void DrawTextWithTags(
+            SpriteBatch spriteBatch,
+            string text,
+            Vector2 position,
+            Color color,
+            float scale = 0.75f
+        )
         {
             List<TextSnippet> snippets = ChatManager.ParseMessage(text, color);
 
@@ -29,7 +35,7 @@ namespace TerraStorageOverflow.Common.Utils
                 position,
                 0f, // rota
                 color,
-                Vector2.Zero,        // origin
+                Vector2.Zero, // origin
                 new Vector2(scale),
                 out int hoveredSnippet
             );
@@ -49,14 +55,21 @@ namespace TerraStorageOverflow.Common.Utils
         public static string FormatCoinString(long copper)
         {
             List<string> parts = [];
-            long plat = copper / 1000000; copper %= 1000000;
-            long gold = copper / 10000; copper %= 10000;
-            long silver = copper / 100; long cop = copper % 100;
+            long plat = copper / 1000000;
+            copper %= 1000000;
+            long gold = copper / 10000;
+            copper %= 10000;
+            long silver = copper / 100;
+            long cop = copper % 100;
 
-            if (plat > 0) parts.Add($"{plat}[i:{ItemID.PlatinumCoin}]");
-            if (gold > 0) parts.Add($"{gold}[i:{ItemID.GoldCoin}]");
-            if (silver > 0) parts.Add($"{silver}[i:{ItemID.SilverCoin}]");
-            if (cop > 0 || parts.Count == 0) parts.Add($"{cop}[i:{ItemID.CopperCoin}]");
+            if (plat > 0)
+                parts.Add($"{plat}[i:{ItemID.PlatinumCoin}]");
+            if (gold > 0)
+                parts.Add($"{gold}[i:{ItemID.GoldCoin}]");
+            if (silver > 0)
+                parts.Add($"{silver}[i:{ItemID.SilverCoin}]");
+            if (cop > 0 || parts.Count == 0)
+                parts.Add($"{cop}[i:{ItemID.CopperCoin}]");
 
             return string.Join(" ", parts);
         }

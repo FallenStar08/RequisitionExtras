@@ -14,26 +14,37 @@ namespace TerraStorageOverflow.Common.GlobalItems
     {
         public override void HoldItem(Item item, Player player)
         {
-            if (player.whoAmI != Main.myPlayer) return;
+            if (player.whoAmI != Main.myPlayer)
+                return;
 
             if (item.ModItem is RemoteTerminal rt)
             {
                 if (Main.mouseRight && Main.mouseRightRelease && !Main.LocalPlayer.mouseInterface)
                 {
-                    if (IsHoveringInteractable(player)) return;
+                    if (IsHoveringInteractable(player))
+                        return;
 
-                    if (!GetBoolSetting("EnableRightClickDeposit")) return;
+                    if (!GetBoolSetting("EnableRightClickDeposit"))
+                        return;
 
-                    if (rt.BoundEntityId != -1 && TileEntity.ByID.TryGetValue(rt.BoundEntityId, out var te))
+                    if (
+                        rt.BoundEntityId != -1
+                        && TileEntity.ByID.TryGetValue(rt.BoundEntityId, out var te)
+                    )
                     {
                         if (te is TerminalEntity terminal)
                         {
-                            var storagePlayer = Main.LocalPlayer.GetModPlayer<ModPlayers.TerraStorageOverflow>();
+                            var storagePlayer =
+                                Main.LocalPlayer.GetModPlayer<ModPlayers.TerraStorageOverflow>();
 
                             for (int i = 10; i < 50; i++)
                             {
                                 Item invItem = player.inventory[i];
-                                if (!invItem.IsAir && !invItem.favorited && invItem.ModItem is not RemoteTerminal)
+                                if (
+                                    !invItem.IsAir
+                                    && !invItem.favorited
+                                    && invItem.ModItem is not RemoteTerminal
+                                )
                                 {
                                     _ = storagePlayer.DepositIntoAllNetworks(invItem, false);
                                 }
@@ -65,7 +76,11 @@ namespace TerraStorageOverflow.Common.GlobalItems
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.active && npc.Hitbox.Intersects(mouseRect) && (npc.townNPC || npc.isLikeATownNPC))
+                if (
+                    npc.active
+                    && npc.Hitbox.Intersects(mouseRect)
+                    && (npc.townNPC || npc.isLikeATownNPC)
+                )
                 {
                     return true;
                 }
@@ -77,15 +92,20 @@ namespace TerraStorageOverflow.Common.GlobalItems
             if (WorldGen.InWorld(tileX, tileY, 10))
             {
                 Tile tile = Main.tile[tileX, tileY];
-                if (tile.HasTile && player.IsInTileInteractionRange(tileX, tileY, TileReachCheckSettings.Simple))
+                if (
+                    tile.HasTile
+                    && player.IsInTileInteractionRange(tileX, tileY, TileReachCheckSettings.Simple)
+                )
                 {
                     ushort type = tile.TileType;
 
-                    if (Main.tileContainer[type] ||
-                        Main.tileSign[type] ||
-                        TileID.Sets.IsAContainer[type] ||
-                        TileID.Sets.InteractibleByNPCs[type] ||
-                        TileID.Sets.AvoidedByNPCs[type])
+                    if (
+                        Main.tileContainer[type]
+                        || Main.tileSign[type]
+                        || TileID.Sets.IsAContainer[type]
+                        || TileID.Sets.InteractibleByNPCs[type]
+                        || TileID.Sets.AvoidedByNPCs[type]
+                    )
                     {
                         return true;
                     }

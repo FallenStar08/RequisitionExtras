@@ -13,6 +13,5 @@ namespace TerraStorageOverflow.Common.GlobalItems
                 player.GetModPlayer<ModPlayers.TerraStorageOverflow>().ReportRemoteFound();
             }
         }
-
     }
 }

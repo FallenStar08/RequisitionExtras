@@ -14,19 +14,25 @@ namespace TerraStorageOverflow.Common.Utils
                 {
                     hasSpace = true;
                 }
-                if (Main.LocalPlayer.inventory[i].type == item.type && Main.LocalPlayer.inventory[i].stack < Main.LocalPlayer.inventory[i].maxStack)
+                if (
+                    Main.LocalPlayer.inventory[i].type == item.type
+                    && Main.LocalPlayer.inventory[i].stack < Main.LocalPlayer.inventory[i].maxStack
+                )
                 {
                     hasSpace = true;
                 }
-
             }
             return hasSpace;
         }
 
         public static bool IsInstantPickup(Item item)
         {
-            return (item.type > ItemID.None && item.type < ItemID.Count && ItemID.Sets.IsAPickup[item.type])
-                   || item.maxStack <= 0;
+            return (
+                    item.type > ItemID.None
+                    && item.type < ItemID.Count
+                    && ItemID.Sets.IsAPickup[item.type]
+                )
+                || item.maxStack <= 0;
         }
     }
 }

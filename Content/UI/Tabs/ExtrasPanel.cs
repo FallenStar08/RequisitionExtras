@@ -33,16 +33,18 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             _headerText.Top.Set(10f, 0f);
             Append(_headerText);
 
-            string[] optionLabels = {
+            string[] optionLabels =
+            {
                 EasyLoca.ModeKeepBest,
                 EasyLoca.ModeKeepFirst,
-                EasyLoca.ModeExactMatches
+                EasyLoca.ModeExactMatches,
             };
 
-            _optionTooltips = [
+            _optionTooltips =
+            [
                 EasyLoca.ModeKeepBestTooltip,
                 EasyLoca.ModeKeepFirstTooltip,
-                EasyLoca.ModeExactMatchesTooltip
+                EasyLoca.ModeExactMatchesTooltip,
             ];
 
             float startY = 40f;
@@ -72,7 +74,10 @@ namespace TerraStorageOverflow.Content.UI.Tabs
 
             _actionButton.OnLeftClick += (evt, el) =>
             {
-                SellReportData report = DuplicateSellService.ExecuteSell(_terminalUIInstance, (SellMode)_selectedOption);
+                SellReportData report = DuplicateSellService.ExecuteSell(
+                    _terminalUIInstance,
+                    (SellMode)_selectedOption
+                );
                 if (report != null)
                 {
                     _reportPanel.Populate(report);
@@ -106,9 +111,10 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             }
             if (_actionButton != null)
             {
-                _actionButton.BackgroundColor = _actionButton.IsMouseHovering ? ButtonStyle.BG_HOVER : ButtonStyle.BG_ACTIVE;
+                _actionButton.BackgroundColor = _actionButton.IsMouseHovering
+                    ? ButtonStyle.BG_HOVER
+                    : ButtonStyle.BG_ACTIVE;
             }
-
         }
 
         /// <summary>
@@ -130,8 +136,12 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             for (int i = 0; i < 3; i++)
             {
                 bool isSelected = i == _selectedOption;
-                _radioButtons[i].BackgroundColor = isSelected ? RadioStyle.BG_ACTIVE : RadioStyle.BG_INACTIVE;
-                _radioButtons[i].BorderColor = isSelected ? RadioStyle.BORDER_SELECTED : RadioStyle.BORDER_UNSELECTED;
+                _radioButtons[i].BackgroundColor = isSelected
+                    ? RadioStyle.BG_ACTIVE
+                    : RadioStyle.BG_INACTIVE;
+                _radioButtons[i].BorderColor = isSelected
+                    ? RadioStyle.BORDER_SELECTED
+                    : RadioStyle.BORDER_UNSELECTED;
             }
         }
     }
@@ -215,6 +225,5 @@ namespace TerraStorageOverflow.Content.UI.Tabs
             _list?.Clear();
             _summaryRow?.SetText(EasyLoca.ReportNoItems, Color.LightGray);
         }
-
     }
 }

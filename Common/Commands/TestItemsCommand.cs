@@ -16,14 +16,19 @@ namespace TerraStorageOverflow.Common.Commands
         private readonly int maxSpawnAmount = 100;
         public override CommandType Type => CommandType.Chat;
         public override string Command => "spawntestitems";
-        public override string Description => $"Spawns {minSpawnAmount} to {maxSpawnAmount} random-prefixed copies of specified items into your inventory.";
-        public override string Usage => "/spawntestitems [optional item 1], [item 2] ... (leave blank for default batch)";
+        public override string Description =>
+            $"Spawns {minSpawnAmount} to {maxSpawnAmount} random-prefixed copies of specified items into your inventory.";
+        public override string Usage =>
+            "/spawntestitems [optional item 1], [item 2] ... (leave blank for default batch)";
 
         public override void Action(CommandCaller caller, string input, string[] args)
         {
             if (ModSettingsUtils.GetBoolSetting("DebugText") == false)
             {
-                caller.Reply("[TestItems] DebugText setting is disabled. Enable it in the mod settings to use this command.", Color.Red);
+                caller.Reply(
+                    "[TestItems] DebugText setting is disabled. Enable it in the mod settings to use this command.",
+                    Color.Red
+                );
                 return;
             }
             List<string> itemNames = [];
@@ -32,14 +37,16 @@ namespace TerraStorageOverflow.Common.Commands
             {
                 // Join arguments and split by comma to support names with spaces
                 string fullArgs = string.Join(" ", args);
-                string[] split = fullArgs.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                string[] split = fullArgs.Split(
+                    ',',
+                    StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries
+                );
                 itemNames.AddRange(split);
             }
             else
             {
                 // Default test batch of popular unstackables (weapons & accessories)
-                itemNames.AddRange(
-                [
+                itemNames.AddRange([
                     "Terra Blade",
                     "Megashark",
                     "Hermes Boots",
@@ -59,7 +66,10 @@ namespace TerraStorageOverflow.Common.Commands
                 int itemType = ResolveItemType(rawName);
                 if (itemType <= 0)
                 {
-                    caller.Reply($"[TestItems] Could not find item matching '{rawName}'. Skipping.", Color.Orange);
+                    caller.Reply(
+                        $"[TestItems] Could not find item matching '{rawName}'. Skipping.",
+                        Color.Orange
+                    );
                     continue;
                 }
 
@@ -72,19 +82,33 @@ namespace TerraStorageOverflow.Common.Commands
 
                     item.Prefix(-1);
 
-                    Item leftover = caller.Player.GetItem(caller.Player.whoAmI, item, GetItemSettings.PickupItemFromWorld);
+                    Item leftover = caller.Player.GetItem(
+                        caller.Player.whoAmI,
+                        item,
+                        GetItemSettings.PickupItemFromWorld
+                    );
                     if (!leftover.IsAir)
                     {
-                        caller.Player.QuickSpawnItem(caller.Player.GetSource_Misc("TestItemCommand"), leftover, leftover.stack);
+                        caller.Player.QuickSpawnItem(
+                            caller.Player.GetSource_Misc("TestItemCommand"),
+                            leftover,
+                            leftover.stack
+                        );
                     }
 
                     totalSpawned++;
                 }
 
-                caller.Reply($"[TestItems] Spawned {amountToSpawn}x '{Lang.GetItemNameValue(itemType)}' with random prefixes.", Color.LightGreen);
+                caller.Reply(
+                    $"[TestItems] Spawned {amountToSpawn}x '{Lang.GetItemNameValue(itemType)}' with random prefixes.",
+                    Color.LightGreen
+                );
             }
 
-            caller.Reply($"[TestItems] Done! Generated {totalSpawned} total test items.", Color.Gold);
+            caller.Reply(
+                $"[TestItems] Done! Generated {totalSpawned} total test items.",
+                Color.Gold
+            );
         }
 
         private static int ResolveItemType(string name)

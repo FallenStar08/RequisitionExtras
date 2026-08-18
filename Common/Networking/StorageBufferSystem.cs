@@ -14,15 +14,18 @@ namespace TerraStorageOverflow.Common.Networking
 
         public static void AddToBuffer(Guid networkId, Item item)
         {
-            if (!_buffers.ContainsKey(networkId)) _buffers[networkId] = [];
-            if (!_buffers[networkId].ContainsKey(item.type)) _buffers[networkId][item.type] = 0;
+            if (!_buffers.ContainsKey(networkId))
+                _buffers[networkId] = [];
+            if (!_buffers[networkId].ContainsKey(item.type))
+                _buffers[networkId][item.type] = 0;
 
             _buffers[networkId][item.type] += item.stack;
         }
 
         public override void PostUpdateWorld()
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient || _buffers.Count == 0) return;
+            if (Main.netMode != NetmodeID.MultiplayerClient || _buffers.Count == 0)
+                return;
 
             _timer++;
             if (_timer >= 30)
@@ -54,7 +57,11 @@ namespace TerraStorageOverflow.Common.Networking
                         remaining -= toSend;
 
                         var targetNetwork = new List<Guid> { networkId };
-                        NetworkHandler.SendDepositItem(ModLoader.GetMod("TerraStorage"), targetNetwork, dummy);
+                        NetworkHandler.SendDepositItem(
+                            ModLoader.GetMod("TerraStorage"),
+                            targetNetwork,
+                            dummy
+                        );
                     }
                 }
 

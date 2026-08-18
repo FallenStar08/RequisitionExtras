@@ -9,7 +9,14 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.UI
 {
-    public class CustomCategory(ItemCategory categoryId, string modName, string[] damageClassNames, string iconItemName, string tooltip, int fallbackIconId = 506)
+    public class CustomCategory(
+        ItemCategory categoryId,
+        string modName,
+        string[] damageClassNames,
+        string iconItemName,
+        string tooltip,
+        int fallbackIconId = 506
+    )
     {
         public string ModName { get; } = modName;
         public string[] DamageClassNames { get; } = damageClassNames;
@@ -40,19 +47,27 @@ namespace TerraStorageOverflow.Content.UI
                 if (targetMod.TryFind<DamageClass>(className, out var dc))
                 {
                     ResolvedClasses.Add(dc);
-                    Loggers.Log($"[CustomCategory] Successfully resolved DamageClass '{className}' from {ModName}.");
+                    Loggers.Log(
+                        $"[CustomCategory] Successfully resolved DamageClass '{className}' from {ModName}."
+                    );
                 }
                 else
                 {
-                    Loggers.Log($"[CustomCategory] Could not find DamageClass '{className}' in {ModName}.");
+                    Loggers.Log(
+                        $"[CustomCategory] Could not find DamageClass '{className}' in {ModName}."
+                    );
                 }
             }
 
             if (ResolvedClasses.Count > 0)
             {
                 IsLoaded = true;
-                ResolvedIconId = targetMod.TryFind<ModItem>(IconItemName, out var item) ? item.Type : FallbackIconId;
-                Loggers.Log($"[CustomCategory] Category for '{ModName}' resolved with IconItemID: {ResolvedIconId}.");
+                ResolvedIconId = targetMod.TryFind<ModItem>(IconItemName, out var item)
+                    ? item.Type
+                    : FallbackIconId;
+                Loggers.Log(
+                    $"[CustomCategory] Category for '{ModName}' resolved with IconItemID: {ResolvedIconId}."
+                );
             }
         }
     }
@@ -69,31 +84,37 @@ namespace TerraStorageOverflow.Content.UI
         public override void Load()
         {
             //CLICKER CLASS CATEGORY
-            RegisterCategory(new CustomCategory(
-                categoryId: (ItemCategory)100,
-                modName: "ClickerClass",
-                damageClassNames: ["ClickerDamage"],
-                iconItemName: "TheClicker",
-                tooltip: "Clicker Weapons"
-            ));
+            RegisterCategory(
+                new CustomCategory(
+                    categoryId: (ItemCategory)100,
+                    modName: "ClickerClass",
+                    damageClassNames: ["ClickerDamage"],
+                    iconItemName: "TheClicker",
+                    tooltip: "Clicker Weapons"
+                )
+            );
             //CAPTURE DISC CLASS CATEGORY
-            RegisterCategory(new CustomCategory(
-                categoryId: (ItemCategory)101,
-                modName: "CaptureDiscClass",
-                damageClassNames: ["CaptureDamage"],
-                iconItemName: "HighTest",
-                tooltip: "Capture Weapons"
-            ));
+            RegisterCategory(
+                new CustomCategory(
+                    categoryId: (ItemCategory)101,
+                    modName: "CaptureDiscClass",
+                    damageClassNames: ["CaptureDamage"],
+                    iconItemName: "HighTest",
+                    tooltip: "Capture Weapons"
+                )
+            );
 
             Type targetType = typeof(UICategoryFilterBar);
 
-            MethodInfo initMethod = targetType.GetMethod("InitActiveCategories", BindingFlags.NonPublic | BindingFlags.Static);
-            MethodInfo classifyMethod = targetType.GetMethod("ClassifyItemInstance", BindingFlags.NonPublic | BindingFlags.Static);
-            MethodInfo passesFilterMethod = targetType.GetMethod("PassesFilter", BindingFlags.Public | BindingFlags.Instance);
+            MethodInfo initMethod = Reflect.Method(targetType, "InitActiveCategories");
+            MethodInfo classifyMethod = Reflect.Method(targetType, "ClassifyItemInstance");
+            MethodInfo passesFilterMethod = Reflect.Method(targetType, "PassesFilter");
 
             if (initMethod == null)
             {
-                Loggers.Log("[CategoryHookSystem] Failed to find InitActiveCategories method via Reflection!");
+                Loggers.Log(
+                    "[CategoryHookSystem] Failed to find InitActiveCategories method via Reflection!"
+                );
             }
             else
             {
@@ -103,7 +124,9 @@ namespace TerraStorageOverflow.Content.UI
 
             if (classifyMethod == null)
             {
-                Loggers.Log("[CategoryHookSystem] Failed to find ClassifyItemInstance method via Reflection!");
+                Loggers.Log(
+                    "[CategoryHookSystem] Failed to find ClassifyItemInstance method via Reflection!"
+                );
             }
             else
             {
@@ -113,7 +136,9 @@ namespace TerraStorageOverflow.Content.UI
 
             if (passesFilterMethod == null)
             {
-                Loggers.Log("[CategoryHookSystem] Failed to find PassesFilter method via Reflection!");
+                Loggers.Log(
+                    "[CategoryHookSystem] Failed to find PassesFilter method via Reflection!"
+                );
             }
             else
             {
@@ -143,7 +168,11 @@ namespace TerraStorageOverflow.Content.UI
             InjectCategoriesDirectly();
         }
 
-        private bool Detour_PassesFilter(orig_PassesFilter orig, UICategoryFilterBar self, int itemType)
+        private bool Detour_PassesFilter(
+            orig_PassesFilter orig,
+            UICategoryFilterBar self,
+            int itemType
+        )
         {
             EnsureEnabledArraySize(self);
             return orig(self, itemType);
@@ -154,9 +183,16 @@ namespace TerraStorageOverflow.Content.UI
             Type type = typeof(UICategoryFilterBar);
             var activeCategories = GetFieldValue<List<ItemCategory>>(type, "_activeCategories");
             var activeCategoryIcons = GetFieldValue<List<int>>(type, "_activeCategoryIcons");
-            var activeCategoryTooltips = GetFieldValue<List<string>>(type, "_activeCategoryTooltips");
+            var activeCategoryTooltips = GetFieldValue<List<string>>(
+                type,
+                "_activeCategoryTooltips"
+            );
 
-            if (activeCategories == null || activeCategoryIcons == null || activeCategoryTooltips == null)
+            if (
+                activeCategories == null
+                || activeCategoryIcons == null
+                || activeCategoryTooltips == null
+            )
                 return;
 
             foreach (var cat in Registry)
@@ -184,11 +220,14 @@ namespace TerraStorageOverflow.Content.UI
 
         private static void EnsureEnabledArraySize(UICategoryFilterBar instance)
         {
-            var activeCategories = GetFieldValue<List<ItemCategory>>(typeof(UICategoryFilterBar), "_activeCategories");
+            var activeCategories = GetFieldValue<List<ItemCategory>>(
+                typeof(UICategoryFilterBar),
+                "_activeCategories"
+            );
             if (activeCategories == null)
                 return;
 
-            FieldInfo enabledField = typeof(UICategoryFilterBar).GetField("_enabled", BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo enabledField = Reflect.Field(typeof(UICategoryFilterBar), "_enabled");
             if (enabledField?.GetValue(instance) is bool[] enabled)
             {
                 if (enabled.Length < activeCategories.Count)
@@ -204,9 +243,19 @@ namespace TerraStorageOverflow.Content.UI
             }
         }
 
-        private static ItemCategory Detour_ClassifyItemInstance(orig_ClassifyItemInstance orig, Item item)
+        private static ItemCategory Detour_ClassifyItemInstance(
+            orig_ClassifyItemInstance orig,
+            Item item
+        )
         {
-            if (item.damage > 0 || (item.useStyle > ItemUseStyleID.None && item.shoot > ProjectileID.None && item.DamageType != DamageClass.Default))
+            if (
+                item.damage > 0
+                || (
+                    item.useStyle > ItemUseStyleID.None
+                    && item.shoot > ProjectileID.None
+                    && item.DamageType != DamageClass.Default
+                )
+            )
             {
                 foreach (var cat in Registry)
                 {
@@ -226,9 +275,10 @@ namespace TerraStorageOverflow.Content.UI
             return orig(item);
         }
 
-        private static T GetFieldValue<T>(Type type, string fieldName) where T : class
+        private static T GetFieldValue<T>(Type type, string fieldName)
+            where T : class
         {
-            FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static);
+            FieldInfo field = Reflect.Field(type, fieldName);
             return field?.GetValue(null) as T;
         }
     }

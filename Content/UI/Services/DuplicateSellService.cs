@@ -15,12 +15,11 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.UI.Services
 {
-
     public enum SellMode
     {
-        KeepBestPrefix = 0,  // Keeps highest value item, sells worse duplicates
-        KeepFirstFound = 1,  // Keeps first item found, sells any duplicate regardless of prefix
-        ExactMatchesOnly = 2 // Only sells items that have the EXACT same type and prefix
+        KeepBestPrefix = 0, // Keeps highest value item, sells worse duplicates
+        KeepFirstFound = 1, // Keeps first item found, sells any duplicate regardless of prefix
+        ExactMatchesOnly = 2, // Only sells items that have the EXACT same type and prefix
     }
 
     public class SellReportData
@@ -28,8 +27,6 @@ namespace TerraStorageOverflow.Content.UI.Services
         public List<SellReportEntry> Entries { get; } = [];
         public int TotalItemsSold { get; set; }
         public long TotalEarnedCopper { get; set; }
-
-
     }
 
     public class SellReportEntry
@@ -49,15 +46,19 @@ namespace TerraStorageOverflow.Content.UI.Services
             public Item ItemInstance;
         }
 
-
-
         public static SellReportData ExecuteSell(object terminalUIState, SellMode mode)
         {
-            if (terminalUIState == null) return null;
+            if (terminalUIState == null)
+                return null;
 
             Loggers.Log($"Starting duplicate sell scan with mode: {mode}");
 
-            FieldInfo terminalField = terminalUIState.GetType().GetField("_terminal", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            FieldInfo terminalField = terminalUIState
+                .GetType()
+                .GetField(
+                    "_terminal",
+                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public
+                );
             object terminal = terminalField?.GetValue(terminalUIState);
             if (terminal == null)
             {
@@ -65,15 +66,23 @@ namespace TerraStorageOverflow.Content.UI.Services
                 return null;
             }
 
-            MethodInfo getDiskIdsMethod = terminal.GetType().GetMethod("GetConnectedDiskIds", BindingFlags.Instance | BindingFlags.Public);
-            if (getDiskIdsMethod?.Invoke(terminal, null) is not List<Guid> diskIds || diskIds.Count == 0)
+            MethodInfo getDiskIdsMethod = terminal
+                .GetType()
+                .GetMethod("GetConnectedDiskIds", BindingFlags.Instance | BindingFlags.Public);
+            if (
+                getDiskIdsMethod?.Invoke(terminal, null) is not List<Guid> diskIds
+                || diskIds.Count == 0
+            )
             {
                 Loggers.Warn("No connected disks found.", Color.Yellow);
                 return null;
             }
 
             StorageWorldSystem storageWorld = ModContent.GetInstance<StorageWorldSystem>();
-            List<DiskData> connectedDisks = diskIds.Select(id => storageWorld.GetDiskData(id)).Where(d => d != null).ToList();
+            List<DiskData> connectedDisks = diskIds
+                .Select(id => storageWorld.GetDiskData(id))
+                .Where(d => d != null)
+                .ToList();
 
             Loggers.Log($"Found {connectedDisks.Count} connected disk(s).");
 
@@ -105,7 +114,7 @@ namespace TerraStorageOverflow.Content.UI.Services
                         {
                             ItemSample = extracted,
                             Count = 0,
-                            TotalValue = 0
+                            TotalValue = 0,
                         };
                         groupedEntries[key] = reportEntry;
                         report.Entries.Add(reportEntry);
@@ -121,10 +130,18 @@ namespace TerraStorageOverflow.Content.UI.Services
                 GiveCoinsToPlayer(Main.LocalPlayer, report.TotalEarnedCopper);
                 SoundEngine.PlaySound(SoundID.Coins);
 
-                MethodInfo refreshMethod = terminalUIState.GetType().GetMethod("RefreshItems", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                MethodInfo refreshMethod = terminalUIState
+                    .GetType()
+                    .GetMethod(
+                        "RefreshItems",
+                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public
+                    );
                 refreshMethod?.Invoke(terminalUIState, null);
 
-                Loggers.Log($"Sold {report.TotalItemsSold} duplicate(s) for {FormatCoinString(report.TotalEarnedCopper)}!", Color.Gold);
+                Loggers.Log(
+                    $"Sold {report.TotalItemsSold} duplicate(s) for {FormatCoinString(report.TotalEarnedCopper)}!",
+                    Color.Gold
+                );
             }
 
             return report;
@@ -138,7 +155,10 @@ namespace TerraStorageOverflow.Content.UI.Services
 
             if (mode == SellMode.ExactMatchesOnly)
             {
-                Dictionary<(int type, int prefix), (Item keepItem, DuplicateEntry keepEntry)> exactTrackers = [];
+                Dictionary<
+                    (int type, int prefix),
+                    (Item keepItem, DuplicateEntry keepEntry)
+                > exactTrackers = [];
 
                 foreach (var disk in disks)
                 {
@@ -146,7 +166,8 @@ namespace TerraStorageOverflow.Content.UI.Services
                     {
                         totalScannedItems++;
                         Item item = CreateItemFromStored(stored);
-                        if (!IsValidForDuplicateCheck(item)) continue;
+                        if (!IsValidForDuplicateCheck(item))
+                            continue;
 
                         validUnstackableItems++;
                         var key = (item.type, item.prefix);
@@ -154,18 +175,43 @@ namespace TerraStorageOverflow.Content.UI.Services
 
                         if (!exactTrackers.ContainsKey(key))
                         {
-                            exactTrackers[key] = (item, new DuplicateEntry { Disk = disk, ItemType = item.type, PrefixId = item.prefix, ItemInstance = item });
+                            exactTrackers[key] = (
+                                item,
+                                new DuplicateEntry
+                                {
+                                    Disk = disk,
+                                    ItemType = item.type,
+                                    PrefixId = item.prefix,
+                                    ItemInstance = item,
+                                }
+                            );
 
                             for (int i = 1; i < countInStack; i++)
                             {
-                                duplicatesToSell.Add(new DuplicateEntry { Disk = disk, ItemType = item.type, PrefixId = item.prefix, ItemInstance = item });
+                                duplicatesToSell.Add(
+                                    new DuplicateEntry
+                                    {
+                                        Disk = disk,
+                                        ItemType = item.type,
+                                        PrefixId = item.prefix,
+                                        ItemInstance = item,
+                                    }
+                                );
                             }
                         }
                         else
                         {
                             for (int i = 0; i < countInStack; i++)
                             {
-                                duplicatesToSell.Add(new DuplicateEntry { Disk = disk, ItemType = item.type, PrefixId = item.prefix, ItemInstance = item });
+                                duplicatesToSell.Add(
+                                    new DuplicateEntry
+                                    {
+                                        Disk = disk,
+                                        ItemType = item.type,
+                                        PrefixId = item.prefix,
+                                        ItemInstance = item,
+                                    }
+                                );
                             }
                         }
                     }
@@ -181,10 +227,17 @@ namespace TerraStorageOverflow.Content.UI.Services
                     {
                         totalScannedItems++;
                         Item item = CreateItemFromStored(stored);
-                        if (!IsValidForDuplicateCheck(item)) continue;
+                        if (!IsValidForDuplicateCheck(item))
+                            continue;
 
                         validUnstackableItems++;
-                        var currentEntry = new DuplicateEntry { Disk = disk, ItemType = item.type, PrefixId = item.prefix, ItemInstance = item };
+                        var currentEntry = new DuplicateEntry
+                        {
+                            Disk = disk,
+                            ItemType = item.type,
+                            PrefixId = item.prefix,
+                            ItemInstance = item,
+                        };
                         int countInStack = Math.Max(1, item.stack);
 
                         if (!typeTrackers.TryGetValue(item.type, out var currentKeep))
@@ -198,7 +251,10 @@ namespace TerraStorageOverflow.Content.UI.Services
                         }
                         else
                         {
-                            if (mode == SellMode.KeepBestPrefix && item.value > currentKeep.keepItem.value)
+                            if (
+                                mode == SellMode.KeepBestPrefix
+                                && item.value > currentKeep.keepItem.value
+                            )
                             {
                                 duplicatesToSell.Add(currentKeep.keepEntry);
                                 typeTrackers[item.type] = (item, currentEntry);
@@ -220,7 +276,9 @@ namespace TerraStorageOverflow.Content.UI.Services
                 }
             }
 
-            Loggers.Log($"Scanned total {totalScannedItems} item entries across disks ({validUnstackableItems} were valid unstackable items).");
+            Loggers.Log(
+                $"Scanned total {totalScannedItems} item entries across disks ({validUnstackableItems} were valid unstackable items)."
+            );
             return duplicatesToSell;
         }
 
@@ -235,7 +293,8 @@ namespace TerraStorageOverflow.Content.UI.Services
 
         private static Item CreateItemFromStored(object stored)
         {
-            if (stored == null) return null;
+            if (stored == null)
+                return null;
 
             if (stored is Item directItem)
             {
@@ -254,8 +313,22 @@ namespace TerraStorageOverflow.Content.UI.Services
                 return fieldItem.Clone();
 
             // TagCompound Load check
-            TagCompound fullTag = GetTagValue(stored, "FullItemTag", "fullItemTag", "Tag", "itemTag");
-            int stackVal = GetIntValue(stored, "Stack", "stack", "Count", "count", "Amount", "amount");
+            TagCompound fullTag = GetTagValue(
+                stored,
+                "FullItemTag",
+                "fullItemTag",
+                "Tag",
+                "itemTag"
+            );
+            int stackVal = GetIntValue(
+                stored,
+                "Stack",
+                "stack",
+                "Count",
+                "count",
+                "Amount",
+                "amount"
+            );
 
             if (fullTag != null)
             {
@@ -264,7 +337,8 @@ namespace TerraStorageOverflow.Content.UI.Services
                     Item loaded = ItemIO.Load(fullTag);
                     if (loaded != null && !loaded.IsAir)
                     {
-                        if (stackVal > 0) loaded.stack = stackVal;
+                        if (stackVal > 0)
+                            loaded.stack = stackVal;
                         return loaded;
                     }
                 }
@@ -272,12 +346,24 @@ namespace TerraStorageOverflow.Content.UI.Services
             }
 
             // Fallback to Item ID
-            int itemTypeId = GetIntValue(stored, "Type", "type", "Id", "id", "ItemID", "itemId", "netID", "ItemType");
-            if (itemTypeId <= 0) return null;
+            int itemTypeId = GetIntValue(
+                stored,
+                "Type",
+                "type",
+                "Id",
+                "id",
+                "ItemID",
+                "itemId",
+                "netID",
+                "ItemType"
+            );
+            if (itemTypeId <= 0)
+                return null;
 
             Item item = new();
             item.SetDefaults(itemTypeId);
-            if (stackVal > 0) item.stack = stackVal;
+            if (stackVal > 0)
+                item.stack = stackVal;
 
             int prefixId = GetIntValue(stored, "Prefix", "prefix", "PrefixId", "prefixId");
             if (prefixId > 0)
@@ -300,9 +386,11 @@ namespace TerraStorageOverflow.Content.UI.Services
 
         private static int GetIntValue(object obj, params string[] names)
         {
-            if (obj == null) return 0;
+            if (obj == null)
+                return 0;
             Type t = obj.GetType();
-            BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            BindingFlags flags =
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
             var properties = t.GetProperties(flags);
             foreach (string name in names)
@@ -345,9 +433,11 @@ namespace TerraStorageOverflow.Content.UI.Services
 
         private static TagCompound GetTagValue(object obj, params string[] names)
         {
-            if (obj == null) return null;
+            if (obj == null)
+                return null;
             Type t = obj.GetType();
-            BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            BindingFlags flags =
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
             var properties = t.GetProperties(flags);
             foreach (string name in names)
@@ -358,7 +448,8 @@ namespace TerraStorageOverflow.Content.UI.Services
                     {
                         try
                         {
-                            if (prop.GetValue(obj) is TagCompound pTag) return pTag;
+                            if (prop.GetValue(obj) is TagCompound pTag)
+                                return pTag;
                         }
                         catch { }
                     }
@@ -374,7 +465,8 @@ namespace TerraStorageOverflow.Content.UI.Services
                     {
                         try
                         {
-                            if (field.GetValue(obj) is TagCompound fTag) return fTag;
+                            if (field.GetValue(obj) is TagCompound fTag)
+                                return fTag;
                         }
                         catch { }
                     }
@@ -386,7 +478,9 @@ namespace TerraStorageOverflow.Content.UI.Services
 
         private static PropertyInfo GetPropertySafe(Type type, params string[] names)
         {
-            var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var props = type.GetProperties(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+            );
             foreach (string name in names)
             {
                 foreach (var p in props)
@@ -400,7 +494,9 @@ namespace TerraStorageOverflow.Content.UI.Services
 
         private static FieldInfo GetFieldSafe(Type type, params string[] names)
         {
-            var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var fields = type.GetFields(
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+            );
             foreach (string name in names)
             {
                 foreach (var f in fields)
@@ -414,13 +510,26 @@ namespace TerraStorageOverflow.Content.UI.Services
 
         private static bool IsNumeric(object value)
         {
-            return value is sbyte or byte or short or ushort or int or uint or long or ulong or float or double or decimal;
+            return value
+                is sbyte
+                    or byte
+                    or short
+                    or ushort
+                    or int
+                    or uint
+                    or long
+                    or ulong
+                    or float
+                    or double
+                    or decimal;
         }
 
         private static void GiveCoinsToPlayer(Player player, long totalCopper)
         {
-            int platinum = (int)(totalCopper / 1000000); totalCopper %= 1000000;
-            int gold = (int)(totalCopper / 10000); totalCopper %= 10000;
+            int platinum = (int)(totalCopper / 1000000);
+            totalCopper %= 1000000;
+            int gold = (int)(totalCopper / 10000);
+            totalCopper %= 10000;
             int silver = (int)(totalCopper / 100);
             int copper = (int)(totalCopper % 100);
 
@@ -439,7 +548,12 @@ namespace TerraStorageOverflow.Content.UI.Services
                 coin.SetDefaults(coinType);
                 coin.stack = stack;
                 coin = player.GetItem(player.whoAmI, coin, GetItemSettings.PickupItemFromWorld);
-                if (!coin.IsAir) player.QuickSpawnItem(player.GetSource_Misc("Requisition_SellDuplicates"), coin, coin.stack);
+                if (!coin.IsAir)
+                    player.QuickSpawnItem(
+                        player.GetSource_Misc("Requisition_SellDuplicates"),
+                        coin,
+                        coin.stack
+                    );
                 count -= stack;
             }
         }
@@ -447,14 +561,21 @@ namespace TerraStorageOverflow.Content.UI.Services
         private static string FormatCoinString(long copper)
         {
             List<string> parts = [];
-            long plat = copper / 1000000; copper %= 1000000;
-            long gold = copper / 10000; copper %= 10000;
-            long silver = copper / 100; long cop = copper % 100;
+            long plat = copper / 1000000;
+            copper %= 1000000;
+            long gold = copper / 10000;
+            copper %= 10000;
+            long silver = copper / 100;
+            long cop = copper % 100;
 
-            if (plat > 0) parts.Add($"{plat} Platinum");
-            if (gold > 0) parts.Add($"{gold} Gold");
-            if (silver > 0) parts.Add($"{silver} Silver");
-            if (cop > 0 || parts.Count == 0) parts.Add($"{cop} Copper");
+            if (plat > 0)
+                parts.Add($"{plat} Platinum");
+            if (gold > 0)
+                parts.Add($"{gold} Gold");
+            if (silver > 0)
+                parts.Add($"{silver} Silver");
+            if (cop > 0 || parts.Count == 0)
+                parts.Add($"{cop} Copper");
 
             return string.Join(", ", parts);
         }

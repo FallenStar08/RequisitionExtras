@@ -15,15 +15,17 @@ namespace TerraStorageOverflow.Common.Utils
         private static readonly Dictionary<string, Func<bool>> _boolGetters = new()
         {
             [nameof(ModSettings.DebugText)] = () => _modSettings.DebugText,
-            [nameof(ModSettings.EnableRightClickDeposit)] = () => _modSettings.EnableRightClickDeposit,
-
+            [nameof(ModSettings.EnableRightClickDeposit)] = () =>
+                _modSettings.EnableRightClickDeposit,
         };
 
         public static bool GetBoolSetting(string settingName)
         {
             return _boolGetters.TryGetValue(settingName, out var getter)
                 ? getter()
-                : throw new ArgumentException($"Setting '{settingName}' not found or is not a boolean.");
+                : throw new ArgumentException(
+                    $"Setting '{settingName}' not found or is not a boolean."
+                );
         }
     }
 }

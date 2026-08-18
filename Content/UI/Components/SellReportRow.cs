@@ -27,9 +27,16 @@ namespace TerraStorageOverflow.Content.UI.Components
             Vector2 pos = GetDimensions().Position();
 
             string itemTag = ItemTagHandler.GenerateTag(_entry.ItemSample);
-            string lineText = $"{itemTag} x{_entry.Count} - {UIUtils.FormatCoinString(_entry.TotalValue)}";
+            string lineText =
+                $"{itemTag} x{_entry.Count} - {UIUtils.FormatCoinString(_entry.TotalValue)}";
 
-            UIUtils.DrawTextWithTags(spriteBatch, lineText, pos + new Vector2(10f, 0f), Color.White, 0.75f);
+            UIUtils.DrawTextWithTags(
+                spriteBatch,
+                lineText,
+                pos + new Vector2(10f, 0f),
+                Color.White,
+                0.75f
+            );
         }
     }
 }
