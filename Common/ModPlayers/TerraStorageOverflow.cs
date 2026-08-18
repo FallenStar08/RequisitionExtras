@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -164,6 +165,10 @@ namespace TerraStorageOverflow.Common.ModPlayers
                     {
                         Loggers.Log("All connected networks are full!", Color.OrangeRed);
                         _lastFullMessageFrame = Main.GameUpdateCount;
+                    }
+                    else
+                    {
+                        SoundEngine.PlaySound(SoundID.Grab);
                     }
                 }
 
