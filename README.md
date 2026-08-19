@@ -1,6 +1,7 @@
 # Requisition Extras
 
-An ~~small~~ addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
+An ~~small~~ addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). 
+This mod turns your Remote Terminal into a smart vacuum for your storage network, adds an automatic duplicate equipment seller, and adds a new button to the crafting core interface to auto-populate crafting stations.
 
 ## 🛠 Features
 
