@@ -4,4 +4,4 @@ version = 1.0
 side = Both
 modReferences = TerraStorage
 sortAfter = TerraStorage
-buildIgnore = RepoResources/*, RepoResources/**/*
+buildIgnore = RepoResources/*, RepoResources/**/*, *.ps1
