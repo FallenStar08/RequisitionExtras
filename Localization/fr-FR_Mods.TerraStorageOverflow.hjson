@@ -1,0 +1,49 @@
+Configs: {
+	ModSettings: {
+		DisplayName: Requisition Extras Paramètres
+
+		DebugText: {
+			Label: Texte de débogage
+			Tooltip: Active le texte de débogage à des fins de dépannage (activez pas en gros)
+		}
+
+		EnableRightClickDeposit: {
+			Label: Activer le dépôt via clic droit
+			Tooltip: Permet de déposer tous les objets de l'inventaire dans le terminal en cliquant avec le bouton droit de la souris tout en tenant la télécommande
+		}
+	}
+}
+
+EasyLoca: {
+	PopulateCraftingCoreButtonText: Remplir
+	PopulateCraftingCoreButtonTooltip:
+		'''
+		Extrait automatiquement toutes les stations qui remplissent de nouvelles conditions de craft.
+		Si une station remplit un rôle déjà présent (tout en apportant une nouvelle condition), elle la remplacera.
+		'''
+	SellReportHeader: "Rapport de vente :"
+	SelectModeHeader: "Mode de vente des doublons :"
+	ModeKeepBest: Conserver le meilleur
+	ModeKeepBestTooltip:
+		'''
+		Compare les objets en double selon leur valeur marchande.
+		Conserve la meilleure version et vend tous les doublons inférieurs.
+		'''
+	ModeKeepFirst: Conserver le premier
+	ModeKeepFirstTooltip:
+		'''
+		Conserve le tout premier exemplaire trouvé dans votre réseau
+		et vend tous les autres doublons, quel que soit leur modificateur.
+		'''
+	ModeExactMatches: Conserver un exemplaire par modificateur
+	ModeExactMatchesTooltip:
+		'''
+		Ne vend les objets que s'ils partagent le même ID ET le même modificateur.
+		(Conserve un exemplaire de chaque combinaison unique d'objet et modificateur).
+		'''
+	SellActionButton: Vendre les doublons
+	ReportNoItems: Aucun objet vendu pour le moment.
+	ReportNoDuplicates: Aucun doublon trouvé à vendre.
+	ReportSummary: Vendu {0} objets pour {1}
+	ExtrasTabName: Extras
+}

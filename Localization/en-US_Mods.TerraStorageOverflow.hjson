@@ -42,7 +42,6 @@ EasyLoca: {
 		(It'll keep one of each item with a unique combination of Item ID and Prefix).
 		'''
 	SellActionButton: Sell Duplicate Items
-	ReportTitle: Sell Report :
 	ReportNoItems: No items sold yet.
 	ReportNoDuplicates: No duplicates found to sell.
 	ReportSummary: Sold {0} items for {1}
