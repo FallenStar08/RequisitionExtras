@@ -15,41 +15,45 @@ $readmeCleaned = $readme -replace '(?m)^##\s+.*?Demo[^\r\n]*\r?\n(?s:.*?)(?=\r?\
 function Convert-MarkdownToBBCode {
     param ([string]$Text)
 
-    # Normalize line endings to \n to prevent \r from splitting closing tags
+    # Normalize line endings
     $Text = $Text -replace "\r\n", "`n" -replace "\r", "`n"
 
-    # Convert Headings
-    $Text = $Text -replace '(?m)^#\s+(.+)$', '[h1]$1[/h1]'
-    $Text = $Text -replace '(?m)^##\s+(.+)$', '[h2]$1[/h2]'
-    $Text = $Text -replace '(?m)^###\s+(.+)$', '[h3]$1[/h3]'
-
-    # Convert Links: [text](url) -> [url=url]text[/url]
-    $Text = $Text -replace '\[([^\]]+)\]\(([^)]+)\)', '[url=$2]$1[/url]'
-
-    # Convert Formatting
-    $Text = $Text -replace '\*\*([^*]+)\*\*', '[b]$1[/b]'
-    $Text = $Text -replace '\*([^*]+)\*', '[i]$1[/i]'
-    $Text = $Text -replace '~~([^~]+)~~', '[strike]$1[/strike]'
-
-    # Process lists into [list]...[/list] blocks
     $lines = $Text -split "`n"
     $output = [System.Collections.Generic.List[string]]::new()
     $inList = $false
 
     foreach ($line in $lines) {
-        if ($line -match '^[ \t]*[*\-]\s+(.+)$') {
+        $processedLine = $line
+
+        # 1. Convert Headings
+        $processedLine = $processedLine -replace '^#\s+(.+)$', '[h1]$1[/h1]'
+        $processedLine = $processedLine -replace '^##\s+(.+)$', '[h2]$1[/h2]'
+        $processedLine = $processedLine -replace '^###\s+(.+)$', '[h3]$1[/h3]'
+
+        # 2. Check if this line is a list item
+        $isListItem = $false
+        if ($processedLine -match '^[ \t]*[*\-]\s+(.+)$') {
+            $isListItem = $true
             if (-not $inList) {
                 $output.Add("[list]")
                 $inList = $true
             }
-            $output.Add("[*]$($Matches[1])")
+            # Replace bullet marker with [*]
+            $processedLine = "[*]" + $Matches[1]
         } else {
             if ($inList) {
                 $output.Add("[/list]")
                 $inList = $false
             }
-            $output.Add($line)
         }
+
+        # 3. Apply inline formatting to the line content ONLY
+        $processedLine = $processedLine -replace '\[([^\]]+)\]\(([^)]+)\)', '[url=$2]$1[/url]'
+        $processedLine = $processedLine -replace '~~([^~]+)~~', '[strike]$1[/strike]'
+        $processedLine = $processedLine -replace '\*\*([^*]+)\*\*', '[b]$1[/b]'
+        $processedLine = $processedLine -replace '(?<=\s|^|\b)\*([^*]+)\*(?=\s|$|\b)', '[i]$1[/i]'
+
+        $output.Add($processedLine)
     }
 
     if ($inList) {
