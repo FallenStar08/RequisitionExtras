@@ -9,6 +9,9 @@ if (-not (Test-Path $readmePath)) {
 
 $readme = Get-Content -Raw -Encoding UTF8 $readmePath
 
+# Strip ONLY the ## Demo section (from '## ... Demo' heading up to the next '##' or end of file)
+$readmeCleaned = $readme -replace '(?m)^##\s+.*?Demo[^\r\n]*\r?\n(?s:.*?)(?=\r?\n##|\Z)', ''
+
 function Convert-MarkdownToBBCode {
     param ([string]$Text)
 
@@ -86,13 +89,13 @@ function Extract-FeaturesRaw {
     return ""
 }
 
-# 1. Convert README to BBCode
-$bbcode = Convert-MarkdownToBBCode -Text $readme
+# 1. Convert cleaned README to BBCode
+$bbcode = Convert-MarkdownToBBCode -Text $readmeCleaned
 Set-Content -Path $workshopPath -Value $bbcode -Encoding UTF8
 Write-Host "Updated $workshopPath" -ForegroundColor Green
 
 # 2. Extract features to raw text description
-$features = Extract-FeaturesRaw -Text $readme
+$features = Extract-FeaturesRaw -Text $readmeCleaned
 $desc = @"
 A Quality of Life expansion for the Requisition mod.
 
