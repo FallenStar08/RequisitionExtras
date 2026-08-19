@@ -12,6 +12,9 @@ $readme = Get-Content -Raw -Encoding UTF8 $readmePath
 function Convert-MarkdownToBBCode {
     param ([string]$Text)
 
+    # Normalize line endings to \n to prevent \r from splitting closing tags
+    $Text = $Text -replace "\r\n", "`n" -replace "\r", "`n"
+
     # Convert Headings
     $Text = $Text -replace '(?m)^#\s+(.+)$', '[h1]$1[/h1]'
     $Text = $Text -replace '(?m)^##\s+(.+)$', '[h2]$1[/h2]'
@@ -25,7 +28,7 @@ function Convert-MarkdownToBBCode {
     $Text = $Text -replace '\*([^*]+)\*', '[i]$1[/i]'
 
     # Process lists into [list]...[/list] blocks
-    $lines = $Text -split "\r?\n"
+    $lines = $Text -split "`n"
     $output = [System.Collections.Generic.List[string]]::new()
     $inList = $false
 

@@ -35,4 +35,4 @@ Should be fine?
 * [**Requisition**](https://github.com/votex09/Requisition)
 
 ## Github Repository
-https://github.com/FallenStar08/RequisitionExtras/
+* [**Requisition Extras**](https://github.com/FallenStar08/RequisitionExtras/)
