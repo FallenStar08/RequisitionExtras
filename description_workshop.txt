@@ -27,6 +27,10 @@ Should be fine?
 
 [url=https://github.com/user-attachments/assets/1a02c81b-9138-47a7-9cb3-8b0430be200a]shift_click_demo.webm[/url]
 
+[url=https://github.com/user-attachments/assets/02456c72-ff0d-4474-a941-4a8a425ce146]auto_populate_demo.webm[/url]
+
+[url=https://github.com/user-attachments/assets/b2f0624d-b91c-4d52-a020-2dff2e458cd0]duplicate_seller_demo.webm[/url]
+
 [h2]Requirements[/h2]
 [/i] [b]tModLoader[/b] (v2022.9+ / 1.4.4)
 [i] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546][b]Requisition[/b][/url] (Base Mod)
@@ -38,3 +42,4 @@ Should be fine?
 [list]
 [*][url=https://github.com/FallenStar08/RequisitionExtras/][b]Requisition Extras[/b][/url]
 [/list]
+
