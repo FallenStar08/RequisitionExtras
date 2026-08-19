@@ -21,8 +21,8 @@ EasyLoca: {
 		Extrait automatiquement toutes les stations qui remplissent de nouvelles conditions de craft.
 		Si une station remplit un rôle déjà présent (tout en apportant une nouvelle condition), elle la remplacera.
 		'''
-	SellReportHeader: "Rapport de vente :"
-	SelectModeHeader: "Mode de vente des doublons :"
+	SellReportHeader: Rapport de vente :
+	SelectModeHeader: Mode de vente des doublons :
 	ModeKeepBest: Conserver le meilleur
 	ModeKeepBestTooltip:
 		'''
