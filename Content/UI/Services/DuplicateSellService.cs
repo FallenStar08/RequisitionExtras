@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.Default;
-using Terraria.ModLoader.IO;
 using TerraStorage.Common;
-using TerraStorage.Systems;
 using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.UI.Services
@@ -53,36 +48,9 @@ namespace TerraStorageOverflow.Content.UI.Services
 
             Loggers.Log($"Starting duplicate sell scan with mode: {mode}");
 
-            FieldInfo terminalField = terminalUIState
-                .GetType()
-                .GetField(
-                    "_terminal",
-                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public
-                );
-            object terminal = terminalField?.GetValue(terminalUIState);
-            if (terminal == null)
-            {
-                Loggers.Warn("Terminal entity not found.", Color.Red);
+            List<DiskData> connectedDisks = StorageNetworkHelper.GetConnectedDisks(terminalUIState);
+            if (connectedDisks == null || connectedDisks.Count == 0)
                 return null;
-            }
-
-            MethodInfo getDiskIdsMethod = terminal
-                .GetType()
-                .GetMethod("GetConnectedDiskIds", BindingFlags.Instance | BindingFlags.Public);
-            if (
-                getDiskIdsMethod?.Invoke(terminal, null) is not List<Guid> diskIds
-                || diskIds.Count == 0
-            )
-            {
-                Loggers.Warn("No connected disks found.", Color.Yellow);
-                return null;
-            }
-
-            StorageWorldSystem storageWorld = ModContent.GetInstance<StorageWorldSystem>();
-            List<DiskData> connectedDisks = diskIds
-                .Select(id => storageWorld.GetDiskData(id))
-                .Where(d => d != null)
-                .ToList();
 
             Loggers.Log($"Found {connectedDisks.Count} connected disk(s).");
 
@@ -130,13 +98,7 @@ namespace TerraStorageOverflow.Content.UI.Services
                 GiveCoinsToPlayer(Main.LocalPlayer, report.TotalEarnedCopper);
                 SoundEngine.PlaySound(SoundID.Coins);
 
-                MethodInfo refreshMethod = terminalUIState
-                    .GetType()
-                    .GetMethod(
-                        "RefreshItems",
-                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public
-                    );
-                refreshMethod?.Invoke(terminalUIState, null);
+                StorageNetworkHelper.RefreshTerminalUI(terminalUIState);
 
                 Loggers.Log(
                     $"Sold {report.TotalItemsSold} duplicate(s) for {FormatCoinString(report.TotalEarnedCopper)}!",
@@ -165,8 +127,8 @@ namespace TerraStorageOverflow.Content.UI.Services
                     foreach (var stored in disk.Items.ToList())
                     {
                         totalScannedItems++;
-                        Item item = CreateItemFromStored(stored);
-                        if (!IsValidForDuplicateCheck(item))
+                        Item item = StorageNetworkHelper.CreateItemFromStored(stored);
+                        if (!StorageNetworkHelper.IsValidForDuplicateCheck(item))
                             continue;
 
                         validUnstackableItems++;
@@ -226,8 +188,8 @@ namespace TerraStorageOverflow.Content.UI.Services
                     foreach (var stored in disk.Items.ToList())
                     {
                         totalScannedItems++;
-                        Item item = CreateItemFromStored(stored);
-                        if (!IsValidForDuplicateCheck(item))
+                        Item item = StorageNetworkHelper.CreateItemFromStored(stored);
+                        if (!StorageNetworkHelper.IsValidForDuplicateCheck(item))
                             continue;
 
                         validUnstackableItems++;
@@ -282,248 +244,6 @@ namespace TerraStorageOverflow.Content.UI.Services
             return duplicatesToSell;
         }
 
-        private static bool IsValidForDuplicateCheck(Item item)
-        {
-            return item != null
-                && !item.IsAir
-                && item.maxStack == 1
-                && !item.favorited
-                && item.ModItem is not UnloadedItem;
-        }
-
-        private static Item CreateItemFromStored(object stored)
-        {
-            if (stored == null)
-                return null;
-
-            if (stored is Item directItem)
-            {
-                return directItem.Clone();
-            }
-
-            Type t = stored.GetType();
-
-            // Direct object wrapper check (e.g. stored.Item)
-            PropertyInfo itemProp = GetPropertySafe(t, "Item", "StoredItem");
-            if (itemProp != null && itemProp.GetValue(stored) is Item propItem)
-                return propItem.Clone();
-
-            FieldInfo itemField = GetFieldSafe(t, "Item", "storedItem");
-            if (itemField != null && itemField.GetValue(stored) is Item fieldItem)
-                return fieldItem.Clone();
-
-            // TagCompound Load check
-            TagCompound fullTag = GetTagValue(
-                stored,
-                "FullItemTag",
-                "fullItemTag",
-                "Tag",
-                "itemTag"
-            );
-            int stackVal = GetIntValue(
-                stored,
-                "Stack",
-                "stack",
-                "Count",
-                "count",
-                "Amount",
-                "amount"
-            );
-
-            if (fullTag != null)
-            {
-                try
-                {
-                    Item loaded = ItemIO.Load(fullTag);
-                    if (loaded != null && !loaded.IsAir)
-                    {
-                        if (stackVal > 0)
-                            loaded.stack = stackVal;
-                        return loaded;
-                    }
-                }
-                catch { }
-            }
-
-            // Fallback to Item ID
-            int itemTypeId = GetIntValue(
-                stored,
-                "Type",
-                "type",
-                "Id",
-                "id",
-                "ItemID",
-                "itemId",
-                "netID",
-                "ItemType"
-            );
-            if (itemTypeId <= 0)
-                return null;
-
-            Item item = new();
-            item.SetDefaults(itemTypeId);
-            if (stackVal > 0)
-                item.stack = stackVal;
-
-            int prefixId = GetIntValue(stored, "Prefix", "prefix", "PrefixId", "prefixId");
-            if (prefixId > 0)
-            {
-                item.Prefix(prefixId);
-            }
-
-            TagCompound modData = GetTagValue(stored, "ModData", "modData", "Data", "data");
-            if (modData != null && item.ModItem != null)
-            {
-                try
-                {
-                    item.ModItem.LoadData(modData);
-                }
-                catch { }
-            }
-
-            return item;
-        }
-
-        private static int GetIntValue(object obj, params string[] names)
-        {
-            if (obj == null)
-                return 0;
-            Type t = obj.GetType();
-            BindingFlags flags =
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
-            var properties = t.GetProperties(flags);
-            foreach (string name in names)
-            {
-                foreach (var prop in properties)
-                {
-                    if (string.Equals(prop.Name, name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        try
-                        {
-                            object val = prop.GetValue(obj);
-                            if (val != null && IsNumeric(val))
-                                return Convert.ToInt32(val);
-                        }
-                        catch { }
-                    }
-                }
-            }
-
-            var fields = t.GetFields(flags);
-            foreach (string name in names)
-            {
-                foreach (var field in fields)
-                {
-                    if (string.Equals(field.Name, name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        try
-                        {
-                            object val = field.GetValue(obj);
-                            if (val != null && IsNumeric(val))
-                                return Convert.ToInt32(val);
-                        }
-                        catch { }
-                    }
-                }
-            }
-
-            return 0;
-        }
-
-        private static TagCompound GetTagValue(object obj, params string[] names)
-        {
-            if (obj == null)
-                return null;
-            Type t = obj.GetType();
-            BindingFlags flags =
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
-            var properties = t.GetProperties(flags);
-            foreach (string name in names)
-            {
-                foreach (var prop in properties)
-                {
-                    if (string.Equals(prop.Name, name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        try
-                        {
-                            if (prop.GetValue(obj) is TagCompound pTag)
-                                return pTag;
-                        }
-                        catch { }
-                    }
-                }
-            }
-
-            var fields = t.GetFields(flags);
-            foreach (string name in names)
-            {
-                foreach (var field in fields)
-                {
-                    if (string.Equals(field.Name, name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        try
-                        {
-                            if (field.GetValue(obj) is TagCompound fTag)
-                                return fTag;
-                        }
-                        catch { }
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        private static PropertyInfo GetPropertySafe(Type type, params string[] names)
-        {
-            var props = type.GetProperties(
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-            );
-            foreach (string name in names)
-            {
-                foreach (var p in props)
-                {
-                    if (string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase))
-                        return p;
-                }
-            }
-            return null;
-        }
-
-        private static FieldInfo GetFieldSafe(Type type, params string[] names)
-        {
-            var fields = type.GetFields(
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-            );
-            foreach (string name in names)
-            {
-                foreach (var f in fields)
-                {
-                    if (string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase))
-                        return f;
-                }
-            }
-            return null;
-        }
-
-        private static bool IsNumeric(object value)
-        {
-            return value
-                is sbyte
-                    or byte
-                    or short
-                    or ushort
-                    or int
-                    or uint
-                    or long
-                    or ulong
-                    or float
-                    or double
-                    or decimal;
-        }
-
         private static void GiveCoinsToPlayer(Player player, long totalCopper)
         {
             int platinum = (int)(totalCopper / 1000000);
@@ -549,11 +269,13 @@ namespace TerraStorageOverflow.Content.UI.Services
                 coin.stack = stack;
                 coin = player.GetItem(player.whoAmI, coin, GetItemSettings.PickupItemFromWorld);
                 if (!coin.IsAir)
+                {
                     player.QuickSpawnItem(
                         player.GetSource_Misc("Requisition_SellDuplicates"),
                         coin,
                         coin.stack
                     );
+                }
                 count -= stack;
             }
         }
