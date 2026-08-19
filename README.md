@@ -37,6 +37,7 @@ Should be fine?
 
 ## Credits
 * [**Requisition**](https://github.com/votex09/Requisition)
+* Github Copilot for auto completing random shit I guess?
 
 ## Github Repository
 * [**Requisition Extras**](https://github.com/FallenStar08/RequisitionExtras/)

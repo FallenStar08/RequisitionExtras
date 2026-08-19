@@ -10,6 +10,7 @@ using TerraStorage.Content.Tiles;
 using TerraStorage.Content.UI;
 using TerraStorageOverflow.Common.Utils;
 using TerraStorageOverflow.Content.UI.Services;
+using TerraStorageOverflow.Content.UI.Styles;
 
 namespace TerraStorageOverflow.Common.Hooks
 {
@@ -49,6 +50,7 @@ namespace TerraStorageOverflow.Common.Hooks
         public override void OnInitialize()
         {
             SetText(EasyLoca.PopulateCraftingCoreButtonText);
+            BackgroundColor = ButtonStyle.BG_ACTIVE;
             Left.Set(5f, 0f);
             Top.Set(5f, 0f);
             Width.Set(60f, 0f);
@@ -83,6 +85,11 @@ namespace TerraStorageOverflow.Common.Hooks
             {
                 Terraria.Main.LocalPlayer.mouseInterface = true;
                 UICommon.TooltipMouseText(EasyLoca.PopulateCraftingCoreButtonTooltip);
+                BackgroundColor = ButtonStyle.BG_HOVER;
+            }
+            else
+            {
+                BackgroundColor = ButtonStyle.BG_ACTIVE;
             }
         }
     }
