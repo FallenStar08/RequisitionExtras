@@ -26,6 +26,7 @@ function Convert-MarkdownToBBCode {
     # Convert Formatting
     $Text = $Text -replace '\*\*([^*]+)\*\*', '[b]$1[/b]'
     $Text = $Text -replace '\*([^*]+)\*', '[i]$1[/i]'
+    $Text = $Text -replace '~~([^~]+)~~', '[strike]$1[/strike]'
 
     # Process lists into [list]...[/list] blocks
     $lines = $Text -split "`n"

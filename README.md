@@ -1,6 +1,6 @@
 # Requisition Extras
 
-A small addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
+An ~~small~~ addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
 
 ## 🛠 Features
 
