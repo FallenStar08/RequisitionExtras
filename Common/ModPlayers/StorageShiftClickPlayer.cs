@@ -12,6 +12,8 @@ namespace TerraStorageOverflow.Common.ModPlayers
     {
         public override bool ShiftClickSlot(Item[] inventory, int context, int slot)
         {
+            //should probably check for other inv slots or maybe just trigger the logic for chest slots
+            //Idk it's fine I think.
             if (context == ItemSlot.Context.InventoryItem)
                 return false;
             Player player = Main.LocalPlayer;
