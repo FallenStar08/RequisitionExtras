@@ -27,6 +27,12 @@ Should be fine?
 
 [shift_click_demo.webm](https://github.com/user-attachments/assets/1a02c81b-9138-47a7-9cb3-8b0430be200a)
 
+[auto_populate_demo.webm](https://github.com/user-attachments/assets/02456c72-ff0d-4474-a941-4a8a425ce146)
+
+[duplicate_seller_demo.webm](https://github.com/user-attachments/assets/b2f0624d-b91c-4d52-a020-2dff2e458cd0)
+
+
+
 ## Requirements
 * **tModLoader** (v2022.9+ / 1.4.4)
 * [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546) (Base Mod)
