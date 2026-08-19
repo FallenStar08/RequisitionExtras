@@ -1,6 +1,6 @@
 # Requisition Extras
 
-An ~~small~~ addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). 
+An addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). 
 This mod turns your Remote Terminal into a smart vacuum for your storage network, adds an automatic duplicate equipment seller, and adds a new button to the crafting core interface to auto-populate crafting stations.
 
 ## 🛠 Features
@@ -10,6 +10,7 @@ This mod turns your Remote Terminal into a smart vacuum for your storage network
 * **Improved Interaction:**
     * **Shift-Click Redirect:** Shift-clicking from chests will bypass your inventory and go straight to the network if you're out of space.
     * **Loot All Integration:** Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
+* **Modded damage types filtering:** New toggles for filtering weapons by clicker & capture damage from their respective mods if installed. Feel free to request more.
 * **Live Tooltips:** Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
 * **Custom Tab:** A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
 * **A New Button in the Crafting Core Interface:** A new button allows auto-populating the slots with all stations that would fulfill new conditions for crafting from the storage network. (This also supports swapping a station if a new one is found that would fulfill the same condition and more)
