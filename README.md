@@ -1,10 +1,8 @@
 # Requisition Extras
-
 An addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). 
 This mod turns your Remote Terminal into a smart vacuum for your storage network, adds an automatic duplicate equipment seller, and adds a new button to the crafting core interface to auto-populate crafting stations.
 
 ## 🛠 Features
-
 * **Smart Overflow:** Automatically redirects picked-up items to your storage disks if your inventory is full, similar to what the void bag does. 
 * **Multi-Network Support:** The mod intelligently cycles through all bound networks until the item finds a home.
 * **Improved Interaction:**
@@ -20,7 +18,6 @@ This mod turns your Remote Terminal into a smart vacuum for your storage network
 Should be fine?
 
 ## Demo
-
 [void_bag_like_demo.webm](https://github.com/user-attachments/assets/eaccfe65-4ec4-47db-91ac-0b934a0bd5e7)
 
 [tooltip_demo.png](https://github.com/FallenStar08/TerraStorageOverflow/blob/master/RepoResources/tooltip_demo.png)
