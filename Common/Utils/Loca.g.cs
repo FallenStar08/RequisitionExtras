@@ -55,10 +55,6 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string SellActionButton => Get("EasyLoca.SellActionButton");
             /// <summary>
-            /// Sell Report :
-            /// </summary>
-            public static string ReportTitle => Get("EasyLoca.ReportTitle");
-            /// <summary>
             /// No items sold yet.
             /// </summary>
             public static string ReportNoItems => Get("EasyLoca.ReportNoItems");

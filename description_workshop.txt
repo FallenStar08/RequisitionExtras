@@ -1,6 +1,7 @@
 ﻿[h1]Requisition Extras[/h1]
 
-An [strike]small[/strike] addon for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546][b]Requisition[/b][/url]. Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
+An [strike]small[/strike] addon for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546][b]Requisition[/b][/url]. 
+This mod turns your Remote Terminal into a smart vacuum for your storage network, adds an automatic duplicate equipment seller, and adds a new button to the crafting core interface to auto-populate crafting stations.
 
 [h2]🛠 Features[/h2]
 
@@ -12,7 +13,7 @@ An [strike]small[/strike] addon for [url=https://steamcommunity.com/sharedfiles/
 [/i] [b]Live Tooltips:[/b] Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
 [i] [b]Custom Tab:[/b] A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
 [/i] [b]A New Button in the Crafting Core Interface:[/b] A new button allows auto-populating the slots with all stations that would fulfill new conditions for crafting from the storage network. (This also supports swapping a station if a new one is found that would fulfill the same condition and more)
-[i] [b]Multiplayer Optimized:[/b] Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine.)
+[i] [b]Multiplayer Optimized:[/b] Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine. (JK no idea) )
 
 [h2]Performance[/h2]
 Should be fine?
@@ -37,6 +38,8 @@ Should be fine?
 
 [h2]Credits[/h2]
 [/i] [url=https://github.com/votex09/Requisition][b]Requisition[/b][/url]
+[i] [url=https://github.com/blushiemagic/MagicStorage][b]Magic Storage[/b][/url]
+[/i] Github Copilot for auto completing random shit I guess?
 
 [h2]Github Repository[/h2]
 [list]
