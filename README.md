@@ -38,6 +38,7 @@ Should be fine?
 
 ## Credits
 * [**Requisition**](https://github.com/votex09/Requisition)
+* [**Magic Storage**](https://github.com/blushiemagic/MagicStorage)
 * Github Copilot for auto completing random shit I guess?
 
 ## Github Repository
