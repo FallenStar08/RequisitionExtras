@@ -1,12 +1,14 @@
-A Quality of Life expansion for the Requisition mod.
+﻿A Quality of Life expansion for the Requisition mod.
 
 FEATURES:
-- Smart Overflow: Items go to storage if your inventory is full (Void Bag style).
-- Multiple Networks: Automatically cycles through all bound remotes in your inventory. 
-- Shift-Click Redirect: Shift-clicking from chests bypasses full inventories.
-- Loot All Support: Excess items from chests fly directly into your disks.
-- Live Tooltips: See disk capacity and coordinates on the item's tooltip.
-- Extra tab in the terminal UI to easilly sell duplicate equipment (inspired by magic storage)
-- Multiplayer Optimized: Batches deposits to prevent server lag. (Untested)
+- Smart Overflow: Automatically redirects picked-up items to your storage disks if your inventory is full, similar to what the void bag does.
+- Multi-Network Support: The mod intelligently cycles through all bound networks until the item finds a home.
+- Improved Interaction:
+- Shift-Click Redirect: Shift-clicking from chests will bypass your inventory and go straight to the network if you're out of space.
+- Loot All Integration: Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
+- Live Tooltips: Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
+- Custom Tab: A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
+- A New Button in the Crafting Core Interface: A new button allows auto-populating the slots with all stations that would fulfill new conditions for crafting from the storage network. (This also supports swapping a station if a new one is found that would fulfill the same condition and more)
+- Multiplayer Optimized: Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine.)
 
-Requires Requisition (Formerly known as TerraStorage) (Base Mod) to function.
+Requires Requisition (Base Mod) to function.

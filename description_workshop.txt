@@ -1,33 +1,35 @@
-[h1]Requisition Extras[/h1]
+﻿[h1]Requisition Extras[/h1]
 
-An addon for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546]Requisition[/url]. Instead of leaving items on the ground or manually clicking through menus, 
-this mod turns your Remote Terminal into a smart vacuum for your storage network. Similar to "Void Bag" functionality, but with a few extra features.
+A small addon for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546][b]Requisition[/b][/url]. Instead of leaving items on the ground or manually clicking through menus, this mod turns your Remote Terminal into a smart vacuum for your storage network.
 
-A new tab has been added to the terminal UI to easily sell duplicate equipment (inspired by Magic Storage).
+[h2]🛠 Features[/h2]
 
-I've also added sorting buttons for Clicker Class (Clicker Damager) and Capture Disc Class (CaptureDamage), feel free to request support for any other damage type. 
-These buttons will only appear if the corresponding mods are installed.
+[i] [b]Smart Overflow:[/b] Automatically redirects picked-up items to your storage disks if your inventory is full, similar to what the void bag does. 
+[/i] [b]Multi-Network Support:[/b] The mod intelligently cycles through all bound networks until the item finds a home.
+[i] [b]Improved Interaction:[/b]
+    [/i] [b]Shift-Click Redirect:[/b] Shift-clicking from chests will bypass your inventory and go straight to the network if you're out of space.
+    [i] [b]Loot All Integration:[/b] Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
+[/i] [b]Live Tooltips:[/b] Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
+[i] [b]Custom Tab:[/b] A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
+[/i] [b]A New Button in the Crafting Core Interface:[/b] A new button allows auto-populating the slots with all stations that would fulfill new conditions for crafting from the storage network. (This also supports swapping a station if a new one is found that would fulfill the same condition and more)
+[i] [b]Multiplayer Optimized:[/b] Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine.)
 
-[h2]🛠 Features[/h2]
-
-[list]
-[*] [b]Smart Overflow:[/b] Automatically redirects picked-up items to your storage disks if your inventory is full, similar to what the void bag does. 
-[*] [b]Improved Interaction:[/b]
-[list]
-[*] [b]Shift-Click Redirect:[/b] Shift-clicking from chests will bypass your inventory and go straight to the network if you're out of space.
-[*] [b]Loot All Integration:[/b] Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
-[/list]
-[*] [b]Live Tooltips:[/b] Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
-[*] [b]Multiplayer Optimized:[/b] Uses a custom buffering system to batch item deposits. (untested, I have no friends).
-[/list]
-[list]
-[*] [b]Extra Terminal Tab:[/b] A new tab in the terminal UI to easily sell duplicate equipment (inspired by Magic Storage).
-[/list]
-
-[h2]Performance[/h2]
+[h2]Performance[/h2]
 Should be fine?
 
-[h2]Requirements[/h2]
-[list]
-[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546]Requisition[/url] (Base Mod)
-[/list]
+[h2]Demo[/h2]
+
+[url=https://github.com/user-attachments/assets/eaccfe65-4ec4-47db-91ac-0b934a0bd5e7]void_bag_like_demo.webm[/url]
+
+[url=https://github.com/FallenStar08/TerraStorageOverflow/blob/master/RepoResources/tooltip_demo.png]tooltip_demo.png[/url]
+
+[url=https://github.com/user-attachments/assets/dba8aaad-b5de-47e3-b0ae-8dcd11213649]loot_all_demo.webm[/url]
+
+[url=https://github.com/user-attachments/assets/1a02c81b-9138-47a7-9cb3-8b0430be200a]shift_click_demo.webm[/url]
+
+[h2]Requirements[/h2]
+[/i] [b]tModLoader[/b] (v2022.9+ / 1.4.4)
+[i] [url=https://github.com/votex09/Requisition][b]Requisition[/b][/url] (Base Mod)
+
+[h2]Credits[/h2]
+[/i] [url=https://github.com/votex09/Requisition][b]Requisition[/b][/url]

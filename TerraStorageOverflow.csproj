@@ -15,4 +15,10 @@
   <Target Name="GenerateLoca" BeforeTargets="BeforeBuild">
     <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(ProjectDir)GenerateLoca.ps1&quot; &quot;$(ProjectDir)Localization\en-US_Mods.TerraStorageOverflow.hjson&quot; &quot;$(ProjectDir)Common\Utils\Loca.g.cs&quot;" />
   </Target>
+  <Target Name="SyncDescriptions" BeforeTargets="BeforeBuild">
+    <Exec
+      Command="powershell -ExecutionPolicy Bypass -File sync_descriptions.ps1"
+      ContinueOnError="true"
+    />
+  </Target>
 </Project>
