@@ -11,6 +11,14 @@ namespace TerraStorageOverflow.Common.Utils
         public static class EasyLoca
         {
             /// <summary>
+            /// Populate
+            /// </summary>
+            public static string PopulateCraftingCoreButtonText => Get("EasyLoca.PopulateCraftingCoreButtonText");
+            /// <summary>
+            /// 
+            /// </summary>
+            public static string PopulateCraftingCoreButtonTooltip => Get("EasyLoca.PopulateCraftingCoreButtonTooltip");
+            /// <summary>
             /// Sell Report :
             /// </summary>
             public static string SellReportHeader => Get("EasyLoca.SellReportHeader");
@@ -19,7 +27,7 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string SelectModeHeader => Get("EasyLoca.SelectModeHeader");
             /// <summary>
-            /// Keep Most Expensive (Sell Worse Ones)
+            /// Keep Most Expensive
             /// </summary>
             public static string ModeKeepBest => Get("EasyLoca.ModeKeepBest");
             /// <summary>
@@ -27,7 +35,7 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string ModeKeepBestTooltip => Get("EasyLoca.ModeKeepBestTooltip");
             /// <summary>
-            /// Keep First Found (Sell Rest)
+            /// Keep First Found
             /// </summary>
             public static string ModeKeepFirst => Get("EasyLoca.ModeKeepFirst");
             /// <summary>
@@ -35,7 +43,7 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string ModeKeepFirstTooltip => Get("EasyLoca.ModeKeepFirstTooltip");
             /// <summary>
-            /// Exact Matches Only (Keep One of Each)
+            /// Keep One Of Each Prefix
             /// </summary>
             public static string ModeExactMatches => Get("EasyLoca.ModeExactMatches");
             /// <summary>
@@ -69,3 +77,4 @@ namespace TerraStorageOverflow.Common.Utils
         }
     }
 }
+

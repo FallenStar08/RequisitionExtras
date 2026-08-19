@@ -15,6 +15,12 @@ Configs: {
 }
 
 EasyLoca: {
+	PopulateCraftingCoreButtonText: Populate
+	PopulateCraftingCoreButtonTooltip:
+		'''
+		Automatically fetch all stations that would fullfil new conditions for crafting
+		If a station would fullfil a role already populated (and provide a new one), it will replace it.
+		'''
 	SellReportHeader: Sell Report :
 	SelectModeHeader: Select Duplicate Selling Mode:
 	ModeKeepBest: Keep Most Expensive
