@@ -58,7 +58,7 @@ namespace TerraStorageOverflow.Common.Commands
                     "Copper Shortsword",
                 ]);
             }
-
+            int totalValue = 0;
             int totalSpawned = 0;
 
             foreach (string rawName in itemNames)
@@ -81,6 +81,8 @@ namespace TerraStorageOverflow.Common.Commands
                     item.SetDefaults(itemType);
 
                     item.Prefix(-1);
+
+                    totalValue += item.value;
 
                     Item leftover = caller.Player.GetItem(
                         caller.Player.whoAmI,
@@ -106,7 +108,7 @@ namespace TerraStorageOverflow.Common.Commands
             }
 
             caller.Reply(
-                $"[TestItems] Done! Generated {totalSpawned} total test items.",
+                $"[TestItems] Done! Generated {totalSpawned} total test items. Total value: {UIUtils.FormatCoinString(totalValue)} coins.",
                 Color.Gold
             );
         }
