@@ -73,7 +73,7 @@ namespace TerraStorageOverflow.Content.Tiles
             if (
                 player
                     .GetModPlayer<Common.ModPlayers.TerraStorageOverflowPlayer>()
-                    .RemoteCache.HasItemInNetworks(requiredKeyType, IsKeyConsumed(requiredKeyType))
+                    .RemoteCache.HasItemInNetworks(requiredKeyType, false)
             )
             {
                 Loggers.Log($"Player is using {keyIcon}{keyName} from remote networks");
@@ -85,8 +85,14 @@ namespace TerraStorageOverflow.Content.Tiles
 
                 bool unlocked = Chest.Unlock(left, top);
 
-                if (unlocked)
+                if (unlocked && GetBoolSetting("EnableChestUnlockMessages"))
                 {
+                    player
+                        .GetModPlayer<Common.ModPlayers.TerraStorageOverflowPlayer>()
+                        .RemoteCache.HasItemInNetworks(
+                            requiredKeyType,
+                            IsKeyConsumed(requiredKeyType)
+                        );
                     Loggers.ToChat(
                         EasyLoca.ChestUnlockMessage(chestIcon, chestName, keyIcon, keyName)
                     );
