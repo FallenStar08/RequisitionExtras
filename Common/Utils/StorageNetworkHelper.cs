@@ -49,10 +49,12 @@ namespace TerraStorageOverflow.Common.Utils
                     {
                         StorageWorldSystem storageWorld =
                             ModContent.GetInstance<StorageWorldSystem>();
-                        return diskIds
-                            .Select(id => storageWorld.GetDiskData(id))
-                            .Where(d => d != null)
-                            .ToList();
+                        return
+                        [
+                            .. diskIds
+                                .Select(id => storageWorld.GetDiskData(id))
+                                .Where(d => d != null),
+                        ];
                     }
 
                     Loggers.Warn("No connected disks found on terminal.", Color.Yellow);
