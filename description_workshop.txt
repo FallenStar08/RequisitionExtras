@@ -7,13 +7,14 @@ This mod turns your Remote Terminal into a smart vacuum for your storage network
 [*][b]Smart Overflow:[/b] Automatically redirects picked-up items to your storage disks if your inventory is full, similar to what the void bag does. 
 [*][b]Multi-Network Support:[/b] The mod intelligently cycles through all bound networks until the item finds a home.
 [*][b]Improved Interaction:[/b]
+[*][b]Right-Click Quick Deposit:[/b] Right-Clicking with the remote terminal in hand will deposits all items from your inventory into the bound network. You can disable this feature in the mod's settings.
 [*][b]Shift-Click Redirect:[/b] Shift-clicking from chests will bypass your inventory and go straight to the network if you're out of space.
 [*][b]Loot All Integration:[/b] Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
 [*][b]Modded damage types filtering:[/b] New toggles for filtering weapons by clicker & capture damage from their respective mods if installed. Feel free to request more.
 [*][b]Live Tooltips:[/b] Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
 [*][b]Custom Tab:[/b] A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
 [*][b]A New Button in the Crafting Core Interface:[/b] A new button allows auto-populating the slots with all stations that would fulfill new conditions for crafting from the storage network. (This also supports swapping a station if a new one is found that would fulfill the same condition and more)
-[*][b]Unlock Chests With Keys From The Network![/b]: If you have a key in your network (and a remote terminal in your inventory), you can unlock chests without having to carry the key in your inventory.
+[*][b]Unlock Chests With Keys From The Network![/b]: If you have a key in your network (and a remote terminal in your inventory), you can unlock chests without having to carry the key in your inventory. You can disable the chat message in the mod's settings.
 [*][b]Multiplayer Optimized:[/b] Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine. (JK no idea) )
 [/list]
 

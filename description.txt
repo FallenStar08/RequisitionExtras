@@ -4,13 +4,14 @@ FEATURES:
 - Smart Overflow: Automatically redirects picked-up items to your storage disks if your inventory is full, similar to what the void bag does.
 - Multi-Network Support: The mod intelligently cycles through all bound networks until the item finds a home.
 - Improved Interaction:
+- Right-Click Quick Deposit: Right-Clicking with the remote terminal in hand will deposits all items from your inventory into the bound network. You can disable this feature in the mod's settings.
 - Shift-Click Redirect: Shift-clicking from chests will bypass your inventory and go straight to the network if you're out of space.
 - Loot All Integration: Hit "Loot All" on a chest and watch the excess fly directly into your network if you're out of space.
 - Modded damage types filtering: New toggles for filtering weapons by clicker & capture damage from their respective mods if installed. Feel free to request more.
 - Live Tooltips: Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
 - Custom Tab: A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
 - A New Button in the Crafting Core Interface: A new button allows auto-populating the slots with all stations that would fulfill new conditions for crafting from the storage network. (This also supports swapping a station if a new one is found that would fulfill the same condition and more)
-- Unlock Chests With Keys From The Network!: If you have a key in your network (and a remote terminal in your inventory), you can unlock chests without having to carry the key in your inventory.
+- Unlock Chests With Keys From The Network!: If you have a key in your network (and a remote terminal in your inventory), you can unlock chests without having to carry the key in your inventory. You can disable the chat message in the mod's settings.
 - Multiplayer Optimized: Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine. (JK no idea) )
 
 Requires Requisition (Base Mod) to function.
