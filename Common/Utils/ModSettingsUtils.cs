@@ -21,6 +21,12 @@ namespace TerraStorageOverflow.Common.Utils
                 _modSettings.EnableChestUnlockMessages,
         };
 
+        /// <summary>
+        /// Get the value of a boolean setting from the ModSettings class by its name.
+        /// </summary>
+        /// <param name="settingName">The name of the boolean setting.</param>
+        /// <returns>The value of the boolean setting.</returns>
+        /// <exception cref="ArgumentException">Thrown if the setting is not found or is not a boolean.</exception>
         public static bool GetBoolSetting(string settingName)
         {
             return _boolGetters.TryGetValue(settingName, out var getter)
