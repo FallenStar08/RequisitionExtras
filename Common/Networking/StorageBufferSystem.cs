@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,17 +10,23 @@ namespace TerraStorageOverflow.Common.Networking
 {
     public class StorageBufferSystem : ModSystem
     {
-        private static Dictionary<Guid, Dictionary<int, int>> _buffers = [];
+        private static readonly Dictionary<List<Guid>, Dictionary<int, int>> _buffers = new(
+            new GuidListComparer()
+        );
         private int _timer;
 
-        public static void AddToBuffer(Guid networkId, Item item)
+        public static void AddToBuffer(List<Guid> networkGuids, Item item)
         {
-            if (!_buffers.ContainsKey(networkId))
-                _buffers[networkId] = [];
-            if (!_buffers[networkId].ContainsKey(item.type))
-                _buffers[networkId][item.type] = 0;
+            if (networkGuids == null || networkGuids.Count == 0 || item == null || item.IsAir)
+                return;
 
-            _buffers[networkId][item.type] += item.stack;
+            if (!_buffers.TryGetValue(networkGuids, out var itemBuffer))
+            {
+                itemBuffer = [];
+                _buffers[networkGuids.ToList()] = itemBuffer;
+            }
+
+            itemBuffer[item.type] = itemBuffer.GetValueOrDefault(item.type, 0) + item.stack;
         }
 
         public override void PostUpdateWorld()
@@ -37,15 +44,13 @@ namespace TerraStorageOverflow.Common.Networking
 
         private static void Flush()
         {
-            foreach (var networkEntry in _buffers)
-            {
-                Guid networkId = networkEntry.Key;
-                var itemBuffer = networkEntry.Value;
+            var mod = ModLoader.GetMod("TerraStorage");
 
-                foreach (var itemEntry in itemBuffer)
+            foreach (var (networkGuids, itemBuffer) in _buffers)
+            {
+                foreach (var (itemType, totalAmount) in itemBuffer)
                 {
-                    int itemType = itemEntry.Key;
-                    int remaining = itemEntry.Value;
+                    int remaining = totalAmount;
 
                     while (remaining > 0)
                     {
@@ -56,18 +61,29 @@ namespace TerraStorageOverflow.Common.Networking
                         dummy.stack = toSend;
                         remaining -= toSend;
 
-                        var targetNetwork = new List<Guid> { networkId };
-                        NetworkHandler.SendDepositItem(
-                            ModLoader.GetMod("TerraStorage"),
-                            targetNetwork,
-                            dummy
-                        );
+                        NetworkHandler.SendDepositItem(mod, networkGuids, dummy);
                     }
                 }
-
-                itemBuffer.Clear();
             }
+
             _buffers.Clear();
+        }
+
+        private sealed class GuidListComparer : IEqualityComparer<List<Guid>>
+        {
+            public bool Equals(List<Guid>? x, List<Guid>? y)
+            {
+                return ReferenceEquals(x, y)
+                    || (x is not null && y is not null && x.SequenceEqual(y));
+            }
+
+            public int GetHashCode(List<Guid> obj)
+            {
+                HashCode hash = new();
+                foreach (var guid in obj)
+                    hash.Add(guid);
+                return hash.ToHashCode();
+            }
         }
     }
 }
