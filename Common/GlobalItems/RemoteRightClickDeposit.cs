@@ -37,7 +37,7 @@ namespace TerraStorageOverflow.Common.GlobalItems
                         if (te is TerminalEntity terminal)
                         {
                             var storagePlayer =
-                                Main.LocalPlayer.GetModPlayer<ModPlayers.TerraStorageOverflow>();
+                                Main.LocalPlayer.GetModPlayer<ModPlayers.TerraStorageOverflowPlayer>();
 
                             for (int i = 10; i < 50; i++)
                             {
@@ -49,7 +49,10 @@ namespace TerraStorageOverflow.Common.GlobalItems
                                 )
                                 {
                                     depositedAtLeastOne = true;
-                                    _ = storagePlayer.DepositIntoAllNetworks(invItem, false);
+                                    _ = storagePlayer.RemoteCache.DepositIntoAllNetworks(
+                                        invItem,
+                                        false
+                                    );
                                 }
                             }
                             if (depositedAtLeastOne)

@@ -22,7 +22,7 @@ namespace TerraStorageOverflow.Common.ModPlayers
             if (item.IsAir || item.favorited)
                 return false;
 
-            var modPlayer = player.GetModPlayer<TerraStorageOverflow>();
+            var modPlayer = player.GetModPlayer<TerraStorageOverflowPlayer>();
 
             Loggers.Log(
                 $"HasActiveStorage: {modPlayer.HasActiveStorage} | HasRoom: {InventoryUtils.HasRoomForItem(item)}"
@@ -33,7 +33,7 @@ namespace TerraStorageOverflow.Common.ModPlayers
                     $"Inventory full, shift-clicking {item.Name} to storage.",
                     Color.Orange
                 );
-                if (modPlayer.DepositIntoAllNetworks(item))
+                if (modPlayer.RemoteCache.DepositIntoAllNetworks(item))
                 {
                     inventory[slot] = new Item();
                     SoundEngine.PlaySound(SoundID.Grab);

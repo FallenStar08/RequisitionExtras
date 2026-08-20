@@ -29,7 +29,7 @@ namespace TerraStorageOverflow.Common.Hooks
             orig();
 
             Player player = Main.LocalPlayer;
-            var modPlayer = player.GetModPlayer<ModPlayers.TerraStorageOverflow>();
+            var modPlayer = player.GetModPlayer<ModPlayers.TerraStorageOverflowPlayer>();
 
             if (!modPlayer.HasActiveStorage)
                 return;
@@ -53,7 +53,7 @@ namespace TerraStorageOverflow.Common.Hooks
                 {
                     Loggers.Log($"Loot All Overflow: {item.Name} -> Storage.", Color.Orange);
 
-                    if (modPlayer.DepositIntoAllNetworks(item))
+                    if (modPlayer.RemoteCache.DepositIntoAllNetworks(item))
                     {
                         DepositedAtLeastOneItem = true;
                         chestInv[i] = new Item();

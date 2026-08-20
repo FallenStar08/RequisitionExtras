@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerraStorage.Content.Tiles;
+using TerraStorageOverflow.Common.ModPlayers;
 using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Common.Hooks
@@ -33,6 +34,19 @@ namespace TerraStorageOverflow.Common.Hooks
             }
         }
 
+        private void MarkAllNetworksDirty()
+        {
+            foreach (Player player in Main.player)
+            {
+                if (player.active)
+                {
+                    var modPlayer = player.GetModPlayer<TerraStorageOverflowPlayer>();
+
+                    modPlayer.RemoteCache.MarkDirty();
+                }
+            }
+        }
+
         private bool Detour_InsertDisk(
             orig_InsertDisk orig,
             DriveBayEntity self,
@@ -44,7 +58,7 @@ namespace TerraStorageOverflow.Common.Hooks
 
             if (result)
             {
-                ModPlayers.TerraStorageOverflow.NetworkDirty = true;
+                MarkAllNetworksDirty();
                 Loggers.Log("Disk Inserted. Dirty flag set.", Color.LightPink);
             }
 
@@ -62,7 +76,7 @@ namespace TerraStorageOverflow.Common.Hooks
 
             if (result != null && result.type != ItemID.None)
             {
-                ModPlayers.TerraStorageOverflow.NetworkDirty = true;
+                MarkAllNetworksDirty();
                 Loggers.Log(
                     $"Disk Removed ({result.Name}). Network marked dirty.",
                     Color.LightPink

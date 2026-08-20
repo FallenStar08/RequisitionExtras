@@ -11,13 +11,13 @@ namespace TerraStorageOverflow.Common.GlobalItems
         {
             return InventoryUtils.IsInstantPickup(item)
                 ? base.ItemSpace(item, player)
-                : player.GetModPlayer<ModPlayers.TerraStorageOverflow>().HasActiveStorage
+                : player.GetModPlayer<ModPlayers.TerraStorageOverflowPlayer>().HasActiveStorage
                     || base.ItemSpace(item, player);
         }
 
         public override bool GrabStyle(Item item, Player player)
         {
-            var modPlayer = player.GetModPlayer<ModPlayers.TerraStorageOverflow>();
+            var modPlayer = player.GetModPlayer<ModPlayers.TerraStorageOverflowPlayer>();
             if (player.whoAmI == Main.myPlayer && modPlayer.HasActiveStorage)
             {
                 if (!InventoryUtils.HasRoomForItem(item) && !InventoryUtils.IsInstantPickup(item))

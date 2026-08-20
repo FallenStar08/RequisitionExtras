@@ -1,36 +1,32 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerraStorage.Content.Items;
-using TerraStorage.Content.Tiles;
-using TerraStorage.Helpers;
-using TerraStorage.Systems;
-using TerraStorageOverflow.Common.Networking;
+using TerraStorageOverflow.Common.Systems;
 using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Common.ModPlayers
 {
-    public class TerraStorageOverflow : ModPlayer
+    public class TerraStorageOverflowPlayer : ModPlayer
     {
-        public static bool NetworkDirty = true;
-
-        private List<List<Guid>> _activeNetworks = [];
         private bool _isHandlingPickup;
-        private long _lastFullMessageFrame = -5400;
 
-        public bool HasActiveStorage => _activeNetworks.Count > 0;
+        private uint _lastFullMessageUpdateCount;
+        private const uint FULL_NETWORK_MESSAGE_COOLDOWN = 5400;
 
-        private int _remotesFoundThisFrame;
-        private int _remotesFoundLastFrame;
+        public bool HasActiveStorage => RemoteCache.HasActiveStorage;
+        public RemoteCache RemoteCache { get; private set; }
 
-        public void ReportRemoteFound()
+        public override void Initialize()
         {
-            _remotesFoundThisFrame++;
+            RemoteCache = new RemoteCache();
+        }
+
+        public override void OnEnterWorld()
+        {
+            RemoteCache.MarkDirty();
         }
 
         public override void PostUpdate()
@@ -38,105 +34,7 @@ namespace TerraStorageOverflow.Common.ModPlayers
             if (Player.whoAmI != Main.myPlayer)
                 return;
 
-            if (_remotesFoundThisFrame != _remotesFoundLastFrame)
-            {
-                NetworkDirty = true;
-                _remotesFoundLastFrame = _remotesFoundThisFrame;
-                Loggers.Log("Remote count changed, cache marked dirty.");
-            }
-
-            _remotesFoundThisFrame = 0;
-        }
-
-        public override void OnEnterWorld()
-        {
-            NetworkDirty = true;
-        }
-
-        private void EnsureCacheFresh()
-        {
-            if (NetworkDirty || _activeNetworks.Count == 0)
-            {
-                RefreshAllStorageCaches();
-                NetworkDirty = false;
-            }
-        }
-
-        private void RefreshAllStorageCaches()
-        {
-            _activeNetworks.Clear();
-            HashSet<int> seenEntities = [];
-
-            for (int i = 0; i < 50; i++)
-            {
-                Item item = Player.inventory[i];
-                if (item.ModItem is RemoteTerminal rt && rt.BoundEntityId != -1)
-                {
-                    if (seenEntities.Contains(rt.BoundEntityId))
-                        continue;
-
-                    if (
-                        TileEntity.ByID.TryGetValue(rt.BoundEntityId, out var te)
-                        && te is TerminalEntity terminal
-                    )
-                    {
-                        var diskIds = StorageNetwork.GetAllConnectedDiskIds(terminal.Position);
-                        if (diskIds != null && diskIds.Count > 0)
-                        {
-                            _activeNetworks.Add(diskIds);
-                            seenEntities.Add(rt.BoundEntityId);
-                        }
-                    }
-                }
-            }
-
-            Loggers.Log(
-                $"Multi-Cache Refreshed: {_activeNetworks.Count} unique networks found.",
-                Color.Cyan
-            );
-        }
-
-        public bool DepositIntoAllNetworks(Item item, bool showPopupText = true)
-        {
-            EnsureCacheFresh();
-            if (!HasActiveStorage || item.IsAir)
-                return false;
-
-            int startStack = item.stack;
-
-            foreach (var networkIds in _activeNetworks)
-            {
-                if (item.stack <= 0)
-                    break;
-
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    item.stack = StorageWorldSystem.Instance.InsertItem(networkIds, item);
-                }
-                //Multiplayer
-                else
-                {
-                    Guid networkKey = networkIds[0];
-                    StorageBufferSystem.AddToBuffer(networkKey, item);
-                    item.stack = 0;
-                }
-            }
-
-            if (item.stack < startStack)
-            {
-                int amountStored = startStack - item.stack;
-                if (showPopupText)
-                {
-                    PopupText.NewText(
-                        PopupTextContext.ItemPickupToVoidContainer,
-                        item,
-                        amountStored
-                    );
-                }
-                return item.stack <= 0;
-            }
-
-            return false;
+            RemoteCache.Update(Player);
         }
 
         public override bool OnPickup(Item item)
@@ -144,10 +42,15 @@ namespace TerraStorageOverflow.Common.ModPlayers
             if (item.IsAir || InventoryUtils.IsInstantPickup(item) || _isHandlingPickup)
                 return true;
 
-            EnsureCacheFresh();
+            RemoteCache.Update(Player);
             if (!HasActiveStorage)
                 return true;
 
+            //Mark dirty if we grab a new remote?
+            if (item.ModItem is RemoteTerminal)
+            {
+                RemoteCache.MarkDirty();
+            }
             _isHandlingPickup = true;
             try
             {
@@ -159,12 +62,16 @@ namespace TerraStorageOverflow.Common.ModPlayers
 
                 if (leftover.stack > 0)
                 {
-                    bool fullyStored = DepositIntoAllNetworks(leftover);
+                    bool fullyStored = RemoteCache.DepositIntoAllNetworks(leftover);
 
-                    if (!fullyStored && Main.GameUpdateCount - _lastFullMessageFrame > 5400)
+                    if (
+                        !fullyStored
+                        && Main.GameUpdateCount - _lastFullMessageUpdateCount
+                            > FULL_NETWORK_MESSAGE_COOLDOWN
+                    )
                     {
                         Loggers.Log("All connected networks are full!", Color.OrangeRed);
-                        _lastFullMessageFrame = Main.GameUpdateCount;
+                        _lastFullMessageUpdateCount = Main.GameUpdateCount;
                     }
                     else
                     {
