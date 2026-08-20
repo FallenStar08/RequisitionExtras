@@ -14,6 +14,7 @@ namespace TerraStorageOverflow.Common.Utils
     {
         public enum LogLevel
         {
+            ChatAlways,
             Info,
             Warn,
             Error,
@@ -57,6 +58,11 @@ namespace TerraStorageOverflow.Common.Utils
         )
         {
             Log(message, color, caller);
+        }
+
+        public static void ToChat(string message, Color? color = null)
+        {
+            Write(LogLevel.ChatAlways, message, color, "", writeToChat: true, writeToLogger: false);
         }
 
         /// <summary>
@@ -147,7 +153,8 @@ namespace TerraStorageOverflow.Common.Utils
             message = string.IsNullOrWhiteSpace(message) ? "<empty>" : message;
 
             string levelText = level.ToString().ToUpperInvariant();
-            string prefix = $"[REQX][{levelText}] {caller}(): ";
+            string prefix =
+                level == LogLevel.ChatAlways ? $"[REQX] : " : $"[REQX][{levelText}] {caller}(): ";
             string fullMessage = prefix + message;
 
             if (writeToChat)

@@ -17,6 +17,8 @@ namespace TerraStorageOverflow.Common.Utils
             [nameof(ModSettings.DebugText)] = () => _modSettings.DebugText,
             [nameof(ModSettings.EnableRightClickDeposit)] = () =>
                 _modSettings.EnableRightClickDeposit,
+            [nameof(ModSettings.EnableChestUnlockMessages)] = () =>
+                _modSettings.EnableChestUnlockMessages,
         };
 
         public static bool GetBoolSetting(string settingName)

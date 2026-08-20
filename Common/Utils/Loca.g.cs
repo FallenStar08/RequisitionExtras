@@ -70,6 +70,14 @@ namespace TerraStorageOverflow.Common.Utils
             /// Extras
             /// </summary>
             public static string ExtrasTabName => Get("EasyLoca.ExtrasTabName");
+            /// <summary>
+            /// Unlocked chest {0}{1} using {2}{3} from remote networks
+            /// </summary>
+            public static string ChestUnlockMessage(params object[] args) => Get("EasyLoca.ChestUnlockMessage", args);
+            /// <summary>
+            /// Failed to unlock chest {0}{1} using {2}{3} from remote networks
+            /// </summary>
+            public static string ChestUnlockFailedMessage(params object[] args) => Get("EasyLoca.ChestUnlockFailedMessage", args);
         }
     }
 }

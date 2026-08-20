@@ -12,5 +12,8 @@ namespace TerraStorageOverflow.Common.Configs
 
         [DefaultValue(true)]
         public bool EnableRightClickDeposit;
+
+        [DefaultValue(true)]
+        public bool EnableChestUnlockMessages;
     }
 }

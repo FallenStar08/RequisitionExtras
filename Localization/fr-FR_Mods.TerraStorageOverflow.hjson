@@ -11,6 +11,11 @@ Configs: {
 			Label: Activer le dépôt via clic droit
 			Tooltip: Permet de déposer tous les objets de l'inventaire dans le terminal en cliquant avec le bouton droit de la souris tout en tenant la télécommande
 		}
+
+		EnableChestUnlockMessages: {
+			Label: Activer les messages de déverrouillage des coffres
+			Tooltip: Affiche un message lorsqu'un coffre est déverrouillé via une clé présente dans un réseau
+		}
 	}
 }
 
@@ -46,4 +51,6 @@ EasyLoca: {
 	ReportNoDuplicates: Aucun doublon trouvé à vendre.
 	ReportSummary: Vendu {0} objets pour {1}
 	ExtrasTabName: Extras
+	ChestUnlockMessage: Coffre {0}{1} déverrouillé en utilisant {2}{3} depuis les réseaux distants
+	ChestUnlockFailedMessage: Échec du déverrouillage du coffre {0}{1} en utilisant {2}{3} depuis les réseaux distants
 }

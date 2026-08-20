@@ -176,16 +176,15 @@ namespace TerraStorageOverflow.Common.Systems
             {
                 if (StorageWorldSystem.Instance.CountItem(networkIds, itemType) > 0)
                 {
-                    Item dummy = new(itemType);
-                    Loggers.Log(
-                        $"Found itemType [i:{dummy}] in network {string.Join(", ", networkIds)}"
-                    );
-
-                    if (consumeIfPossible && dummy.consumable)
+                    if (consumeIfPossible)
                     {
-                        _ = StorageWorldSystem.Instance.ExtractItem(networkIds, itemType, 1);
+                        Item extract = StorageWorldSystem.Instance.ExtractItem(
+                            networkIds,
+                            itemType,
+                            1
+                        );
                         Loggers.Log(
-                            $"Consumed 1 of itemType [i:{dummy}] from network {string.Join(", ", networkIds)}"
+                            $"Consumed 1 of itemType [i:{extract}] from network {string.Join(", ", networkIds)}"
                         );
                     }
 
