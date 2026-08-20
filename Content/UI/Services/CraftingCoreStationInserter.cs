@@ -51,9 +51,9 @@ namespace TerraStorageOverflow.Content.UI.Services
                 if (disk?.Items == null)
                     continue;
 
-                foreach (object stored in disk.Items)
+                foreach (var stored in disk.Items.ToList())
                 {
-                    Item item = StorageNetworkHelper.CreateItemFromStored(stored);
+                    Item item = stored.ToItem();
                     if (item == null || item.IsAir || !CraftingCoreEntity.IsValidStation(item))
                         continue;
 

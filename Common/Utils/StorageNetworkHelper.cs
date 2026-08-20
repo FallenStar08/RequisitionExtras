@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
-using Terraria.ModLoader.IO;
 using TerraStorage.Common;
 using TerraStorage.Content.Tiles;
 using TerraStorage.Helpers;
@@ -134,97 +133,6 @@ namespace TerraStorageOverflow.Common.Utils
                 && item.maxStack == 1
                 && !item.favorited
                 && item.ModItem is not UnloadedItem;
-        }
-
-        public static Item CreateItemFromStored(object stored)
-        {
-            if (stored == null)
-                return null;
-
-            if (stored is Item directItem)
-                return directItem.Clone();
-
-            // Direct object wrapper check
-            Item propOrFieldItem = TryGetValue<Item>(stored, "Item", "StoredItem", "storedItem");
-            if (propOrFieldItem != null)
-                return propOrFieldItem.Clone();
-
-            // TagCompound Load check
-            TagCompound fullTag = TryGetValue<TagCompound>(
-                stored,
-                "FullItemTag",
-                "fullItemTag",
-                "Tag",
-                "itemTag"
-            );
-            int stackVal = TryGetValue<int>(
-                stored,
-                "Stack",
-                "stack",
-                "Count",
-                "count",
-                "Amount",
-                "amount"
-            );
-
-            if (fullTag != null)
-            {
-                try
-                {
-                    Item loaded = ItemIO.Load(fullTag);
-                    if (loaded != null && !loaded.IsAir)
-                    {
-                        if (stackVal > 0)
-                            loaded.stack = stackVal;
-                        return loaded;
-                    }
-                }
-                catch { }
-            }
-
-            // Fallback to Item ID
-            int itemTypeId = TryGetValue<int>(
-                stored,
-                "Type",
-                "type",
-                "Id",
-                "id",
-                "ItemID",
-                "itemId",
-                "netID",
-                "ItemType"
-            );
-            if (itemTypeId <= 0)
-                return null;
-
-            Item item = new();
-            item.SetDefaults(itemTypeId);
-            if (stackVal > 0)
-                item.stack = stackVal;
-
-            int prefixId = TryGetValue<int>(stored, "Prefix", "prefix", "PrefixId", "prefixId");
-            if (prefixId > 0)
-            {
-                item.Prefix(prefixId);
-            }
-
-            TagCompound modData = TryGetValue<TagCompound>(
-                stored,
-                "ModData",
-                "modData",
-                "Data",
-                "data"
-            );
-            if (modData != null && item.ModItem != null)
-            {
-                try
-                {
-                    item.ModItem.LoadData(modData);
-                }
-                catch { }
-            }
-
-            return item;
         }
 
         private static T TryGetValue<T>(object target, params string[] memberNames)

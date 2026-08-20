@@ -127,7 +127,7 @@ namespace TerraStorageOverflow.Content.UI.Services
                     foreach (var stored in disk.Items.ToList())
                     {
                         totalScannedItems++;
-                        Item item = StorageNetworkHelper.CreateItemFromStored(stored);
+                        Item item = stored.ToItem();
                         if (!StorageNetworkHelper.IsValidForDuplicateCheck(item))
                             continue;
 
@@ -188,7 +188,7 @@ namespace TerraStorageOverflow.Content.UI.Services
                     foreach (var stored in disk.Items.ToList())
                     {
                         totalScannedItems++;
-                        Item item = StorageNetworkHelper.CreateItemFromStored(stored);
+                        Item item = stored.ToItem();
                         if (!StorageNetworkHelper.IsValidForDuplicateCheck(item))
                             continue;
 
