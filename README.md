@@ -12,6 +12,7 @@ This mod turns your Remote Terminal into a smart vacuum for your storage network
 * **Live Tooltips:** Hover over a remote to see its bound coordinates and a real-time capacity readout (Used / Total).
 * **Custom Tab:** A new "Extras" Tab which contains a fancy interface to easily sell duplicate equipment (inspired by Magic Storage's "Sell Duplicates" feature)
 * **A New Button in the Crafting Core Interface:** A new button allows auto-populating the slots with all stations that would fulfill new conditions for crafting from the storage network. (This also supports swapping a station if a new one is found that would fulfill the same condition and more)
+* **Unlock Chests With Keys From The Network!**: If you have a key in your network (and a remote terminal in your inventory), you can unlock chests without having to carry the key in your inventory.
 * **Multiplayer Optimized:** Uses a custom buffering system to batch item deposits. (Untested in multiplayer, but should work fine. (JK no idea) )
 
 ## Performance
