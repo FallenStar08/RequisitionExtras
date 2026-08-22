@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerraStorage.Content.Items;
 using TerraStorageOverflow.Common.Systems;
 using TerraStorageOverflow.Common.Utils;
 
@@ -42,15 +41,9 @@ namespace TerraStorageOverflow.Common.ModPlayers
             if (item.IsAir || InventoryUtils.IsInstantPickup(item) || _isHandlingPickup)
                 return true;
 
-            RemoteCache.Update(Player);
             if (!HasActiveStorage)
                 return true;
 
-            //Mark dirty if we grab a new remote?
-            if (item.ModItem is RemoteTerminal)
-            {
-                RemoteCache.MarkDirty();
-            }
             _isHandlingPickup = true;
             try
             {
