@@ -516,7 +516,7 @@ namespace TerraStorageOverflow.Common.Hooks
                 }
             } while (addedAny);
 
-            // Modded Tooltip Scanning
+            // Modded Tooltip Scanning (sadly english only)
             foreach (var (type, item) in ContentSamples.ItemsByType)
             {
                 if (
