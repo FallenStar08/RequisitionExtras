@@ -16,16 +16,27 @@ Configs: {
 			Label: Enable Chest Unlock Messages
 			Tooltip: Displays a message when a chest is unlocked via a key present in a network
 		}
+
+		EnableFishingCategory: {
+			Label: Enable Fishing Category
+			Tooltip: Adds a new category for fishing items in the filtering bar
+		}
+
+		EnablePetsCategory: {
+			Label: Enable Pets & Mounts Category
+			Tooltip: Adds a new category for pets and mounts in the filtering bar
 	}
 }
 
 EasyLoca: {
+	# Auto populate
 	PopulateCraftingCoreButtonText: Populate
 	PopulateCraftingCoreButtonTooltip:
 		'''
 		Automatically fetch all stations that would fullfil new conditions for crafting
 		If a station would fullfil a role already populated (and provide a new one), it will replace it.
 		'''
+	# Duplicates seller
 	SellReportHeader: Sell Report :
 	SelectModeHeader: Select Duplicate Selling Mode:
 	ModeKeepBest: Keep Most Expensive
@@ -50,7 +61,18 @@ EasyLoca: {
 	ReportNoItems: No items sold yet.
 	ReportNoDuplicates: No duplicates found to sell.
 	ReportSummary: Sold {0} items for {1}
+	# Extra tab
 	ExtrasTabName: Extras
+	# Remote Unlock
 	ChestUnlockMessage: Unlocked chest {0}{1} using {2}{3} from remote networks
 	ChestUnlockFailedMessage: Failed to unlock chest {0}{1} using {2}{3} from remote networks
+	# Sorting categories
+	CategoryFishing: Fishing
+	CategoryClicker: Clicker Weapons
+	CategoryCaptureDisc: Capture Weapons
+	CategoryPets: Pets & Mounts
+	# Remote Terminal
+	RemoteTooltipBound: Bound to:
+	RemoteTooltipUnbound: Not bound to a network
+	RemoteTooltipCapacity: Storage:
 }

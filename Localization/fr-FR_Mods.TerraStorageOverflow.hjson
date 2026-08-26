@@ -16,16 +16,28 @@ Configs: {
 			Label: Activer les messages de déverrouillage des coffres
 			Tooltip: Affiche un message lorsqu'un coffre est déverrouillé via une clé présente dans un réseau
 		}
+
+		EnableFishingCategory: {
+			Label: Activer la catégorie Pêche
+			Tooltip: Ajoute une nouvelle catégorie pour les objets de pêche dans la barre de filtrage
+		}
+
+		EnablePetsCategory: {
+			Label: Activer la catégorie Animaux de compagnie & Montures
+			Tooltip: Ajoute une nouvelle catégorie pour les animaux de compagnie et les montures dans la barre de filtrage
+	}
 	}
 }
 
 EasyLoca: {
+	# Auto populate
 	PopulateCraftingCoreButtonText: Remplir
 	PopulateCraftingCoreButtonTooltip:
 		'''
 		Extrait automatiquement toutes les stations qui remplissent de nouvelles conditions de craft.
 		Si une station remplit un rôle déjà présent (tout en apportant une nouvelle condition), elle la remplacera.
 		'''
+	# Duplicates seller
 	SellReportHeader: Rapport de vente :
 	SelectModeHeader: Mode de vente des doublons :
 	ModeKeepBest: Conserver le meilleur
@@ -50,7 +62,18 @@ EasyLoca: {
 	ReportNoItems: Aucun objet vendu pour le moment.
 	ReportNoDuplicates: Aucun doublon trouvé à vendre.
 	ReportSummary: Vendu {0} objets pour {1}
+	# Extra tab
 	ExtrasTabName: Extras
+	# Remote Unlock
 	ChestUnlockMessage: Coffre {0}{1} déverrouillé en utilisant {2}{3} depuis les réseaux distants
 	ChestUnlockFailedMessage: Échec du déverrouillage du coffre {0}{1} en utilisant {2}{3} depuis les réseaux distants
+	# Sorting categories
+	CategoryFishing: Pêche
+	CategoryClicker: Armes Clicker
+	CategoryCaptureDisc: Armes de Capture
+	CategoryPets: Animaux de compagnie & Montures
+	# Remote Terminal
+	RemoteTooltipBound: Relié à :
+	RemoteTooltipUnbound: Non relié à un réseau
+	RemoteTooltipCapacity: Stockage :
 }
