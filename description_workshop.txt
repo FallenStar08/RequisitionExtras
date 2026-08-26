@@ -23,7 +23,6 @@ This mod turns your Remote Terminal into a smart vacuum for your storage network
 [h2]Performance[/h2]
 Should be fine?
 
-
 [h2]Requirements[/h2]
 [list]
 [*][b]tModLoader[/b] (v2022.9+ / 1.4.4)
