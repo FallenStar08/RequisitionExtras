@@ -34,7 +34,7 @@ namespace TerraStorageOverflow.Common.Hooks
             }
         }
 
-        private void MarkAllNetworksDirty()
+        private static void MarkAllNetworksDirty()
         {
             foreach (Player player in Main.player)
             {
