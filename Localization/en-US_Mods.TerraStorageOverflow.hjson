@@ -25,6 +25,7 @@ Configs: {
 		EnablePetsCategory: {
 			Label: Enable Pets & Mounts Category
 			Tooltip: Adds a new category for pets and mounts in the filtering bar
+		}
 	}
 }
 
@@ -72,7 +73,7 @@ EasyLoca: {
 	CategoryCaptureDisc: Capture Weapons
 	CategoryPets: Pets & Mounts
 	# Remote Terminal
-	RemoteTooltipBound: Bound to:
+	RemoteTooltipBound: Bound to :
 	RemoteTooltipUnbound: Not bound to a network
-	RemoteTooltipCapacity: Storage:
+	RemoteTooltipCapacity: Storage :
 }

@@ -99,7 +99,7 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string CategoryPets => Get("EasyLoca.CategoryPets");
             /// <summary>
-            /// Bound to:
+            /// Bound to :
             /// </summary>
             public static string RemoteTooltipBound => Get("EasyLoca.RemoteTooltipBound");
             /// <summary>
@@ -107,7 +107,7 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string RemoteTooltipUnbound => Get("EasyLoca.RemoteTooltipUnbound");
             /// <summary>
-            /// Storage:
+            /// Storage :
             /// </summary>
             public static string RemoteTooltipCapacity => Get("EasyLoca.RemoteTooltipCapacity");
         }
