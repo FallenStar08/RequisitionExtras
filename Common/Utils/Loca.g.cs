@@ -15,7 +15,8 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string PopulateCraftingCoreButtonText => Get("EasyLoca.PopulateCraftingCoreButtonText");
             /// <summary>
-            /// 
+            /// Automatically fetch all stations that would fullfil new conditions for crafting
+            /// If a station would fullfil a role already populated (and provide a new one), it will replace it.
             /// </summary>
             public static string PopulateCraftingCoreButtonTooltip => Get("EasyLoca.PopulateCraftingCoreButtonTooltip");
             /// <summary>
@@ -31,7 +32,8 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string ModeKeepBest => Get("EasyLoca.ModeKeepBest");
             /// <summary>
-            /// 
+            /// Compares duplicate items by monetary value.
+            /// Keeps the single best version and sells all lower-tier duplicates.
             /// </summary>
             public static string ModeKeepBestTooltip => Get("EasyLoca.ModeKeepBestTooltip");
             /// <summary>
@@ -39,7 +41,8 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string ModeKeepFirst => Get("EasyLoca.ModeKeepFirst");
             /// <summary>
-            /// 
+            /// Keeps the very first instance found in your storage system
+            /// and sells every other duplicate regardless of prefix.
             /// </summary>
             public static string ModeKeepFirstTooltip => Get("EasyLoca.ModeKeepFirstTooltip");
             /// <summary>
@@ -47,7 +50,8 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string ModeExactMatches => Get("EasyLoca.ModeExactMatches");
             /// <summary>
-            /// 
+            /// Only sells items if they match both Item ID AND Prefix.
+            /// (It&apos;ll keep one of each item with a unique combination of Item ID and Prefix).
             /// </summary>
             public static string ModeExactMatchesTooltip => Get("EasyLoca.ModeExactMatchesTooltip");
             /// <summary>
@@ -78,6 +82,34 @@ namespace TerraStorageOverflow.Common.Utils
             /// Failed to unlock chest {0}{1} using {2}{3} from remote networks
             /// </summary>
             public static string ChestUnlockFailedMessage(params object[] args) => Get("EasyLoca.ChestUnlockFailedMessage", args);
+            /// <summary>
+            /// Fishing
+            /// </summary>
+            public static string CategoryFishing => Get("EasyLoca.CategoryFishing");
+            /// <summary>
+            /// Clicker Weapons
+            /// </summary>
+            public static string CategoryClicker => Get("EasyLoca.CategoryClicker");
+            /// <summary>
+            /// Capture Weapons
+            /// </summary>
+            public static string CategoryCaptureDisc => Get("EasyLoca.CategoryCaptureDisc");
+            /// <summary>
+            /// Pets &amp; Mounts
+            /// </summary>
+            public static string CategoryPets => Get("EasyLoca.CategoryPets");
+            /// <summary>
+            /// Bound to:
+            /// </summary>
+            public static string RemoteTooltipBound => Get("EasyLoca.RemoteTooltipBound");
+            /// <summary>
+            /// Not bound to a network
+            /// </summary>
+            public static string RemoteTooltipUnbound => Get("EasyLoca.RemoteTooltipUnbound");
+            /// <summary>
+            /// Storage:
+            /// </summary>
+            public static string RemoteTooltipCapacity => Get("EasyLoca.RemoteTooltipCapacity");
         }
     }
 }
