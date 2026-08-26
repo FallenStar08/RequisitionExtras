@@ -6,44 +6,146 @@ param (
 if (-not (Test-Path $hjsonPath)) { exit }
 
 $content = Get-Content $hjsonPath -Raw
-
-# Basic parser for HJSON keys and categories
 $lines = $content -split "`r`n|`n"
-$currentClass = ""
-$entries = @{}
+
+$scopeStack = [System.Collections.Generic.Stack[string]]::new()
+$entries = [ordered]@{}
+
+$inMultiline = $false
+$multilineKey = ""
+$multilineValue = ""
+$pendingKey = ""
 
 foreach ($line in $lines) {
     $trimmed = $line.Trim()
 
-    # Skip empty lines and comment lines
+    # Handle active multiline block continuation
+    if ($inMultiline) {
+        if ($trimmed -match '(.*?)(?:''{3}|"{3})\s*,?\s*$') {
+            $lineContent = $matches[1].Trim()
+            if ($lineContent) { 
+                $multilineValue += if ($multilineValue) { "`n" + $lineContent } else { $lineContent }
+            }
+            
+            $currentClass = $scopeStack.Peek()
+            
+            if ($multilineKey -notmatch '^(DisplayName|Label|Tooltip)$') {
+                $entries[$currentClass] += [PSCustomObject]@{
+                    Key   = $multilineKey
+                    Value = $multilineValue.Trim()
+                }
+            }
+            
+            $inMultiline = $false
+            $multilineKey = ""
+            $multilineValue = ""
+        } else {
+            if ($trimmed) { 
+                $multilineValue += if ($multilineValue) { "`n" + $trimmed } else { $trimmed }
+            }
+        }
+        continue
+    }
+
+    # Skip empty lines and standalone comments outside multiline
     if ([string]::IsNullOrWhiteSpace($trimmed) -or $trimmed.StartsWith("#") -or $trimmed.StartsWith("//")) {
         continue
     }
-    
-    # Match block headers (e.g., Extras: { or Mods.TerraStorageOverflow.Extras: {)
-    if ($trimmed -match '([a-zA-Z0-9_\.]+)\s*:\s*\{') {
-        $fullPath = $matches[1]
-        $currentClass = $fullPath -split '\.' | Select-Object -Last 1
-        if (-not $entries.ContainsKey($currentClass)) {
-            $entries[$currentClass] = @()
-        }
-    }
-    # Match key-value pairs (e.g., SelectModeHeader: "...")
-    elseif ($trimmed -match '^([a-zA-Z0-9_]+)\s*:\s*(.*)$' -and $currentClass) {
-        $key = $matches[1]
-        $val = $matches[2].Trim().TrimEnd(',')
 
-        if ($key -ne "DisplayName" -and $key -ne "Label" -and $key -ne "Tooltip") {
-            # Strip outer quotes if present
-            if (($val.StartsWith('"') -and $val.EndsWith('"')) -or ($val.StartsWith("'") -and $val.EndsWith("'"))) {
-                if ($val.Length -ge 2) {
-                    $val = $val.Substring(1, $val.Length - 2)
+    # Handle closing braces
+    if ($trimmed -eq '}' -or $trimmed -eq '},') {
+        if ($scopeStack.Count -gt 0) { $null = $scopeStack.Pop() }
+        $pendingKey = ""
+        continue
+    }
+
+    # Match block headers (e.g. Extras: {)
+    if ($trimmed -match '^([a-zA-Z0-9_\.]+)\s*:\s*\{') {
+        $fullPath = $matches[1]
+        $className = $fullPath -split '\.' | Select-Object -Last 1
+        $scopeStack.Push($className)
+
+        if (-not $entries.Contains($className)) {
+            $entries[$className] = @()
+        }
+        $pendingKey = ""
+        continue
+    }
+
+    # Handle multiline string starting on line following a pending key
+    if ($pendingKey -and $trimmed -match '^(?:''{3}|"{3})') {
+        $rest = $trimmed -replace '^(?:''{3}|"{3})', ''
+        $currentClass = $scopeStack.Peek()
+
+        if ($rest -match '(.*?)(?:''{3}|"{3})\s*,?\s*$') {
+            $cleanVal = $matches[1].Trim()
+            if ($pendingKey -notmatch '^(DisplayName|Label|Tooltip)$') {
+                $entries[$currentClass] += [PSCustomObject]@{
+                    Key   = $pendingKey
+                    Value = $cleanVal
                 }
             }
+        } else {
+            $inMultiline = $true
+            $multilineKey = $pendingKey
+            $multilineValue = $rest.Trim()
+        }
+        $pendingKey = ""
+        continue
+    }
 
+    # Handle unquoted value on line following a pending key
+    if ($pendingKey) {
+        $val = $trimmed.TrimEnd(',')
+        $currentClass = $scopeStack.Peek()
+        if ($pendingKey -notmatch '^(DisplayName|Label|Tooltip)$') {
             $entries[$currentClass] += [PSCustomObject]@{
-                Key   = $key
+                Key   = $pendingKey
                 Value = $val
+            }
+        }
+        $pendingKey = ""
+        continue
+    }
+
+    # Match key-value declarations
+    if ($trimmed -match '^([a-zA-Z0-9_]+)\s*:\s*(.*)$' -and $scopeStack.Count -gt 0) {
+        $key = $matches[1]
+        $val = $matches[2].Trim()
+
+        if ($val -eq '{') { continue }
+
+        $currentClass = $scopeStack.Peek()
+
+        if ($val -eq '') {
+            $pendingKey = $key
+        } elseif ($val -match '^(?:''{3}|"{3})') {
+            $rest = $val -replace '^(?:''{3}|"{3})', ''
+            
+            if ($rest -match '(.*?)(?:''{3}|"{3})\s*,?\s*$') {
+                $cleanVal = $matches[1].Trim()
+                if ($key -notmatch '^(DisplayName|Label|Tooltip)$') {
+                    $entries[$currentClass] += [PSCustomObject]@{
+                        Key   = $key
+                        Value = $cleanVal
+                    }
+                }
+            } else {
+                $inMultiline = $true
+                $multilineKey = $key
+                $multilineValue = $rest.Trim()
+            }
+        } else {
+            if ($key -notmatch '^(DisplayName|Label|Tooltip)$') {
+                if (($val.StartsWith('"') -and $val.EndsWith('"')) -or ($val.StartsWith("'") -and $val.EndsWith("'"))) {
+                    if ($val.Length -ge 2) { $val = $val.Substring(1, $val.Length - 2) }
+                }
+                $val = $val.TrimEnd(',')
+
+                $entries[$currentClass] += [PSCustomObject]@{
+                    Key   = $key
+                    Value = $val
+                }
             }
         }
     }
@@ -63,24 +165,28 @@ $null = $sb.AppendLine('        private static string Get(string key, params obj
 $null = $sb.AppendLine("")
 
 foreach ($category in $entries.Keys) {
-    # Skip generating the class if it has no valid keys
     if ($entries[$category].Count -eq 0) { continue }
 
     $null = $sb.AppendLine("        public static class $category")
     $null = $sb.AppendLine("        {")
     foreach ($item in $entries[$category]) {
         $k = $item.Key
-        $safeVal = [System.Security.SecurityElement]::Escape($item.Value)
 
         $null = $sb.AppendLine("            /// <summary>")
-        $null = $sb.AppendLine("            /// $safeVal")
+        
+        # Split multiline values across multiple doc comment lines
+        $valLines = $item.Value -split "`r`n|`n"
+        foreach ($vLine in $valLines) {
+            $safeVal = [System.Security.SecurityElement]::Escape($vLine)
+            $null = $sb.AppendLine("            /// $safeVal")
+        }
+
         $null = $sb.AppendLine("            /// </summary>")
 
-        # If the string has {0}, {1}, etc., generate a method with parameters instead of a getter property
         if ($item.Value -match '\{[0-9]+\}') {
-            $null = $sb.AppendLine("            public static string $k(params object[] args) => Get(`"$category.$k`", args);")
+            $null = $sb.AppendLine("            public static string $k(params object[] args) => Get(""$category.$k"", args);")
         } else {
-            $null = $sb.AppendLine("            public static string $k => Get(`"$category.$k`");")
+            $null = $sb.AppendLine("            public static string $k => Get(""$category.$k"");")
         }
     }
     $null = $sb.AppendLine("        }")
