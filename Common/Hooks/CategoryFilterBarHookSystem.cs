@@ -442,6 +442,14 @@ namespace TerraStorageOverflow.Common.Hooks
                 || HasAny("tackle box", "angler tackle", "bobber", "sonar");
         }
 
+        private static void AddModdedAccessory(string modName, string itemName)
+        {
+            if (ModContent.TryFind<ModItem>(modName, itemName, out var modItem))
+            {
+                FishingAccessoryIds.Add(modItem.Type);
+            }
+        }
+
         private static void ScanFishingAccessories()
         {
             FishingAccessoryIds.Clear();
@@ -458,6 +466,17 @@ namespace TerraStorageOverflow.Common.Hooks
                 ItemID.LavaFishingHook,
                 ItemID.FloatingTube,
             ];
+
+            AddModdedAccessory("CalamityMod", "VolcanicSinker");
+            AddModdedAccessory("CalamityMod", "SupremeBaitTackleBoxFishingStation");
+            AddModdedAccessory("CalamityMod", "SunkenSinker");
+            AddModdedAccessory("CalamityMod", "EnchantedPearl");
+            AddModdedAccessory("CalamityMod", "FeralBobber");
+            AddModdedAccessory("CalamityMod", "AcrobaticBobber");
+            AddModdedAccessory("Clamity", "TreasureOfClamity");
+            AddModdedAccessory("ImproveGame", "Autofisher");
+            AddModdedAccessory("ImproveGame", "BaitSupplier");
+            AddModdedAccessory("AutoFisher", "AnglerWhistle");
 
             foreach (int id in baseFishingAccessories)
             {
