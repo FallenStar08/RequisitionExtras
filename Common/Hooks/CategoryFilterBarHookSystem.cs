@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using TerraStorage.Content.UI.Elements;
 using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.Items;
 
 namespace TerraStorageOverflow.Common.Hooks
 {
@@ -300,9 +301,9 @@ namespace TerraStorageOverflow.Common.Hooks
         private void InjectCategoriesDirectly()
         {
             Type type = typeof(UICategoryFilterBar);
-            var activeCategories = GetFieldValue<List<ItemCategory>>(type, "_activeCategories");
-            var activeCategoryIcons = GetFieldValue<List<int>>(type, "_activeCategoryIcons");
-            var activeCategoryTooltips = GetFieldValue<List<string>>(
+            var activeCategories = Reflect.GetValue<List<ItemCategory>>(type, "_activeCategories");
+            var activeCategoryIcons = Reflect.GetValue<List<int>>(type, "_activeCategoryIcons");
+            var activeCategoryTooltips = Reflect.GetValue<List<string>>(
                 type,
                 "_activeCategoryTooltips"
             );
@@ -344,7 +345,7 @@ namespace TerraStorageOverflow.Common.Hooks
 
         private static void EnsureEnabledArraySize(UICategoryFilterBar instance)
         {
-            var activeCategories = GetFieldValue<List<ItemCategory>>(
+            var activeCategories = Reflect.GetValue<List<ItemCategory>>(
                 typeof(UICategoryFilterBar),
                 "_activeCategories"
             );
@@ -410,13 +411,6 @@ namespace TerraStorageOverflow.Common.Hooks
             return orig(item);
         }
 
-        private static T GetFieldValue<T>(Type type, string fieldName)
-            where T : class
-        {
-            FieldInfo field = Reflect.Field(type, fieldName);
-            return field?.GetValue(null) as T;
-        }
-
         // won't be as good in non english loca but idk how to retrive english tooltip text from other languages, so this is a best effort
         private static bool MatchesFishingRules(string tooltip)
         {
@@ -446,22 +440,6 @@ namespace TerraStorageOverflow.Common.Hooks
                 )
                 || Has("crate") // Any accessory mentioning crates should be fishing related (maybe?)
                 || HasAny("tackle box", "angler tackle", "bobber", "sonar");
-        }
-
-        private static string GetRawTooltipText(Item item)
-        {
-            List<string> textPieces = [];
-
-            if (item.ModItem != null)
-            {
-                var mainTooltip = item.ModItem.GetLocalization("Tooltip");
-                if (mainTooltip != null && !string.IsNullOrEmpty(mainTooltip.Value))
-                {
-                    textPieces.Add(mainTooltip.Value);
-                }
-            }
-
-            return string.Join("\n", textPieces);
         }
 
         private static void ScanFishingAccessories()
@@ -530,7 +508,7 @@ namespace TerraStorageOverflow.Common.Hooks
                 )
                     continue;
 
-                string fullTooltip = GetRawTooltipText(item);
+                string fullTooltip = TooltipsUtils.GetRawTooltipText(item);
 
                 if (MatchesFishingRules(fullTooltip))
                 {
