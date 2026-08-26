@@ -15,5 +15,13 @@ namespace TerraStorageOverflow.Common.Configs
 
         [DefaultValue(true)]
         public bool EnableChestUnlockMessages;
+
+        [DefaultValue(true)]
+        [ReloadRequired]
+        public bool EnableFishingCategory;
+
+        [DefaultValue(true)]
+        [ReloadRequired]
+        public bool EnablePetsCategory;
     }
 }

@@ -19,6 +19,8 @@ namespace TerraStorageOverflow.Common.Utils
                 _modSettings.EnableRightClickDeposit,
             [nameof(ModSettings.EnableChestUnlockMessages)] = () =>
                 _modSettings.EnableChestUnlockMessages,
+            [nameof(ModSettings.EnableFishingCategory)] = () => _modSettings.EnableFishingCategory,
+            [nameof(ModSettings.EnablePetsCategory)] = () => _modSettings.EnablePetsCategory,
         };
 
         /// <summary>
