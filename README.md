@@ -1,3 +1,4 @@
+
 # Requisition Extras
 An addon for [**Requisition**](https://steamcommunity.com/sharedfiles/filedetails/?id=3687137546). 
 This mod turns your Remote Terminal into a smart vacuum for your storage network (think void bag but stuff goes to the network instead), adds an automatic duplicate equipment seller, and adds a new button to the crafting core interface to auto-populate crafting stations.
@@ -33,6 +34,8 @@ Should be fine?
 [auto_populate_demo.webm](https://github.com/user-attachments/assets/02456c72-ff0d-4474-a941-4a8a425ce146)
 
 [duplicate_seller_demo.webm](https://github.com/user-attachments/assets/b2f0624d-b91c-4d52-a020-2dff2e458cd0)
+
+[remote_unlock_demo.webm](https://github.com/user-attachments/assets/2b364ad6-7282-439e-b52f-ea65e87e7d32)
 
 ## Requirements
 * **tModLoader** (v2022.9+ / 1.4.4)
