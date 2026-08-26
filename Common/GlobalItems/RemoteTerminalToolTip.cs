@@ -20,7 +20,8 @@ namespace TerraStorageOverflow.Common.GlobalItems
                     && TileEntity.ByID.TryGetValue(rt.BoundEntityId, out var te)
                 )
                 {
-                    string posText = $"[c/AAAAAA:Bound to: ({te.Position.X}, {te.Position.Y})]";
+                    string posText =
+                        $"[c/AAAAAA:{EasyLoca.RemoteTooltipBound} ({te.Position.X}, {te.Position.Y})]";
                     tooltips.Add(new TooltipLine(Mod, "RemotePos", posText));
                     if (Main.HoverItem == item)
                     {
@@ -43,7 +44,8 @@ namespace TerraStorageOverflow.Common.GlobalItems
                             }
                         }
 
-                        string capacityText = $"[c/66FF66:Storage: {used:N0} / {total:N0}]";
+                        string capacityText =
+                            $"[c/66FF66:{EasyLoca.RemoteTooltipCapacity} {used:N0} / {total:N0}]";
 
                         float fillRatio = total > 0 ? (float)used / total : 0;
                         if (fillRatio >= 0.9f)
@@ -57,7 +59,11 @@ namespace TerraStorageOverflow.Common.GlobalItems
                 else
                 {
                     tooltips.Add(
-                        new TooltipLine(Mod, "RemoteUnbound", "[c/FF4444:Not bound to a network]")
+                        new TooltipLine(
+                            Mod,
+                            "RemoteUnbound",
+                            $"[c/FF4444:{EasyLoca.RemoteTooltipUnbound}]"
+                        )
                     );
                 }
             }
