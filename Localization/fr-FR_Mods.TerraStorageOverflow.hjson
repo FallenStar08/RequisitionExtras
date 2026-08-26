@@ -25,7 +25,7 @@ Configs: {
 		EnablePetsCategory: {
 			Label: Activer la catégorie Animaux de compagnie & Montures
 			Tooltip: Ajoute une nouvelle catégorie pour les animaux de compagnie et les montures dans la barre de filtrage
-	}
+		}
 	}
 }
 

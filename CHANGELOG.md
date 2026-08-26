@@ -13,8 +13,9 @@ All notable changes to this project will be documented in this file.
 ## [1.2.0] - 2026-08-26
 ### Added
 - Fishing & Pets filters, can disable them in config
+- Defrag also now also restacks items inside disks (semi-fix for the weird behavior where items sometime create a new stack instead of just stacking)
 ### Changed
 - Made custom filters creation code a lot more flexible
-- All of the strings are no longuer hardcoded and all have a localization entry
+- All of the strings are no longer hardcoded and all have a localization entry
 ### Fixed
 - Nothing
