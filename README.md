@@ -45,3 +45,6 @@ Should be fine?
 
 ## Github Repository
 * [**Requisition Extras**](https://github.com/FallenStar08/RequisitionExtras/)
+
+## Support me o(≧∀≦)o
+* [**Ko-Fi**](https://ko-fi.com/fararagi)
