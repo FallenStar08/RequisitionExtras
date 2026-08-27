@@ -27,10 +27,6 @@ Configs: {
 			Tooltip: Ajoute une nouvelle catégorie pour les animaux de compagnie et les montures dans la barre de filtrage
 		}
 
-		EnableAutoRestackOnTerminalOpen: {
-			Label: Activer le réempilement automatique à l'ouverture du terminal
-			Tooltip: Réempile automatiquement tous les objets dans le réseau lorsque l'interface s'ouvre
-		}
 	}
 }
 
