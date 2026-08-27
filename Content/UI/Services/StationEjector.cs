@@ -6,7 +6,7 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.UI.Services
 {
-    public static class StationEjector
+    internal static class StationEjector
     {
         public static void EjectStation(Item item, List<DiskData> disks)
         {

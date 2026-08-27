@@ -3,7 +3,7 @@ using Terraria.ModLoader.Config;
 
 namespace TerraStorageOverflow.Common.Configs
 {
-    public class ModSettings : ModConfig
+    internal class ModSettings : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
@@ -23,5 +23,8 @@ namespace TerraStorageOverflow.Common.Configs
         [DefaultValue(true)]
         [ReloadRequired]
         public bool EnablePetsCategory;
+
+        [DefaultValue(false)]
+        public bool EnableAutoRestackOnTerminalOpen;
     }
 }

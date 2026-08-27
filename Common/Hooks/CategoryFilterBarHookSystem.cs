@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using TerraStorage.Content.UI.Elements;
 using TerraStorageOverflow.Common.Utils;
 using TerraStorageOverflow.Common.Utils.Items;
+using TerraStorageOverflow.Common.Utils.Reflection;
 
 namespace TerraStorageOverflow.Common.Hooks
 {

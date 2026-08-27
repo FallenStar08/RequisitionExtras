@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.Players;
 
 namespace TerraStorageOverflow.Common.ModPlayers
 {

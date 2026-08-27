@@ -1,9 +1,9 @@
 ﻿using Terraria;
 using Terraria.ID;
 
-namespace TerraStorageOverflow.Common.Utils
+namespace TerraStorageOverflow.Common.Utils.Players
 {
-    public class InventoryUtils
+    internal static class InventoryUtils
     {
         public static bool HasRoomForItem(Item item)
         {

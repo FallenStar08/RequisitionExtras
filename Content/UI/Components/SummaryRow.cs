@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.UI;
-using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.UI;
 
 namespace TerraStorageOverflow.Content.UI.Components
 {
     /// <summary>
     /// cute lil summary row at the bottom of the report panel
     /// </summary>
-    public class SummaryRow : UIElement
+    internal class SummaryRow : UIElement
     {
         private string _text = EasyLoca.ReportNoItems;
         private Color _color = Color.LightGray;

@@ -5,10 +5,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerraStorageOverflow.Common.Systems;
 using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.Players;
 
 namespace TerraStorageOverflow.Common.ModPlayers
 {
-    public class TerraStorageOverflowPlayer : ModPlayer
+    internal class TerraStorageOverflowPlayer : ModPlayer
     {
         private bool _isHandlingPickup;
 
@@ -16,11 +17,11 @@ namespace TerraStorageOverflow.Common.ModPlayers
         private const uint FULL_NETWORK_MESSAGE_COOLDOWN = 5400;
 
         public bool HasActiveStorage => RemoteCache.HasActiveStorage;
-        public RemoteCache RemoteCache { get; private set; }
+        public RemoteCacheSystem RemoteCache { get; private set; }
 
         public override void Initialize()
         {
-            RemoteCache = new RemoteCache();
+            RemoteCache = new RemoteCacheSystem();
         }
 
         public override void OnEnterWorld()

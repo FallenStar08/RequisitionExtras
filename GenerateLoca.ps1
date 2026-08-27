@@ -158,7 +158,7 @@ $null = $sb.AppendLine("using Terraria.Localization;")
 $null = $sb.AppendLine("")
 $null = $sb.AppendLine("namespace TerraStorageOverflow.Common.Utils")
 $null = $sb.AppendLine("{")
-$null = $sb.AppendLine("    public static class Loca")
+$null = $sb.AppendLine("    internal static class Loca")
 $null = $sb.AppendLine("    {")
 $null = $sb.AppendLine('        private const string Prefix = "Mods.TerraStorageOverflow.";')
 $null = $sb.AppendLine('        private static string Get(string key, params object[] args) => Language.GetTextValue(Prefix + key, args);')
@@ -167,7 +167,7 @@ $null = $sb.AppendLine("")
 foreach ($category in $entries.Keys) {
     if ($entries[$category].Count -eq 0) { continue }
 
-    $null = $sb.AppendLine("        public static class $category")
+    $null = $sb.AppendLine("        internal static class $category")
     $null = $sb.AppendLine("        {")
     foreach ($item in $entries[$category]) {
         $k = $item.Key

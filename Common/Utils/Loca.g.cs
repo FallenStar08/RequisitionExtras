@@ -3,12 +3,12 @@ using Terraria.Localization;
 
 namespace TerraStorageOverflow.Common.Utils
 {
-    public static class Loca
+    internal static class Loca
     {
         private const string Prefix = "Mods.TerraStorageOverflow.";
         private static string Get(string key, params object[] args) => Language.GetTextValue(Prefix + key, args);
 
-        public static class EasyLoca
+        internal static class EasyLoca
         {
             /// <summary>
             /// Populate

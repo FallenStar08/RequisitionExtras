@@ -7,10 +7,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.Players;
+using TerraStorageOverflow.Common.Utils.Reflection;
 
 namespace TerraStorageOverflow.Common.Hooks
 {
-    public class ChestUIHookSystem : ModSystem
+    internal class ChestUIHookSystem : ModSystem
     {
         private static bool DepositedAtLeastOneItem;
 

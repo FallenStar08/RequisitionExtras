@@ -7,11 +7,11 @@ using Terraria.UI;
 using TerraStorageOverflow.Content.UI.Components;
 using TerraStorageOverflow.Content.UI.Services;
 using TerraStorageOverflow.Content.UI.Styles;
-using static TerraStorageOverflow.Common.Utils.UIUtils;
+using static TerraStorageOverflow.Common.Utils.UI.UIUtils;
 
 namespace TerraStorageOverflow.Content.UI.Extras
 {
-    public class ExtrasPanel(object terminalUIInstance) : UIElement
+    internal class ExtrasPanel(object terminalUIInstance) : UIElement
     {
         private UIText _headerText;
         private UITextPanel<string>[] _radioButtons = new UITextPanel<string>[3];
@@ -146,7 +146,7 @@ namespace TerraStorageOverflow.Content.UI.Extras
         }
     }
 
-    public class SellReportPanel : UIPanel
+    internal class SellReportPanel : UIPanel
     {
         private UIText _titleText;
         private UIList _list;

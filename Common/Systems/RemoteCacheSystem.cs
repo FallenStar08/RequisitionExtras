@@ -13,7 +13,7 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Common.Systems
 {
-    public class RemoteCache
+    internal class RemoteCacheSystem
     {
         private List<List<Guid>> _activeNetworks = [];
 

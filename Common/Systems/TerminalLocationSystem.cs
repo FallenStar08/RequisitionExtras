@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace TerraStorageOverflow.Common.Systems
 {
-    public class TerminalLocationSystem : ModSystem
+    internal class TerminalLocationSystem : ModSystem
     {
         public static Point16? TargetTerminal;
 

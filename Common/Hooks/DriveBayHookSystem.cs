@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using TerraStorage.Content.Tiles;
 using TerraStorageOverflow.Common.ModPlayers;
 using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.Reflection;
 
 namespace TerraStorageOverflow.Common.Hooks
 {

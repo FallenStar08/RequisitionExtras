@@ -6,7 +6,7 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.Tiles
 {
-    public class StorageUnlockGlobalTile : GlobalTile
+    internal class StorageUnlockGlobalTile : GlobalTile
     {
         private static readonly HashSet<int> ReusableKeys =
         [

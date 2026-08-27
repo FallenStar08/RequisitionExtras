@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.Players;
 
 namespace TerraStorageOverflow.Common.GlobalItems
 {
-    public class StorageVacuumLogic : GlobalItem
+    internal class StorageVacuumLogic : GlobalItem
     {
         public override bool ItemSpace(Item item, Player player)
         {

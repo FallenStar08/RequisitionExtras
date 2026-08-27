@@ -9,12 +9,13 @@ using TerraStorage.Common;
 using TerraStorage.Content.Tiles;
 using TerraStorageOverflow.Common.Utils;
 using TerraStorageOverflow.Common.Utils.Items;
+using TerraStorageOverflow.Common.Utils.Reflection;
 
 // This shit is ass.
 
 namespace TerraStorageOverflow.Content.UI.Services
 {
-    public static class CraftingCoreStationInserter
+    internal static class CraftingCoreStationInserter
     {
         private static bool IsValidTile(int tile)
         {

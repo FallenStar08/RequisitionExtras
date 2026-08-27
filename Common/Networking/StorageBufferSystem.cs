@@ -8,7 +8,7 @@ using TerraStorage.Systems;
 
 namespace TerraStorageOverflow.Common.Networking
 {
-    public class StorageBufferSystem : ModSystem
+    internal class StorageBufferSystem : ModSystem
     {
         private static readonly Dictionary<List<Guid>, Dictionary<int, int>> _buffers = new(
             new GuidListComparer()

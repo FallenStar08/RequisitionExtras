@@ -10,28 +10,28 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Content.UI.Services
 {
-    public enum SellMode
+    internal enum SellMode
     {
         KeepBestPrefix = 0, // Keeps highest value item, sells worse duplicates
         KeepFirstFound = 1, // Keeps first item found, sells any duplicate regardless of prefix
         ExactMatchesOnly = 2, // Only sells items that have the EXACT same type and prefix
     }
 
-    public class SellReportData
+    internal class SellReportData
     {
         public List<SellReportEntry> Entries { get; } = [];
         public int TotalItemsSold { get; set; }
         public long TotalEarnedCopper { get; set; }
     }
 
-    public class SellReportEntry
+    internal class SellReportEntry
     {
         public Item ItemSample { get; set; }
         public int Count { get; set; }
         public long TotalValue { get; set; }
     }
 
-    public static class DuplicateSellService
+    internal static class DuplicateSellService
     {
         private class DuplicateEntry
         {

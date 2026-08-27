@@ -26,6 +26,11 @@ Configs: {
 			Label: Enable Pets & Mounts Category
 			Tooltip: Adds a new category for pets and mounts in the filtering bar
 		}
+
+		EnableAutoRestackOnTerminalOpen: {
+			Label: Enable Auto Restack On Terminal Open
+			Tooltip: Automatically restacks all items in the network when the UI is opened
+		}
 	}
 }
 

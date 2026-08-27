@@ -5,9 +5,9 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.UI.Chat;
 
-namespace TerraStorageOverflow.Common.Utils
+namespace TerraStorageOverflow.Common.Utils.UI
 {
-    public static class UIUtils
+    internal static class UIUtils
     {
         /// <summary>
         /// Uses Terraria's ChatManager to draw text with color tags and item icons.

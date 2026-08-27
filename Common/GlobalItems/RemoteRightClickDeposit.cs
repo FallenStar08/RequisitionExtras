@@ -10,7 +10,7 @@ using TerraStorageOverflow.Common.Utils;
 
 namespace TerraStorageOverflow.Common.GlobalItems
 {
-    public class RemoteRightClickDeposit : GlobalItem
+    internal class RemoteRightClickDeposit : GlobalItem
     {
         private static bool depositedAtLeastOne;
 

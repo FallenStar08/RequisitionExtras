@@ -2,11 +2,11 @@
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerraStorage.Content.UI.Elements;
-using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.Reflection;
 
 namespace TerraStorageOverflow.Content.UI.Extras
 {
-    public class ExtrasTabSystem : ModSystem
+    internal class ExtrasTabSystem : ModSystem
     {
         private delegate void orig_VoidNoArgs(object self);
         private delegate void Hook_VoidNoArgs(orig_VoidNoArgs orig, object self);

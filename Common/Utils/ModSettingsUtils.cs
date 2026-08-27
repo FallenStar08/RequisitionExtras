@@ -8,7 +8,7 @@ namespace TerraStorageOverflow.Common.Utils
     /// <summary>
     /// This is because I'm lazy
     /// </summary>
-    public static class ModSettingsUtils
+    internal static class ModSettingsUtils
     {
         private static readonly ModSettings _modSettings = ModContent.GetInstance<ModSettings>();
 
@@ -21,6 +21,8 @@ namespace TerraStorageOverflow.Common.Utils
                 _modSettings.EnableChestUnlockMessages,
             [nameof(ModSettings.EnableFishingCategory)] = () => _modSettings.EnableFishingCategory,
             [nameof(ModSettings.EnablePetsCategory)] = () => _modSettings.EnablePetsCategory,
+            [nameof(ModSettings.EnableAutoRestackOnTerminalOpen)] = () =>
+                _modSettings.EnableAutoRestackOnTerminalOpen,
         };
 
         /// <summary>

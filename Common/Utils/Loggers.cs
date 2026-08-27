@@ -10,7 +10,7 @@ namespace TerraStorageOverflow.Common.Utils
     /// <summary>
     /// A utility class for logging messages to both the mod logger and the in-game chat, with support for different log levels and colors.
     /// </summary>
-    public static class Loggers
+    internal static class Loggers
     {
         public enum LogLevel
         {

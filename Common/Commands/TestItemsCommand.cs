@@ -4,13 +4,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerraStorageOverflow.Common.Utils;
+using TerraStorageOverflow.Common.Utils.UI;
 
 namespace TerraStorageOverflow.Common.Commands
 {
     /// <summary>
     /// A command that spawns a batch of random-prefixed copies of specified items into the player's inventory for testing purposes.
     /// </summary>
-    public class TestItemsCommand : ModCommand
+    internal class TestItemsCommand : ModCommand
     {
         private readonly int minSpawnAmount = 2;
         private readonly int maxSpawnAmount = 100;
