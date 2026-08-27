@@ -23,8 +23,5 @@ namespace TerraStorageOverflow.Common.Configs
         [DefaultValue(true)]
         [ReloadRequired]
         public bool EnablePetsCategory;
-
-        [DefaultValue(false)]
-        public bool EnableAutoRestackOnTerminalOpen;
     }
 }
