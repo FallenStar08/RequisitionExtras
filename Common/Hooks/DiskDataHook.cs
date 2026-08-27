@@ -13,7 +13,6 @@ namespace TerraStorageOverflow.Common.Hooks
     {
         public override void Load()
         {
-            // Fix collection equality (lists, arrays) in NBT comparison
             DetourHelpers.Detour<DiskData>(
                 "TagValueEquals",
                 (Func<Func<object, object, bool>, object, object, bool>)(
@@ -21,7 +20,6 @@ namespace TerraStorageOverflow.Common.Hooks
                 )
             );
 
-            // Ignore empty globalData compounds when matching instance state
             DetourHelpers.Detour<DiskData>(
                 "PerInstanceDataMatches",
                 (Func<
@@ -42,7 +40,6 @@ namespace TerraStorageOverflow.Common.Hooks
                 )
             );
 
-            // Ultra-fast zero-allocation path for item insertion
             DetourHelpers.Detour<DiskData>(
                 "InsertItem",
                 (Func<
@@ -70,55 +67,21 @@ namespace TerraStorageOverflow.Common.Hooks
                 return 0;
 
             int remaining = item.stack;
-
-            TagCompound modData = null;
-            if (item.ModItem != null)
-            {
-                var tempTag = new TagCompound();
-                item.ModItem.SaveData(tempTag);
-                if (tempTag.Count > 0)
-                    modData = tempTag;
-            }
-
-            TagCompound fullItemTag =
-                modData != null ? (preSerializedTag ?? ItemIO.Save(item)) : null;
-
             var items = disk.Items;
             int count = items.Count;
 
-            for (int i = 0; i < count; i++)
+            // STACKABLE ITEMS (Sand, Ores, Potions, Materials, etc.)
+            // Pure type + prefix matching. Bypasses NBT entirely for zero lag and clean merging.
+            if (item.maxStack > 1)
             {
-                var stored = items[i];
-
-                if (
-                    stored.ItemType == item.type
-                    && stored.PrefixId == item.prefix
-                    && stored.Stack < item.maxStack
-                )
+                for (int i = 0; i < count; i++)
                 {
-                    // Fast Path: Items without custom ModData stack immediately without NBT evaluation
-                    if (stored.ModData == null && modData == null)
-                    {
-                        int canAdd = Math.Min(remaining, item.maxStack - stored.Stack);
-                        stored.Stack += canAdd;
-                        if (insertionOrder > 0)
-                            stored.InsertionOrder = insertionOrder;
+                    var stored = items[i];
 
-                        remaining -= canAdd;
-                        if (remaining <= 0)
-                            return 0;
-
-                        continue;
-                    }
-
-                    // Fallback for custom modded items with instance data
                     if (
-                        LocalPerInstanceDataMatches(
-                            stored.FullItemTag,
-                            fullItemTag,
-                            stored.ModData,
-                            modData
-                        )
+                        stored.ItemType == item.type
+                        && stored.PrefixId == item.prefix
+                        && stored.Stack < item.maxStack
                     )
                     {
                         int canAdd = Math.Min(remaining, item.maxStack - stored.Stack);
@@ -131,23 +94,56 @@ namespace TerraStorageOverflow.Common.Hooks
                             return 0;
                     }
                 }
+
+                while (remaining > 0 && !disk.IsFull)
+                {
+                    int stackSize = Math.Min(remaining, item.maxStack);
+                    items.Add(
+                        new StoredItemStack
+                        {
+                            ItemType = item.type,
+                            Stack = stackSize,
+                            PrefixId = item.prefix,
+                            InsertionOrder = insertionOrder,
+                            ModData = null,
+                            FullItemTag = null,
+                        }
+                    );
+                    remaining -= stackSize;
+                }
+
+                return remaining;
             }
 
-            while (remaining > 0 && !disk.IsFull)
+            // UNSTACKABLE ITEMS / GEAR (Weapons, Armor, Tools, Accessories)
+            // Preserves 100% of instance NBT (TerraCards slots, GlobalItem data, ModItem data).
+            // We don't care about them not stacking since, well, they don't stack. We just want to preserve all of their data and store them in the disk.
+            if (!disk.IsFull)
             {
-                int stackSize = Math.Min(remaining, item.maxStack);
+                TagCompound modData = null;
+                if (item.ModItem != null)
+                {
+                    var tempTag = new TagCompound();
+                    item.ModItem.SaveData(tempTag);
+                    if (tempTag.Count > 0)
+                        modData = tempTag;
+                }
+
+                TagCompound fullSave = preSerializedTag ?? ItemIO.Save(item);
+
                 items.Add(
                     new StoredItemStack
                     {
                         ItemType = item.type,
-                        Stack = stackSize,
+                        Stack = 1,
                         PrefixId = item.prefix,
                         InsertionOrder = insertionOrder,
                         ModData = modData,
-                        FullItemTag = fullItemTag,
+                        FullItemTag = fullSave,
                     }
                 );
-                remaining -= stackSize;
+
+                return 0;
             }
 
             return remaining;
@@ -160,9 +156,11 @@ namespace TerraStorageOverflow.Common.Hooks
             TagCompound incomingModData
         )
         {
-            return storedModData == null && incomingModData == null
-                || storedModData == null == (incomingModData == null)
-                    && LocalTagCompoundEquals(storedModData, incomingModData);
+            return (storedModData == null && incomingModData == null)
+                || (
+                    storedModData == null == (incomingModData == null)
+                    && LocalTagCompoundEquals(storedModData, incomingModData)
+                );
         }
 
         private static bool LocalTagCompoundEquals(TagCompound a, TagCompound b)
