@@ -23,5 +23,8 @@ namespace TerraStorageOverflow.Common.Configs
         [DefaultValue(true)]
         [ReloadRequired]
         public bool EnablePetsCategory;
+
+        [DefaultValue(true)]
+        public bool EnableCustomDiskStacking { get; set; }
     }
 }
