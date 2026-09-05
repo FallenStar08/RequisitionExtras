@@ -11,12 +11,14 @@ namespace TerraStorageOverflow.Common.Hooks
 {
     internal class DiskDataHook : ModSystem
     {
+        private static bool UseCustomLogic => GetBoolSetting("EnableCustomDiskStacking");
+
         public override void Load()
         {
             DetourHelpers.Detour<DiskData>(
                 "TagValueEquals",
                 (Func<Func<object, object, bool>, object, object, bool>)(
-                    (orig, a, b) => LocalTagValueEquals(a, b)
+                    (orig, a, b) => UseCustomLogic ? LocalTagValueEquals(a, b) : orig(a, b)
                 )
             );
 
@@ -31,12 +33,14 @@ namespace TerraStorageOverflow.Common.Hooks
                     bool
                 >)(
                     (orig, storedFullTag, incomingFullTag, storedModData, incomingModData) =>
-                        LocalPerInstanceDataMatches(
-                            storedFullTag,
-                            incomingFullTag,
-                            storedModData,
-                            incomingModData
-                        )
+                        UseCustomLogic
+                            ? LocalPerInstanceDataMatches(
+                                storedFullTag,
+                                incomingFullTag,
+                                storedModData,
+                                incomingModData
+                            )
+                            : orig(storedFullTag, incomingFullTag, storedModData, incomingModData)
                 )
             );
 
@@ -51,7 +55,9 @@ namespace TerraStorageOverflow.Common.Hooks
                     int
                 >)(
                     (orig, self, item, insertionOrder, preSerializedTag) =>
-                        LocalInsertItem(self, item, insertionOrder, preSerializedTag)
+                        UseCustomLogic
+                            ? LocalInsertItem(self, item, insertionOrder, preSerializedTag)
+                            : orig(self, item, insertionOrder, preSerializedTag)
                 )
             );
         }
