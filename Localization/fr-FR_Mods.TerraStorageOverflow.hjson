@@ -27,6 +27,14 @@ Configs: {
 			Tooltip: Ajoute une nouvelle catégorie pour les animaux de compagnie et les montures dans la barre de filtrage
 		}
 
+		EnableCustomDiskStacking: {
+			Label: Activer la nouvelle logique d'insertion d'objets
+			Tooltip:
+				'''
+				Réécriture de la logique d'insertion des objets sur le disque pour éviter l'apparition de stacks en double des mêmes objets.
+				Désactivez si vous remarquez un problème.
+				'''
+		}
 	}
 }
 

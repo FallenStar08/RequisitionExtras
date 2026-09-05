@@ -21,6 +21,8 @@ namespace TerraStorageOverflow.Common.Utils
                 _modSettings.EnableChestUnlockMessages,
             [nameof(ModSettings.EnableFishingCategory)] = () => _modSettings.EnableFishingCategory,
             [nameof(ModSettings.EnablePetsCategory)] = () => _modSettings.EnablePetsCategory,
+            [nameof(ModSettings.EnableCustomDiskStacking)] = () =>
+                _modSettings.EnableCustomDiskStacking,
         };
 
         /// <summary>

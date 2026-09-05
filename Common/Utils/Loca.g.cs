@@ -15,8 +15,8 @@ namespace TerraStorageOverflow.Common.Utils
             /// </summary>
             public static string PopulateCraftingCoreButtonText => Get("EasyLoca.PopulateCraftingCoreButtonText");
             /// <summary>
-            /// Automatically fetch all stations that would fullfil new conditions for crafting
-            /// If a station would fullfil a role already populated (and provide a new one), it will replace it.
+            /// Automatically fetch all stations that would fulfill new conditions for crafting
+            /// If a station would fulfill a role already populated (and provide a new one), it will replace it.
             /// </summary>
             public static string PopulateCraftingCoreButtonTooltip => Get("EasyLoca.PopulateCraftingCoreButtonTooltip");
             /// <summary>

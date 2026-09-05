@@ -27,6 +27,14 @@ Configs: {
 			Tooltip: Adds a new category for pets and mounts in the filtering bar
 		}
 
+		EnableCustomDiskStacking: {
+			Label: Enable Custom Item Stacking Logic
+			Tooltip:
+				'''
+				Rewrite of the original disk item insertion logic to prevent duplicate stacks of the same items appearing.
+				Disable if you notice any issue.
+				'''
+		}
 	}
 }
 
@@ -35,8 +43,8 @@ EasyLoca: {
 	PopulateCraftingCoreButtonText: Populate
 	PopulateCraftingCoreButtonTooltip:
 		'''
-		Automatically fetch all stations that would fullfil new conditions for crafting
-		If a station would fullfil a role already populated (and provide a new one), it will replace it.
+		Automatically fetch all stations that would fulfill new conditions for crafting
+		If a station would fulfill a role already populated (and provide a new one), it will replace it.
 		'''
 	# Duplicates seller
 	SellReportHeader: Sell Report :

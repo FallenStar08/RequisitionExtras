@@ -19,3 +19,14 @@ All notable changes to this project will be documented in this file.
 - All of the strings are no longer hardcoded and all have a localization entry
 ### Fixed
 - Nothing
+
+## [1.3.0] - 2026-08-27
+### Added
+- Hijacked & rewrote the item insertion logic of the main mod, it should fix the issue where blocks/tiles/consummables would not stack sometimes and create new stacks instead (happening with mods adding useless NBT data to all items).
+This doesn't affect equipment which is handled in a similar fashion as before to preserve stuff like terracard slots.
+- This will be contributed to requisition itself if no issues arise with it.
+- You can enable the vanilla item insertion logic in the config if you want to use the original behavior (but you shouldn't want to if you have no issue with my implementation)
+### Changed
+- Minor code cleanup, still horrible.
+### Fixed
+- Nothing
